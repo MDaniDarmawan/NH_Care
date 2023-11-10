@@ -1,12 +1,16 @@
 <resources>
-    <string name="app_name">percobaan_login</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">NH Care</string>
+    <string name="title_layanan">Layanan</string>
+    <string name="title_beranda">Beranda</string>
+    <string name="title_Profile">Profile</string>
     <string name="layanan">
         Layanan Hubungi :
         \n0812-1732-9234
     </string>
     <string name="daftar">Belum punya akun ?</string>
     <string name="masuk">Sudah punya akun ?</string>
+    <string name="login">Silahkan Masukkan Email dan Password untuk Log-in ke dalam Aplikasi kami</string>
+    <string name="santunan">Santunan Anak Yatim dan Piatu</string>
+    <string name="bangun">Pembangunan Fasilitas Nurul Husna</string>
+
 </resources>

@@ -6,19 +6,184 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.466" />
+
+    <ImageView
+        android:id="@+id/sampulprofil"
+        android:layout_width="501dp"
+        android:layout_height="306dp"
+        tools:layout_editor_absoluteX="-25dp"
+        tools:layout_editor_absoluteY="-143dp"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <ImageView
+        android:id="@+id/fotoprofil"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/baseline_circle_24"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="58dp" />
+
+    <LinearLayout
+        android:layout_width="362dp"
+        android:layout_height="97dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="216dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_extrabold"
+            android:text="Nama Pengguna"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="294dp" />
+
+        <TextView
+            android:id="@+id/txt_fullname"
+            android:layout_width="360dp"
+            android:layout_height="35dp"
+            android:background="@color/grey2"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:hint="fullname"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="362dp"
+        android:layout_height="96dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="414dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_extrabold"
+            android:text="Nomor Handphone"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="294dp" />
+
+        <TextView
+            android:id="@+id/txt_nohp"
+            android:layout_width="360dp"
+            android:layout_height="35dp"
+            android:background="@color/grey2"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:hint="nomor telepon"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="362dp"
+        android:layout_height="96dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="510dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_extrabold"
+            android:text="Kata Sandi"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="294dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lay_sandi"
+            android:layout_width="360dp"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:hint="kata sandi"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_sandi"
+                android:layout_width="360dp"
+                android:layout_height="35dp"
+                android:background="@color/grey2"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:hint="Konfirmasi Kata Sandi" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="65dp"
+        android:orientation="horizontal"
+        android:padding="3dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="606dp">
+
+        <Button
+            android:id="@+id/btn_edit"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/btn_keluar"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="18dp"
+            android:layout_weight="1"
+            android:text="Keluar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="362dp"
+        android:layout_height="98dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="316dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_extrabold"
+            android:text="Email"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="294dp" />
+
+        <TextView
+            android:id="@+id/txt_email"
+            android:layout_width="360dp"
+            android:layout_height="35dp"
+            android:background="@color/grey2"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:hint="email"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

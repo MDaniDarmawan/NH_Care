@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Donasi"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="139dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
+        android:id="@+id/btnbackdonasi"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/backberanda"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Data Diri"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="71dp" />
+
+    <TextView
+        android:id="@+id/hidedata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_lightitalic"
+        android:gravity="center_horizontal"
+        android:text="Sembuyikan Data Diri"
+        android:textColor="@color/grey2"
+        tools:layout_editor_absoluteX="246dp"
+        tools:layout_editor_absoluteY="75dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_namadonasi"
+        style="@style/TextInputLayout"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="112dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lay_namadonasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_mediumitalic"
+            android:hint="Masukkan Nama Lengkap" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_nohpdonasi"
+        style="@style/TextInputLayout"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="162dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lay_nohpdonasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_mediumitalic"
+            android:hint="Masukkan Nomor WhatsApp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Konfirmasi Pembayaran"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="221dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_konfimasi"
+        style="@style/TextInputLayout"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="248dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lay_konfirmasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_mediumitalic"
+            android:hint="Masukkan Email" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Do'a"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="298dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_doa"
+        style="@style/TextInputLayout"
+        android:layout_width="370dp"
+        android:layout_height="110dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="325dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lay_doa"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:fontFamily="@font/poppins_mediumitalic"
+            android:hint="Cantumkan Do'a Terbaik Untuk Diri dan Keluarga" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Nominal Donasi"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="435dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_nominal"
+        style="@style/TextInputLayout"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="462dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lay_nominal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:fontFamily="@font/poppins_semibold"
+            android:hint="Rp." />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="367dp"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="521dp">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnbayar"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_extrabold"
+        android:text="Bayar"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="650dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
