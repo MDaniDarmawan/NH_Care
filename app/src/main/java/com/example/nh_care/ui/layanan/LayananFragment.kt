@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.faq
+package com.example.nh_care.ui.layanan
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.nh_care.databinding.FragmentTanyaBinding
+import com.example.nh_care.databinding.FragmentLayananBinding
 
 class LayananFragment : Fragment() {
 
-    private var _binding: FragmentTanyaBinding? = null
+    private var _binding: FragmentLayananBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,10 +25,10 @@ class LayananFragment : Fragment() {
         val tanyaViewModel =
             ViewModelProvider(this).get(LayananViewModel::class.java)
 
-        _binding = FragmentTanyaBinding.inflate(inflater, container, false)
+        _binding = FragmentLayananBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.text
+        val textView: TextView = binding.textLayanan
         tanyaViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }

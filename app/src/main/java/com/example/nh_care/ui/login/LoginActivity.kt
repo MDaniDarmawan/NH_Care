@@ -32,12 +32,12 @@ class LoginActivity : AppCompatActivity() {
 
         binding.tombolMasuk.setOnClickListener(View.OnClickListener {
             if (email.text.toString() == "user" && pass.text.toString() == "1234") {
-                Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Login Berhasil!", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Login Gagal! Harap Coba Lagi!", Toast.LENGTH_SHORT).show()
             }
         })
         binding.pertanyaanDaftar.setOnClickListener(View.OnClickListener {

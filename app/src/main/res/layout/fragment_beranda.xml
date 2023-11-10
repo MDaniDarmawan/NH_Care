@@ -48,10 +48,10 @@
             android:id="@+id/totaldonasi"
             android:layout_width="300dp"
             android:layout_height="40dp"
-            android:background=""
             android:textColor="@color/black"
             tools:layout_editor_absoluteX="55dp"
             tools:layout_editor_absoluteY="102dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.chip.ChipGroup
