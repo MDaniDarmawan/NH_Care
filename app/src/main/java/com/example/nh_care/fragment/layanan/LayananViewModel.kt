@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.layanan
+package com.example.nh_care.fragment.layanan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

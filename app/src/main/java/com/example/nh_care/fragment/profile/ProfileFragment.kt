@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.profile
+package com.example.nh_care.fragment.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
