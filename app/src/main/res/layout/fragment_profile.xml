@@ -146,7 +146,13 @@
                 app:layout_constraintTop_toBottomOf="@id/kotak_kata_sandi" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/layanan"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
         </LinearLayout>
 
     </ScrollView>

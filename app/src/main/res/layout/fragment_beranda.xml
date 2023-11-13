@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.beranda.BerandaFragment">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -106,9 +105,9 @@
 
     <VideoView
         android:id="@+id/videoyt"
-        android:layout_width="420dp"
-        android:layout_height="600dp"
+        android:layout_width="432dp"
+        android:layout_height="605dp"
         tools:layout_editor_absoluteX="-6dp"
-        tools:layout_editor_absoluteY="481dp" />
+        tools:layout_editor_absoluteY="476dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
