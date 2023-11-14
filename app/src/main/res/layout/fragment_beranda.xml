@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.beranda.BerandaFragment">
+    tools:context=".ui.beranda.BerandaFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,6 +51,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/totaldonasi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_light"
@@ -111,6 +112,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/alokasidana"
                             android:layout_width="81dp"
                             android:layout_height="98dp"
                             android:layout_gravity="center"

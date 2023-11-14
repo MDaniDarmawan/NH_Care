@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_layanan"
-        android:name="com.example.nh_care.fragment.layanan.LayananFragment"
+        android:name="com.example.nh_care.ui.layanan.LayananFragment"
         android:label="@string/title_layanan"
         tools:layout="@layout/fragment_layanan" />
 
     <fragment
         android:id="@+id/navigation_beranda"
-        android:name="com.example.nh_care.fragment.beranda.BerandaFragment"
+        android:name="com.example.nh_care.ui.beranda.BerandaFragment"
         android:label="@string/title_beranda"
         tools:layout="@layout/fragment_beranda" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.nh_care.fragment.profile.ProfileFragment"
+        android:name="com.example.nh_care.ui.profile.ProfileFragment"
         android:label="@string/title_Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

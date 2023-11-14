@@ -1,9 +1,9 @@
 package com.example.nh_care.database
 
-class DbContract {
+object DbContract {
 
-    var ip = "10.10.4.109"
+    const val ip = "10.10.182.6"
 
-    val urlRegister = "http://$ip/api-nhcare/api-register.php"
-    val urlLogin = "http://$ip/api-nhcare/api-login.php"
+    const val urlRegister = "http://$ip/api-nhcare/api-register.php"
+    const val urlLogin = "http://$ip/api-nhcare/api-login.php"
 }
