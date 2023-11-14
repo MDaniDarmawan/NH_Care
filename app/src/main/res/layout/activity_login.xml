@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -164,14 +164,16 @@
                 android:id="@+id/selamat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Selamat Datang!"
                 android:textColor="@color/green"
                 android:textSize="26sp"
-                tools:layout_editor_absoluteX="91dp"
-                tools:layout_editor_absoluteY="150dp" />
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                tools:layout_editor_absoluteX="91dp" />
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="320dp"
                 android:layout_height="39dp"
                 android:gravity="center"
@@ -179,7 +181,7 @@
                 android:textColor="@color/grey2"
                 android:textSize="12sp"
                 tools:layout_editor_absoluteX="45dp"
-                tools:layout_editor_absoluteY="195dp" />
+                tools:layout_editor_absoluteY="211dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

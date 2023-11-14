@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.profile
+package com.example.nh_care.fragment.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class ProfileViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = ""
     }
     val text: LiveData<String> = _text
 }

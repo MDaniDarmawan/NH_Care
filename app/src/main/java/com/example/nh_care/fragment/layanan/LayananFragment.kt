@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.beranda
+package com.example.nh_care.fragment.layanan
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.nh_care.databinding.FragmentBerandaBinding
+import com.example.nh_care.databinding.FragmentLayananBinding
 
-class BerandaFragment : Fragment() {
+class LayananFragment : Fragment() {
 
-    private var _binding: FragmentBerandaBinding? = null
+    private var _binding: FragmentLayananBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,15 @@ class BerandaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(BerandaViewModel::class.java)
+        val tanyaViewModel =
+            ViewModelProvider(this).get(LayananViewModel::class.java)
 
-        _binding = FragmentBerandaBinding.inflate(inflater, container, false)
+        _binding = FragmentLayananBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val button: View = binding.totaldonasi
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textLayanan
+        tanyaViewModel.text.observe(viewLifecycleOwner) {
+            textView.text = it
         }
         return root
     }
