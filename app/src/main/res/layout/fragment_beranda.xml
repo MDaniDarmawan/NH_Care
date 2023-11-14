@@ -299,7 +299,7 @@
 
             <VideoView
                 android:id="@+id/videoyt"
-                android:layout_width="432dp"
+                android:layout_width="match_parent"
                 android:layout_height="605dp"
                 tools:layout_editor_absoluteX="-6dp"
                 tools:layout_editor_absoluteY="476dp" />
