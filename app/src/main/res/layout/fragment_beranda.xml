@@ -132,6 +132,7 @@
                         android:background="@drawable/button">
 
                         <ImageView
+                            android:id="@+id/btnalokasi"
                             android:layout_width="81dp"
                             android:layout_height="98dp"
                             android:background="@drawable/icon_website"

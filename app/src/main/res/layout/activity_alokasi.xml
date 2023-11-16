@@ -6,68 +6,43 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textView3"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Alokasi Dana"
         android:textSize="24sp"
-        tools:layout_editor_absoluteX="92dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/btnbackprogram"
+        android:id="@+id/backalokasi"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:srcCompat="@drawable/backberanda"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backberanda" />
 
-    <ImageView
-        android:id="@+id/santunan"
-        android:layout_width="408dp"
-        android:layout_height="149dp"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="71dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="403dp"
+        android:layout_height="843dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backalokasi">
 
-    <TextView
-        android:id="@+id/descsantunan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="keterangan"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="255dp" />
-
-    <TextView
-        style="@style/TextAppearance.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/santunan"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="227dp" />
-
-    <ImageView
-        android:id="@+id/pembangunan"
-        android:layout_width="408dp"
-        android:layout_height="149dp"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="372dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <TextView
-        android:id="@+id/descpembangunan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="keterangan"
-        tools:layout_editor_absoluteX="170dp"
-        tools:layout_editor_absoluteY="560dp" />
-
-    <TextView
-        style="@style/TextAppearance.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bangun"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="528dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
