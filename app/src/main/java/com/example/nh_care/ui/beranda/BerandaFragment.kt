@@ -1,6 +1,7 @@
 package com.example.nh_care.ui.beranda
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +21,24 @@ class BerandaFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View? {
-        binding = FragmentBerandaBinding.inflate(inflater,container, false)
+        binding = FragmentBerandaBinding.inflate(inflater, container, false)
 
-            binding.btnalokasi.setOnClickListener {
-                val intent = Intent(requireActivity(), AlokasiActivity::class.java)
-                startActivity(intent)
-            }
-            return binding.root
+        binding.btnalokasi.setOnClickListener {
+            val intent = Intent(requireActivity(), AlokasiActivity::class.java)
+            startActivity(intent)
         }
+        binding.btnwebsite.setOnClickListener{
+            openUrl("https://nurulhusna.org/")
+        }
+        binding.btnyt.setOnClickListener{
+            openUrl("https://www.youtube.com/@nurulhusnajember")
+        }
+        return binding.root
     }
+    private fun openUrl(link:String){
+        val uri = Uri.parse(link)
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
+}
+

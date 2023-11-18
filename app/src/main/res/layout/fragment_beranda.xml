@@ -207,6 +207,7 @@
                             android:background="@drawable/button">
 
                             <ImageView
+                                android:id="@+id/btnwebsite"
                                 android:layout_width="81dp"
                                 android:layout_height="98dp"
                                 android:background="@drawable/icon_alokasi_dana"
@@ -273,6 +274,7 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <TextView
+                        android:id="@+id/btnyt"
                         android:layout_width="100dp"
                         android:layout_height="20dp"
                         android:fontFamily="@font/poppins_bold"
@@ -300,13 +302,24 @@
                 </VideoView>
             </LinearLayout>
 
-            <VideoView
-                android:id="@+id/videoyt"
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/ytkajian"
                 android:layout_width="match_parent"
-                android:layout_height="605dp"
-                tools:layout_editor_absoluteX="-6dp"
-                tools:layout_editor_absoluteY="476dp" />
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:videoId="3LcgoT8kez4"
+                app:autoPlay="false" />
 
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/ytnuha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:videoId="diM6jvYXELQ"
+                app:autoPlay="false">
+
+            </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
         </LinearLayout>
 
     </ScrollView>
