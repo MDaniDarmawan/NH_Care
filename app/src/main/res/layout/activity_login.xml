@@ -171,7 +171,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tombol_masuk" />
 
                 <TextView
-                    android:id="@+id/pertanyaan_daftar"
+                    android:id="@+id/daftarakun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"

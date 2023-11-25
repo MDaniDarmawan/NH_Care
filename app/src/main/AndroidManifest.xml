@@ -30,15 +30,27 @@
             android:name=".activity.login.LoginActivity"
             android:exported="true"
             android:label="@string/app_name" />
-<!--        <activity-->
-<!--            android:name=".activity.register.RegisterActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".activity.register.RegisterActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name" />
         <activity
             android:name=".activity.alokasi.AlokasiActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.program.ProgramActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.program.DetailProgramActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.vide"
             android:exported="true"
             android:label="@string/app_name" />
     </application>

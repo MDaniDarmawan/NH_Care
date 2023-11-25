@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.nh_care"
-        minSdk = 21
-        targetSdk = 33
+        minSdk = 26
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -53,7 +53,13 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
+    //yt
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+    //untuk calendarView
+    implementation ("androidx.appcompat:appcompat:1.3.0")
+    implementation ("com.google.android.material:material:1.4.0")
     //volley sql
     implementation("com.android.volley:volley:1.2.1")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+
 }

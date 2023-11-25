@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".activity.program.DetailProgramActivity">
+
+    <ImageView
+        android:id="@+id/imageAnak"
+        android:layout_width="322dp"
+        android:layout_height="347dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="530dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageAnak">
+
+        <TextView
+            android:id="@+id/namaanak"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Nama"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/inputNamaAnak"
+            android:layout_width="396dp"
+            android:layout_height="37dp"
+            android:text="nama anak"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/namaanak"
+            tools:layout_editor_absoluteX="15dp" />
+
+        <TextView
+            android:id="@+id/kelasanak"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Kelas"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="73dp" />
+
+        <TextView
+            android:id="@+id/inputKelasAnak"
+            android:layout_width="397dp"
+            android:layout_height="30dp"
+            android:text="kelas anak"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/kelasanak"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
+            android:id="@+id/sekolahanak"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Sekolah"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="147dp" />
+
+        <TextView
+            android:id="@+id/inputSekolahAnak"
+            android:layout_width="400dp"
+            android:layout_height="47dp"
+            android:text="judul program"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/sekolahanak"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Tentang"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="229dp" />
+
+        <TextView
+            android:id="@+id/inputTentang"
+            android:layout_width="391dp"
+            android:layout_height="110dp"
+            android:text="judul program"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            tools:layout_editor_absoluteX="15dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/btnbackprogram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backberanda" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
