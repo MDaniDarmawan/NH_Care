@@ -29,54 +29,54 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val etUsername: EditText by lazy { binding.etEmail }
     private val etPassword: EditText by lazy { binding.etKataSandi }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        supportActionBar?.hide()
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            binding = ActivityLoginBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            supportActionBar?.hide()
 
-        binding.tombolMasuk.setOnClickListener {
-            val username = etUsername.text.toString()
-            val password = etPassword.text.toString()
+            binding.tombolMasuk.setOnClickListener {
+                val username = etUsername.text.toString()
+                val password = etPassword.text.toString()
 
-            if (!(username.isEmpty() || password.isEmpty())) {
-                loginUser(username, password)
-            } else {
-                Toast.makeText(applicationContext, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
-            }
-        }
-        binding.daftarakun.setOnClickListener() {
-            startActivity(Intent(this, RegisterActivity::class.java))
-        }
-    }
-
-    private fun loginUser(email: String, password: String) {
-        val requestQueue: RequestQueue = Volley.newRequestQueue(applicationContext)
-
-        val stringRequest = StringRequest(
-            Request.Method.GET,
-            "${DbContract.urlLogin}?email=$email&password=$password",
-            { response ->
-                Log.d("LoginActivity", "Server Response: $response")
-                if (response == "welcome") {
-                    Log.d("LoginActivity", "Login Successful")
-                    Toast.makeText(applicationContext, "Login successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                if (!(username.isEmpty() || password.isEmpty())) {
+                    loginUser(username, password)
                 } else {
-                    Log.d("LoginActivity", "Login Failed")
-                    Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
                 }
-            },
-            { error ->
-                Log.e("LoginActivity", "Volley Error: ${error.message}")
-                Toast.makeText(
-                    applicationContext,
-                    "Login Failed: ${error.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
-        )
-        requestQueue.add(stringRequest)
-    }
+            binding.daftarakun.setOnClickListener() {
+                startActivity(Intent(this, RegisterActivity::class.java))
+            }
+        }
 
-}
+        private fun loginUser(email: String, password: String) {
+            val requestQueue: RequestQueue = Volley.newRequestQueue(applicationContext)
+
+            val stringRequest = StringRequest(
+                Request.Method.GET,
+                "${DbContract.urlLogin}?email=$email&password=$password",
+                { response ->
+                    Log.d("LoginActivity", "Server Response: $response")
+                    if (response == "welcome") {
+                        Log.d("LoginActivity", "Login Successful")
+                        Toast.makeText(applicationContext, "Login successful", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                    } else {
+                        Log.d("LoginActivity", "Login Failed")
+                        Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                { error ->
+                    Log.e("LoginActivity", "Volley Error: ${error.message}")
+                    Toast.makeText(
+                        applicationContext,
+                        "Login Failed: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
+            requestQueue.add(stringRequest)
+        }
+
+    }

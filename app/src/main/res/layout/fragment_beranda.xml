@@ -110,6 +110,7 @@
                         android:background="@drawable/button">
 
                         <ImageView
+                            android:id="@+id/btnanak"
                             android:layout_width="81dp"
                             android:layout_height="98dp"
                             android:background="@drawable/icon_anak_asuh"
@@ -155,6 +156,7 @@
                         android:background="@drawable/button">
 
                         <ImageView
+                            android:id="@+id/btnprogram"
                             android:layout_width="81dp"
                             android:layout_height="98dp"
                             android:background="@drawable/icon_program"
@@ -185,6 +187,7 @@
                             android:background="@drawable/button">
 
                             <ImageView
+                                android:id="@+id/btnacara"
                                 android:layout_width="81dp"
                                 android:layout_height="98dp"
                                 android:background="@drawable/icon_acara"
@@ -230,6 +233,7 @@
                             android:background="@drawable/button">
 
                             <ImageView
+                                android:id="@+id/btnvideo"
                                 android:layout_width="81dp"
                                 android:layout_height="98dp"
                                 android:background="@drawable/icon_video"
