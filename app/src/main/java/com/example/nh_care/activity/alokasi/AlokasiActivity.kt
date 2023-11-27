@@ -9,7 +9,6 @@ import com.example.berandaberanda.activitity.alokasi.AlokasiAdapter
 import com.example.berandaberanda.activitity.alokasi.DataItem
 import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.R
-import com.example.nh_care.ui.beranda.BerandaFragment
 import com.example.nh_care.databinding.ActivityAlokasiBinding
 
 class AlokasiActivity : AppCompatActivity() {

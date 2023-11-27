@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
-        android:id="@+id/searchViewAnak"
+        android:id="@+id/sv_anak"
         android:layout_width="408dp"
         android:layout_height="51dp"
         tools:layout_editor_absoluteX="1dp"

@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.beranda
+package com.example.nh_care.fragment.beranda
 
 import android.content.Intent
 import android.net.Uri
@@ -6,11 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.berandaberanda.activity.anakasuh.AnakActivity
-import com.example.nh_care.R
+import com.example.nh_care.activity.anakasuh.AnakActivity
 import com.example.nh_care.activity.acara.AcaraActivity
 import com.example.nh_care.activity.alokasi.AlokasiActivity
 import com.example.nh_care.activity.program.ProgramActivity

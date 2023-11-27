@@ -11,15 +11,10 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.nh_care.R
 import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.activity.register.RegisterActivity
 import com.example.nh_care.databinding.ActivityLoginBinding
 import com.example.nh_care.database.DbContract
-import com.example.nh_care.ui.beranda.BerandaFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var InputEmail: EditText

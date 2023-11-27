@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.nh_care.R
 import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.activity.login.LoginActivity
-import com.example.nh_care.ui.beranda.BerandaFragment
+import com.example.nh_care.fragment.beranda.BerandaFragment
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler().postDelayed({
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+            val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

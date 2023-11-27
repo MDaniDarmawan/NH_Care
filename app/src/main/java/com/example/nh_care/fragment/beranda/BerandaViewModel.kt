@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.beranda
+package com.example.nh_care.fragment.beranda
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

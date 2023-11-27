@@ -22,44 +22,45 @@ class AnakActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnakasuhBinding
     private lateinit var recyclerView: RecyclerView
-    private var anakAdapter: AnakAdapter? = null
-    private val anakList = ArrayList<DataAnak>()
+    private lateinit var anakAdapter: AnakAdapter
+    private var anakList = listOf<DataAnak>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAnakasuhBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        anakAdapter = AnakAdapter(anakList)
         recyclerView = binding.rvAnak
-
+        anakAdapter = AnakAdapter(anakList)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = anakAdapter
 
-        anakAdapter?.setOnItemClickListener(object : AnakAdapter.OnItemClickListener {
+        anakAdapter.setOnItemClickListener(object : AnakAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                val intent = Intent(this@AnakActivity, DetailAnakActivity::class.java)
                 val currentItem = anakList[position]
+
+                val intent = Intent(this@AnakActivity, DetailAnakActivity::class.java)
                 intent.putExtra("nama", currentItem.Nama)
                 intent.putExtra("kelas", currentItem.Kelas)
                 intent.putExtra("nama_sekolah", currentItem.Sekolah)
                 intent.putExtra("keterangan", currentItem.Tentang)
+                // Pastikan `img_anak` sesuai dengan Parcelable jika diperlukan
                 intent.putExtra("img_anak", currentItem.img_anak)
                 startActivity(intent)
             }
         })
+        val searchView = binding.svAnak
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
 
-//        val searchView: SearchView = findViewById(R.id.searchViewAnak)
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                anakAdapter?.filter?.filter(newText)
-//                return false
-//            }
-//        })
+            override fun onQueryTextChange(newText: String?): Boolean {
+                anakAdapter.filter.filter(newText)
+                return false
+            }
+        })
+
         fetchAnakDataFromAPI()
     }
 
@@ -70,10 +71,8 @@ class AnakActivity : AppCompatActivity() {
             Request.Method.GET, urlDataAnak, null,
             { response ->
                 try {
-                    val fetchedAnakList = parseAnak(response)
-                    anakList.clear()
-                    anakList.addAll(fetchedAnakList)
-                    anakAdapter?.setAnakList(anakList)
+                    anakList = parseAnak(response)
+                    anakAdapter.setAnakList(anakList)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -106,12 +105,12 @@ class AnakActivity : AppCompatActivity() {
                 Tentang = Tentang,
                 img_anak = decodedImage
             )
+
             anakData.add(anak)
         }
 
         return anakData
     }
-
 
     // Fungsi untuk mengonversi string base64 ke objek Bitmap
     private fun decodeBase64ToBitmap(base64String: String): Bitmap? {
