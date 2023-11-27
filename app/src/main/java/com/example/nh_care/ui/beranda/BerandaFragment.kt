@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.berandaberanda.activity.anakasuh.AnakActivity
+//import com.example.berandaberanda.activity.anakasuh.AnakActivity
 import com.example.nh_care.R
 import com.example.nh_care.activity.acara.AcaraActivity
 import com.example.nh_care.activity.alokasi.AlokasiActivity
@@ -27,10 +27,10 @@ class BerandaFragment : Fragment() {
     ): View? {
         binding = FragmentBerandaBinding.inflate(inflater, container, false)
 
-        binding.btnanak.setOnClickListener{
-            val intent = Intent(requireActivity(), AnakActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.btnanak.setOnClickListener{
+//            val intent = Intent(requireActivity(), AnakActivity::class.java)
+//            startActivity(intent)
+//        }
         binding.btnacara.setOnClickListener{
             val intent = Intent(requireActivity(), AcaraActivity::class.java)
             startActivity(intent)
