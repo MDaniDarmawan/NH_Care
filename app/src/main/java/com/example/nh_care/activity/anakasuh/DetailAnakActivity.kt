@@ -46,20 +46,12 @@ class DetailAnakActivity : AppCompatActivity() {
         }
 
 
-        imageAnak.setOnClickListener {
-            val intent = Intent(this, DetailAnakActivity::class.java)
-            val bundle: Bundle? = intent.extras
-            // Tambahkan data anak ke intent DetailAnakActivity
-            if (bundle != null) {
-                intent.putExtras(bundle)
-            }
-            startActivity(intent)
+
+
+
+        binding.btnbackanak.setOnClickListener() {
+            startActivity(Intent(this, AnakActivity::class.java))
         }
-
-
-//        binding.btnBackAnak.setOnClickListener() {
-//            startActivity(Intent(this, MainActivity::class.java))
-//        }
     }
 }
 

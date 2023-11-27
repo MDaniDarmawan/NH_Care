@@ -173,7 +173,6 @@
                         app:boxCornerRadiusTopStart="10dp"
                         app:counterEnabled="true"
                         app:counterMaxLength="16"
-                        app:endIconDrawable="@drawable/mata_terbuka"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.487"
                         app:layout_constraintStart_toStartOf="parent"
