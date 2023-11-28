@@ -43,23 +43,23 @@ class AnakActivity : AppCompatActivity() {
                 intent.putExtra("nama", currentItem.Nama)
                 intent.putExtra("kelas", currentItem.Kelas)
                 intent.putExtra("nama_sekolah", currentItem.Sekolah)
-                intent.putExtra("keterangan", currentItem.Tentang)
+                intent.putExtra("deskripsi", currentItem.Deskripsi)
                 // Pastikan `img_anak` sesuai dengan Parcelable jika diperlukan
                 intent.putExtra("img_anak", currentItem.img_anak)
                 startActivity(intent)
             }
         })
-        val searchView = binding.svAnak
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                anakAdapter.filter.filter(newText)
-                return false
-            }
-        })
+//        val searchView = binding.svAnak
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                anakAdapter.filter.filter(newText)
+//                return false
+//            }
+//        })
 
         fetchAnakDataFromAPI()
     }
@@ -93,7 +93,7 @@ class AnakActivity : AppCompatActivity() {
             val Nama = anakObject.getString("nama")
             val Kelas = anakObject.getString("kelas")
             val Sekolah = anakObject.getString("nama_sekolah")
-            val Tentang = anakObject.getString("keterangan")
+            val Deskripsi = anakObject.getString("deskripsi")
             val imageAnakBase64 = anakObject.getString("img_anak")
 
             val decodedImage: Bitmap? = decodeBase64ToBitmap(imageAnakBase64)
@@ -102,7 +102,7 @@ class AnakActivity : AppCompatActivity() {
                 Nama = Nama,
                 Kelas = Kelas,
                 Sekolah = Sekolah,
-                Tentang = Tentang,
+                Deskripsi = Deskripsi,
                 img_anak = decodedImage
             )
 

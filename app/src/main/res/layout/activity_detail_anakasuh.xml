@@ -173,7 +173,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Tentang"
+                        android:text="Deskripsi"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
 
@@ -186,7 +186,7 @@
 
 
                     <TextView
-                        android:id="@+id/inputTentang"
+                        android:id="@+id/inputDeskripsi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="judul program"

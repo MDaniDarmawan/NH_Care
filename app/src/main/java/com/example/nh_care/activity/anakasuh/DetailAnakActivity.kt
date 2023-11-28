@@ -24,20 +24,20 @@ class DetailAnakActivity : AppCompatActivity() {
         val headingNama = binding.inputNamaAnak
         val detailKelas = binding.inputKelasAnak
         val detailSekolah = binding.inputSekolahAnak
-        val detailTentang = binding.inputTentang
+        val detailDeskripsi = binding.inputDeskripsi
         val imageAnak = binding.imageAnak
 
         val bundle: Bundle? = intent.extras
         val nama = bundle?.getString("nama")
         val kelas = bundle?.getString("kelas")
         val sekolah = bundle?.getString("nama_sekolah")
-        val tentang = bundle?.getString("keterangan")
+        val deskripsi = bundle?.getString("deskripsi")
         val imgAnak = bundle?.getParcelable<Bitmap>("img_anak")
 
         headingNama.text = nama
         detailKelas.text = kelas
         detailSekolah.text = sekolah
-        detailTentang.text = tentang
+        detailDeskripsi.text = deskripsi
 
         if (imgAnak != null) {
             imageAnak.setImageBitmap(imgAnak)
