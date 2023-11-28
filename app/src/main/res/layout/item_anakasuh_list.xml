@@ -3,101 +3,123 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="5dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:cardCornerRadius="10dp"
-        app:cardUseCompatPadding="true"
-        app:cardBackgroundColor="@color/grey1"
-        android:layout_margin="10dp"
-        app:cardElevation="1dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/grey1"
+            app:cardElevation="1dp">
 
-        <LinearLayout
-            android:id="@+id/colom1"
-            android:layout_width="175dp"
-            android:layout_height="255dp"
-            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/itemAvatar1"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/itemAvatar1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="15dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/itemName1"
-                android:layout_width="146dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:textColor="#000"
-                android:textSize="14sp"
-                android:textAlignment="center"
-                tools:text="@string/anak" />
+                <TextView
+                    android:id="@+id/itemName1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/poppins_medium"
+                    tools:text="@string/anak" />
 
-            <TextView
-                android:layout_width="145dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="Baca Selengkapnya"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:textStyle="italic" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    android:textSize="10sp"
+                    android:textColor="@color/black"
+                    android:text="Baca Selengkapnya"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/poppins_lightitalic" />
 
-    <!-- Bagian Kanan -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:cardCornerRadius="10dp"
-        app:cardUseCompatPadding="true"
-        app:cardBackgroundColor="@color/grey1"
-        android:layout_margin="10dp"
-        app:cardElevation="1dp">
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/colom2"
-            android:layout_width="175dp"
-            android:layout_height="255dp"
-            android:orientation="vertical">
+        </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/itemAvatar2"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="15dp"
-                tools:srcCompat="@tools:sample/avatars" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/itemName2"
-                android:layout_width="145dp"
-                android:layout_height="33dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:textColor="#000"
-                android:textSize="14sp"
-                android:textAlignment="center"
-                tools:text="@string/anak" />
+<!--    cardview ke 2-->
 
-            <TextView
-                android:layout_width="142dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="Baca Selengkapnya"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:textStyle="italic" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/grey1"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/itemAvatar2"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="15dp"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/itemName2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/poppins_medium"
+                    tools:text="@string/anak" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    android:textSize="10sp"
+                    android:textColor="@color/black"
+                    android:text="Baca Selengkapnya"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/poppins_lightitalic" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
 </LinearLayout>
