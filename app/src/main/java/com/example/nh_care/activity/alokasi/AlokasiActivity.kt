@@ -2,88 +2,110 @@ package com.example.nh_care.activity.alokasi
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
 import com.example.berandaberanda.activitity.alokasi.AlokasiAdapter
-import com.example.berandaberanda.activitity.alokasi.DataItem
-import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.R
 import com.example.nh_care.databinding.ActivityAlokasiBinding
+import com.example.nh_care.fragment.beranda.BerandaFragment
+import org.json.JSONArray
+import org.json.JSONException
 
 class AlokasiActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityAlokasiBinding
-    private lateinit var mList: ArrayList<DataItem>
-    private lateinit var searchView: SearchView
+    private lateinit var recyclerView: RecyclerView
+    private var alokasiAdapter: AlokasiAdapter? = null
+    private val alokasiList = ArrayList<Map<String, String>>() // Using Map<String, String> as per the adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlokasiBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
 
-        binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        alokasiAdapter = AlokasiAdapter(alokasiList)
+        recyclerView = binding.recyclerViewAlokasi
 
-        mList = ArrayList()
-        prepareData()
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = alokasiAdapter
 
-        val adapter = AlokasiAdapter(mList)
-        binding.recyclerView.adapter = adapter
+        // Set listener to handle item clicks
+        alokasiAdapter?.setOnItemClickListener(object : AlokasiAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(this@AlokasiActivity, DetailAlokasiActivity::class.java)
+                val currentItem = alokasiList[position]
+                intent.putExtra("judul", currentItem["judul"])
+                intent.putExtra("deskripsi", currentItem["deskripsi"])
+                val imageBase64 = currentItem["image"]
+                if (!imageBase64.isNullOrBlank()) {
+                    val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)
+                    intent.putExtra("img_alokasi", imageBytes)
+                }
+                startActivity(intent)
+            }
+        })
 
+        binding.backalokasi.setOnClickListener {
+            val fragmentManager: FragmentManager = supportFragmentManager
+            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+            val berandaFragment = BerandaFragment()
+            fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, berandaFragment)
+            fragmentTransaction.commit()
+        }
 
+        // Call the method to fetch data from the local API
+        fetchAlokasiDataFromAPI()
     }
 
-    private fun prepareData() {
+    private fun fetchAlokasiDataFromAPI() {
+        val urlDataAlokasi = "http://10.10.182.37/api-mysql-main/api-alokasiDana.php"
 
-        mList.add(
-            DataItem(
-                "Pembangunan dan Fasilitas",
-                "Alokasi dana untuk pembangunan fasilitas panti asuhan adalah upaya menyediakan dana guna membangun atau meningkatkan infrastruktur panti asuhan. Dana ini digunakan untuk memperbaiki, membangun, atau memperluas fasilitas seperti ruang tidur, kamar mandi, ruang belajar, dan area rekreasi. Sasaran alokasi dana ini adalah menciptakan lingkungan yang nyaman dan aman bagi anak-anak di panti asuhan, memastikan mereka memiliki tempat yang layak untuk tinggal dan belajar.",
-                R.drawable.beranda,
-                null
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, urlDataAlokasi, null,
+            { response ->
+                try {
+                    val fetchedAlokasiList = parseAlokasi(response)
+                    alokasiList.clear()
+                    alokasiList.addAll(fetchedAlokasiList)
+                    alokasiAdapter?.setAlokasi(alokasiList)
+                } catch (e: JSONException) {
+                    Log.e("JSON_ERROR", "Error: " + e.message)
+                    e.printStackTrace()
+                }
+            },
+            { error ->
+                Log.e("VOLLEY_ERROR", "Error: " + error.message)
+                error.printStackTrace()
+            })
+
+        Volley.newRequestQueue(this).add(jsonArrayRequest)
+    }
+
+    private fun parseAlokasi(jsonArray: JSONArray): List<Map<String, String>> {
+        val alokasik = mutableListOf<Map<String, String>>()
+
+        for (i in 0 until jsonArray.length()) {
+            val alokasiObject = jsonArray.getJSONObject(i)
+
+            val judul = alokasiObject.getString("judul")
+            val deskripsi = alokasiObject.getString("deskripsi")
+            val imageAlokasiBase64 = alokasiObject.getString("img_alokasi")
+
+            val alokasi = mapOf(
+                "judul" to judul,
+                "deskripsi" to deskripsi,
+                "image" to imageAlokasiBase64
             )
-        )
-        mList.add(
-            DataItem(
-                "Santunan Anak Yatim dan Piatu",
-                "Alokasi dana untuk santunan anak yatim piatu berfokus pada memberikan dukungan finansial langsung kepada anak-anak yang tinggal di panti asuhan. Dana ini digunakan untuk memenuhi kebutuhan dasar seperti pendidikan, pangan, pakaian, dan kebutuhan keseharian lainnya. Sasaran alokasi dana ini adalah memberikan bantuan praktis dan nyata kepada anak-anak yatim piatu, memastikan bahwa mereka mendapatkan dukungan untuk menghadapi kehidupan sehari-hari dan memiliki akses ke fasilitas yang mendukung perkembangan mereka secara holistik.",
-                R.drawable.beranda,
-                null
-            )
-        )
-
-        mList.add(
-            DataItem(
-                "Coming Soon",
-                null,
-                null,
-                R.drawable.comingsoon
-            )
-        )
-
-        mList.add(
-            DataItem(
-                "Coming Soon",
-                null,
-                null,
-                R.drawable.comingsoon
-            )
-        )
-
-
-        mList.add(
-            DataItem(
-                "Administrator",
-                null,
-                null,
-                null
-            )
-        )
-
-        binding.backalokasi.setOnClickListener() {
-            startActivity(Intent(this, MainActivity::class.java))
+            alokasik.add(alokasi)
         }
+
+        return alokasik
     }
 }

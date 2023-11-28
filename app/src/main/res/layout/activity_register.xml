@@ -47,8 +47,8 @@
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="@id/kembali"
-                    app:layout_constraintTop_toBottomOf="@id/kembali" />
+                    app:layout_constraintStart_toStartOf="@id/btnbacklogin"
+                    app:layout_constraintTop_toBottomOf="@id/btnbacklogin" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -157,7 +157,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_mediumitalic"
-                            android:hint="Masukkan Nomor WhatsApp" />
+                            android:inputType="numberDecimal"
+                            android:hint="Masukkan Nomor Handphone" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 

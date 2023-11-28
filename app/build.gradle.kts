@@ -61,5 +61,9 @@ dependencies {
     //volley sql
     implementation("com.android.volley:volley:1.2.1")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    //midtrans
+    implementation("com.midtrans:uikit:2.0.0-SANDBOX")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
 
 }

@@ -30,15 +30,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/fotoprofil"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/baseline_circle_24"
-        app:layout_constraintBottom_toBottomOf="@+id/sampulprofil"
-        app:layout_constraintEnd_toEndOf="@+id/sampulprofil"
-        app:layout_constraintStart_toStartOf="@+id/sampulprofil"
-        app:layout_constraintTop_toBottomOf="@+id/sampulprofil" />
+            <TextView
+                android:id="@+id/fotoprofil"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/baseline_circle_24"
+                android:gravity="center"
+                android:textColor="@color/green"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/sampulprofil"
+                app:layout_constraintEnd_toEndOf="@+id/sampulprofil"
+                app:layout_constraintStart_toStartOf="@+id/sampulprofil"
+                app:layout_constraintTop_toBottomOf="@+id/sampulprofil" />
 
             <TextView
                 android:id="@+id/nama_pengguna"
@@ -53,11 +57,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fotoprofil" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <EditText
                 android:id="@+id/kotak_nama_pengguna"
                 android:layout_width="370dp"
                 android:layout_height="60dp"
                 android:background="@drawable/button"
+                android:text="Nama Pengguna"
+                android:textAlignment="center"
                 app:layout_constraintTop_toBottomOf="@+id/nama_pengguna"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -75,11 +81,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/kotak_nama_pengguna" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <EditText
                 android:id="@+id/kotak_email"
                 android:layout_width="370dp"
                 android:layout_height="60dp"
                 android:background="@drawable/button"
+                android:text="Email"
+                android:textAlignment="center"
                 app:layout_constraintTop_toBottomOf="@+id/email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -97,11 +105,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/kotak_email" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <EditText
                 android:id="@+id/kotak_nomor_telepon"
                 android:layout_width="370dp"
                 android:layout_height="60dp"
                 android:background="@drawable/button"
+                android:text="No Telephon"
+                android:textAlignment="center"
                 app:layout_constraintTop_toBottomOf="@+id/nomor_telepon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
