@@ -54,6 +54,10 @@
             android:exported="true"
             android:label="@string/app_name" />
         <activity
+            android:name=".activity.alokasi.DetailAlokasiActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+        <activity
             android:name=".activity.program.ProgramActivity"
             android:exported="true"
             android:label="@string/app_name" />
