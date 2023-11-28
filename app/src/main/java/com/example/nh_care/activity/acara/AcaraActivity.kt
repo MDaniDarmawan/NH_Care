@@ -1,7 +1,7 @@
 package com.example.nh_care.activity.acara
 
-import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,58 +10,63 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.nh_care.R
+import com.example.nh_care.database.DbContract
+import com.example.nh_care.databinding.ActivityAcaraBinding
 import org.json.JSONArray
 import org.json.JSONException
-import android.util.Log
-import com.example.nh_care.database.DbContract
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AcaraActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAcaraBinding
     private lateinit var recyclerView: RecyclerView
-    private var acaraAdapter: AcaraAdapter? = null
-    private val acaraList = ArrayList<DataAcara>()
+    private lateinit var acaraAdapter: AcaraAdapter
+    private val acaraList = mutableListOf<DataAcara>()
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_acara)
+        binding = ActivityAcaraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        recyclerView = findViewById(R.id.rv_acara)
+        recyclerView = binding.rvAcara
         recyclerView.layoutManager = LinearLayoutManager(this)
         acaraAdapter = AcaraAdapter(acaraList)
         recyclerView.adapter = acaraAdapter
 
-        val calendarView = findViewById<CalendarView>(R.id.calendarView)
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            val selectedDate = "$dayOfMonth/${month + 1}/$year"
-            Toast.makeText(this, "Tanggal dipilih: $selectedDate", Toast.LENGTH_SHORT).show()
-            // Di sini Anda bisa menambahkan logika untuk menangani perubahan tanggal
+        val calendarView: CalendarView = binding.calendarView
+
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(year, month, dayOfMonth)
+            fetchDataForDate(selectedDate)
         }
 
-        fetchDataFromAPI()
+        // Set the current date as the default selected date
+        val currentDate = Calendar.getInstance()
+        calendarView.date = currentDate.timeInMillis
+
+        // Fetch data for the current date initially
+        fetchDataForDate(currentDate)
     }
 
-    private fun fetchDataFromAPI() {
-        val urlDataAcara = DbContract.urlAcara
-
+    private fun fetchDataForDate(selectedDate: Calendar) {
+        val formattedDate = dateFormat.format(selectedDate.time)
+        val urlDataAcara = "${DbContract.urlAcara}?tanggal_acara=$formattedDate"
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataAcara, null,
             { response ->
                 try {
-                    val fetchedProgramList = parseAcara(response)
-                    acaraList.clear()
-                    acaraList.addAll(fetchedProgramList)
-                    acaraAdapter?.setAcara(acaraList)
+                    val fetchedAcaraList = parseAcara(response)
+                    acaraAdapter.setAcara(fetchedAcaraList)
+                    acaraAdapter.filterByDate(selectedDate)
                 } catch (e: JSONException) {
-                    Log.e("JSON_ERROR", "Error: " + e.message)
                     e.printStackTrace()
                 }
             },
             { error ->
-                Log.e("VOLLEY_ERROR", "Error: " + error.message)
-                error.printStackTrace()
+                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             })
 
         Volley.newRequestQueue(this).add(jsonArrayRequest)
@@ -78,17 +83,16 @@ class AcaraActivity : AppCompatActivity() {
                 val deskripsi = acaraObject.getString("deskripsi")
                 val tanggalString = acaraObject.getString("tanggal_acara")
 
-                val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                } else {
-                    TODO("VERSION.SDK_INT < O")
-                }
-                val tanggalLocalDate = LocalDateTime.parse(tanggalString, formatter)
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val tanggal = sdf.parse(tanggalString)
 
-                val acaraModel = DataAcara(judul, deskripsi, tanggalLocalDate)
-                acara.add(acaraModel)
+                if (tanggal != null) {
+                    val calendar = Calendar.getInstance()
+                    calendar.time = tanggal
+                    val acaraModel = DataAcara(judul, deskripsi, calendar)
+                    acara.add(acaraModel)
+                }
             } catch (e: JSONException) {
-                Log.e("JSON_ERROR", "Error parsing acara: " + e.message)
                 e.printStackTrace()
             }
         }
@@ -96,3 +100,5 @@ class AcaraActivity : AppCompatActivity() {
         return acara
     }
 }
+
+

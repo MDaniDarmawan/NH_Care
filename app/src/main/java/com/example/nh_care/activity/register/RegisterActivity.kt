@@ -5,76 +5,63 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
 import com.example.nh_care.activity.login.LoginActivity
-import com.example.nh_care.activity.program.ProgramActivity
 import com.example.nh_care.databinding.ActivityRegisterBinding
-import com.example.nh_care.database.DbContract
 import com.google.android.material.textfield.TextInputLayout
 
-class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener,
+class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
     View.OnKeyListener {
 
     private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(LayoutInflater.from(this))
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
 
-        binding.btnbacklogin.setOnClickListener() {
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
+        val registerUrl = "http://192.168.1.70/api-mysql-main/api-register.php"
 
         binding.btndaftar.setOnClickListener {
-            val nama = binding.etNamaLengkap.text.toString()
-            val email = binding.etEmail.text.toString()
-            val nohp = binding.etHp.text.toString()
-            val password = binding.etKataSandi.text.toString()
-
-            if (!(nama.isEmpty() || email.isEmpty() || nohp.isEmpty() || password.isEmpty() )) {
-
-                val stringRequest: StringRequest = object : StringRequest(
-                    Method.POST,
-                    DbContract.urlRegister,
-                    Response.Listener { response ->
-                        Toast.makeText(applicationContext, response.toString(), Toast.LENGTH_SHORT)
-                            .show()
-                        startActivity(Intent(applicationContext, LoginActivity::class.java))
+            if (binding.etNamaLengkap.text.toString().isEmpty() || binding.etEmail.text.toString().isEmpty() || binding.etKataSandi.text.toString().isEmpty() || binding.etHp.text.toString().isEmpty()) {
+                Toast.makeText(applicationContext, "Lengkapi data terlebih dahulu", Toast.LENGTH_LONG).show()
+            } else {
+                val request: RequestQueue = Volley.newRequestQueue(applicationContext)
+                val strRequest = object : StringRequest(
+                    Request.Method.POST,
+                    registerUrl,
+                    { response ->
+                        if (response == "Daftar Berhasil") {
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(applicationContext, response, Toast.LENGTH_LONG).show()
+                        }
                     },
-                    Response.ErrorListener { error ->
-                        Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_SHORT)
-                            .show()
+                    { error ->
+                        Log.d("ErrorApps", error.toString())
+                        Toast.makeText(applicationContext, "An error occurred", Toast.LENGTH_LONG).show()
                     }
                 ) {
-                    @Throws(AuthFailureError::class)
-                    override fun getParams(): Map<String, String> {
-                        val params: MutableMap<String, String> = HashMap()
-                        params["nama"] = nama
-                        params["email"] = email
-                        params["no_hp"] = nohp
-                        params["password"] = password
+                    override fun getParams(): MutableMap<String, String> {
+                        val params = HashMap<String, String>()
+                        params["nama"] = binding.etNamaLengkap.text.toString()
+                        params["email"] = binding.etEmail.text.toString()
+                        params["no_hp"] = binding.etHp.text.toString()
+                        params["password"] = binding.etKataSandi.text.toString()
                         return params
                     }
                 }
-
-                val requestQueue: RequestQueue = Volley.newRequestQueue(applicationContext)
-                requestQueue.add(stringRequest)
-            } else {
-                Toast.makeText(applicationContext, "Ada data yang belum diisi", Toast.LENGTH_SHORT)
-                    .show()
+                request.add(strRequest)
             }
         }
 
@@ -125,8 +112,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         if (value.isEmpty()) {
             showError(binding.tilHp, "Isi Nomor Hp terlebih dahulu")
             return false
-        } else if (value.length < 13) {
-            showError(binding.tilHp, "Nomor Hp Minimal 12 Angka")
+        } else if (value.length < 11) {
+            showError(binding.tilHp, "Nomor Hp tidak valid")
             return false
         }
         clearError(binding.tilHp)
@@ -170,9 +157,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         return true
     }
 
-    override fun onClick(view: View?) {
-        // Handle button clicks or other UI interactions here
-    }
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
         if (view != null) {
             when (view.id) {
@@ -189,6 +173,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
                         clearError(binding.tilEmail)
                     } else {
                         validateEmail()
+                    }
+                }
+
+                R.id.et_hp -> {
+                    if (hasFocus && binding.tilHp.isErrorEnabled) {
+                        clearError(binding.tilHp)
+                    } else {
+                        validateHp()
                     }
                 }
 
@@ -233,6 +225,4 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, View.OnFocus
         // Handle key events, e.g., Enter key
         return false
     }
-
 }
-
