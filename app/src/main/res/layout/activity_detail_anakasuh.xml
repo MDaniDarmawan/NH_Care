@@ -7,120 +7,197 @@
     android:padding="10dp"
     tools:context=".activity.program.DetailProgramActivity">
 
-    <ImageView
-        android:id="@+id/imageAnak"
-        android:layout_width="322dp"
-        android:layout_height="347dp"
-        android:layout_marginTop="10dp"
-        android:adjustViewBounds="true"
-        android:padding="10dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="530dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageAnak">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/namaanak"
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Nama"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/inputNamaAnak"
-            android:layout_width="396dp"
-            android:layout_height="37dp"
-            android:text="nama anak"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/namaanak"
-            tools:layout_editor_absoluteX="15dp" />
-
-        <TextView
-            android:id="@+id/kelasanak"
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Kelas"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="73dp" />
-
-        <TextView
-            android:id="@+id/inputKelasAnak"
-            android:layout_width="397dp"
-            android:layout_height="30dp"
-            android:text="kelas anak"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/kelasanak"
-            tools:layout_editor_absoluteX="16dp" />
-
-        <TextView
-            android:id="@+id/sekolahanak"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Sekolah"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="147dp" />
-
-        <TextView
-            android:id="@+id/inputSekolahAnak"
-            android:layout_width="400dp"
-            android:layout_height="47dp"
-            android:text="judul program"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/sekolahanak"
-            tools:layout_editor_absoluteX="16dp" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Tentang"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="15dp"
-            tools:layout_editor_absoluteY="229dp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/inputTentang"
-            android:layout_width="391dp"
-            android:layout_height="110dp"
-            android:text="judul program"
-            android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
-            tools:layout_editor_absoluteX="15dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/btnbackprogram"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/backberanda"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DETAIL ANAK ASUH"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/green"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageAnak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/namaanak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Nama"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/inputNamaAnak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="nama anak"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/kelasanak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Kelas"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/inputKelasAnak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="kelas anak"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sekolahanak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Sekolah"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/inputSekolahAnak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="judul program"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Tentang"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/inputTentang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="judul program"
+                        android:textSize="18sp"/>
 
-    <ImageView
-        android:id="@+id/btnbackprogram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/backberanda" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

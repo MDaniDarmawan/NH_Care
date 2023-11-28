@@ -1,4 +1,4 @@
-package com.example.nh_care.ui.profile
+package com.example.nh_care.fragment.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
