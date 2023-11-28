@@ -8,21 +8,15 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
 import com.example.nh_care.activity.login.LoginActivity
-import com.example.nh_care.activity.program.ProgramActivity
 import com.example.nh_care.databinding.ActivityRegisterBinding
-import com.example.nh_care.database.DbContract
 import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
@@ -118,8 +112,8 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
         if (value.isEmpty()) {
             showError(binding.tilHp, "Isi Nomor Hp terlebih dahulu")
             return false
-        } else if (value.length < 13) {
-            showError(binding.tilHp, "Nomor Hp Minimal 12 Angka")
+        } else if (value.length < 11) {
+            showError(binding.tilHp, "Nomor Hp tidak valid")
             return false
         }
         clearError(binding.tilHp)
@@ -182,6 +176,14 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
                     }
                 }
 
+                R.id.et_hp -> {
+                    if (hasFocus && binding.tilHp.isErrorEnabled) {
+                        clearError(binding.tilHp)
+                    } else {
+                        validateHp()
+                    }
+                }
+
                 R.id.et_kata_sandi -> {
                     if (hasFocus && binding.tilKataSandi.isErrorEnabled) {
                         clearError(binding.tilKataSandi)
@@ -223,6 +225,4 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
         // Handle key events, e.g., Enter key
         return false
     }
-
 }
-
