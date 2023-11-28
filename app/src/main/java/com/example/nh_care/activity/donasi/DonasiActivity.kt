@@ -1,5 +1,6 @@
 package com.example.nh_care.activity.donasi
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -30,9 +31,10 @@ class DonasiActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDonasiBinding
 
-    var random = "NH-${UUID.randomUUID()}".substring(0, 8)
-    val id_order = initTransactionDetails().orderId
-    val launcher =
+    private var random = "NH-${UUID.randomUUID()}".substring(0, 8)
+    private val id_order = initTransactionDetails().orderId
+
+    private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result?.resultCode == RESULT_OK) {
                 result.data?.let {
@@ -40,33 +42,20 @@ class DonasiActivity : AppCompatActivity() {
                         it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)
                     Toast.makeText(this, "${transactionResult?.transactionId}", Toast.LENGTH_LONG)
                         .show()
-                    Toast.makeText(this, id_order, Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Order ID: ${initTransactionDetails().orderId}", Toast.LENGTH_LONG)
                         .show()
-                    checkOrderStatus(id_order)
+                    checkOrderStatus(initTransactionDetails().orderId)
                 }
             }
         }
 
-    private var customerDetails = com.midtrans.sdk.uikit.api.model.CustomerDetails(
-        firstName = "name",
-        customerIdentifier = "mail@mail.com",
-        email = "mail@mail.com",
-        phone = "085310102020"
-    )
-
-    private var itemDetails = listOf(
-        com.midtrans.sdk.uikit.api.model.ItemDetails(
-            "DNS-${UUID.randomUUID()}",
-            50000.00,
-            1,
-            "DONASI"
-        )
-    )
-
     private fun initTransactionDetails(): SnapTransactionDetail {
+        val amountText = binding.layNominal.text.toString()
+        val grossAmount = amountText.toDoubleOrNull() ?: 0.0
+
         return SnapTransactionDetail(
             orderId = random,
-            grossAmount = 50000.00
+            grossAmount = grossAmount
         )
     }
 
@@ -76,12 +65,33 @@ class DonasiActivity : AppCompatActivity() {
         setContentView(binding.root)
         buildUiKit()
 
+        val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
+        val namaDonatur: String? = sharedPreferences.getString("nama", "")
+        val emailDonatur: String? = sharedPreferences.getString("email", "")
+        val noHpDonatur: String? = sharedPreferences.getString("no_hp", "")
+
+        binding.layNamadonasi.setText(namaDonatur)
+
         binding.btndonasi.setOnClickListener {
+            val itemDetails = listOf(
+                com.midtrans.sdk.uikit.api.model.ItemDetails(
+                    "DNS-${UUID.randomUUID()}",
+                    initTransactionDetails().grossAmount,
+                    1,
+                    "DONASI"
+                )
+            )
+
             UiKitApi.getDefaultInstance().startPaymentUiFlow(
                 activity = this@DonasiActivity,
                 launcher = launcher,
                 transactionDetails = initTransactionDetails(),
-                customerDetails = customerDetails,
+                customerDetails = com.midtrans.sdk.uikit.api.model.CustomerDetails(
+                    firstName = binding.layNamadonasi.text.toString(),
+                    customerIdentifier = emailDonatur ?: "",
+                    email = emailDonatur ?: "",
+                    phone = noHpDonatur ?: ""
+                ),
                 itemDetails = itemDetails,
                 paymentMethod = PaymentMethod.BANK_TRANSFER
             )
@@ -89,20 +99,20 @@ class DonasiActivity : AppCompatActivity() {
     }
 
     private fun buildUiKit() {
-        UiKitApi.Builder()
-            .withContext(this.applicationContext)
-            .withMerchantUrl("http://192.168.1.12/api-mysql-main/midtrans.php/")
-            .withMerchantClientKey("SB-Mid-client-Cus_lO_5JXzHSIcU")
-            .enableLog(true)
-
-            .withColorTheme(
+        UiKitApi.Builder().apply {
+            withContext(this@DonasiActivity.applicationContext)
+            withMerchantUrl("http://192.168.1.19/api-mysql-main/midtrans.php/")
+            withMerchantClientKey("SB-Mid-client-Cus_lO_5JXzHSIcU")
+            enableLog(true)
+            withColorTheme(
                 com.midtrans.sdk.uikit.api.model.CustomColorTheme(
                     "#FFE51255",
                     "#B61548",
                     "#FFE51255"
                 )
             )
-            .build()
+            build()
+        }
         setLocaleNew("id")
         uiKitCustomSetting()
     }
@@ -138,6 +148,8 @@ class DonasiActivity : AppCompatActivity() {
 
                             try {
                                 val jsonObject = JSONObject(responseBody)
+
+                                Log.d("PaymentsMidtrans", "JSON Object: $jsonObject")
 
                                 // Extract specific values from the JSON object
                                 val transactionId = jsonObject.getString("transaction_id")
@@ -182,6 +194,11 @@ class DonasiActivity : AppCompatActivity() {
         // Example code (modify it based on your server-side implementation)
         val url = "http://192.168.1.19/api-mysql-main/api-insertDonasi.php"
 
+        val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
+        val idDonatur = sharedPreferences.getString("id_donatur", "")
+        val namaDon = binding.layNamadonasi.text.toString()
+        val doa = binding.layDoa.text.toString()
+
         val request: RequestQueue = Volley.newRequestQueue(applicationContext)
 
         val stringRequest = object : StringRequest(
@@ -212,6 +229,9 @@ class DonasiActivity : AppCompatActivity() {
                 params["gross_amount"] = jsonObject.getDouble("gross_amount").toString()
                 params["order_id"] = jsonObject.getString("order_id")
                 params["settlement_time"] = jsonObject.getString("settlement_time")
+                params["id_donatur"] = idDonatur ?: ""
+                params["nama_donatur"] = namaDon
+                params["doa"] = doa
                 return params
             }
         }
