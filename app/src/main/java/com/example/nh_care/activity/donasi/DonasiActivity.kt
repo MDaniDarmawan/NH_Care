@@ -1,12 +1,16 @@
 package com.example.nh_care.activity.donasi
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.lifecycleScope
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.nh_care.databinding.ActivityDonasiBinding
 import com.midtrans.sdk.corekit.core.PaymentMethod
 import com.midtrans.sdk.uikit.api.model.SnapTransactionDetail
@@ -17,6 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
 import java.util.UUID
 
@@ -101,43 +107,115 @@ class DonasiActivity : AppCompatActivity() {
         uiKitCustomSetting()
     }
 
-private fun setLocaleNew(languageCode: String?) {
-    val locales = LocaleListCompat.forLanguageTags(languageCode)
-    AppCompatDelegate.setApplicationLocales(locales)
-}
-private fun uiKitCustomSetting() {
-    val uIKitCustomSetting = UiKitApi.getDefaultInstance().uiKitSetting
-    uIKitCustomSetting.saveCardChecked = true
-}
-private fun checkOrderStatus(orderId: String) {
-    val client = OkHttpClient()
-    val request = Request.Builder()
-        .url("https://api.sandbox.midtrans.com/v2/$orderId/status")
-        .get()
-        .addHeader("accept", "application/json")
-        .addHeader("authorization", "Basic U0ItTWlkLXNlcnZlci1TMUdwX0o3b2Z0aWJ0dXNPWTdqUjhKalA6")
-        .build()
-    lifecycleScope.launch(Dispatchers.IO) {
-        try {
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val responseBody = response.body?.string()
-                runOnUiThread {
-                    Toast.makeText(this@DonasiActivity, responseBody, Toast.LENGTH_LONG).show()
+    private fun setLocaleNew(languageCode: String?) {
+        val locales = LocaleListCompat.forLanguageTags(languageCode)
+        AppCompatDelegate.setApplicationLocales(locales)
+    }
+    private fun uiKitCustomSetting() {
+        val uIKitCustomSetting = UiKitApi.getDefaultInstance().uiKitSetting
+        uIKitCustomSetting.saveCardChecked = true
+    }
+    private fun checkOrderStatus(orderId: String) {
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("https://api.sandbox.midtrans.com/v2/$orderId/status")
+            .get()
+            .addHeader("accept", "application/json")
+            .addHeader(
+                "authorization",
+                "Basic U0ItTWlkLXNlcnZlci1TMUdwX0o3b2Z0aWJ0dXNPWTdqUjhKalA6"
+            )
+            .build()
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response = client.newCall(request).execute()
+                response.use {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body?.string()
+
+                        runOnUiThread {
+                            Log.d("PaymentsMidtrans", "Response: $responseBody")
+
+                            try {
+                                val jsonObject = JSONObject(responseBody)
+
+                                // Extract specific values from the JSON object
+                                val transactionId = jsonObject.getString("transaction_id")
+                                val grossAmount = jsonObject.getDouble("gross_amount")
+                                val orderId = jsonObject.getString("order_id")
+                                val settlementTime = jsonObject.getString("settlement_time")
+
+
+                                // Do something with the extracted values
+                                Log.d(
+                                    "PaymentsMidtrans",
+                                    "transaction_id: $transactionId, gross_amount: $grossAmount, order_id: $orderId, settlement_time: $settlementTime"
+                                )
+
+                                // Send data to the server
+                                sendDataToServer(jsonObject)
+                            } catch (e: JSONException) {
+                                // Handle JSON parsing exception
+                                e.printStackTrace()
+                                Log.e("PaymentsMidtrans", "Error parsing JSON")
+                            }
+                        }
+                    } else {
+                        runOnUiThread {
+                            val errorMessage = "Error: ${response.code} ${response.message}"
+                            Log.e("PaymentsMidtrans", errorMessage)
+                            Toast.makeText(this@DonasiActivity, "Error", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
                 }
-            } else {
+            } catch (e: IOException) {
+                e.printStackTrace()
                 runOnUiThread {
-                    val errorMessage = "Error: ${response.code} ${response.message}"
-                    Toast.makeText(this@DonasiActivity, errorMessage, Toast.LENGTH_LONG).show()
+                    val errorMessage = "Error: ${e.message}"
+                    Toast.makeText(this@DonasiActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            runOnUiThread {
-                val errorMessage = "Error: ${e.message}"
-                Toast.makeText(this@DonasiActivity, errorMessage, Toast.LENGTH_LONG).show()
             }
         }
     }
-}
+    private fun sendDataToServer(jsonObject: JSONObject) {
+        // Example code (modify it based on your server-side implementation)
+        val url = "http://192.168.1.19/api-mysql-main/api-insertDonasi.php"
+
+        val request: RequestQueue = Volley.newRequestQueue(applicationContext)
+
+        val stringRequest = object : StringRequest(
+            com.android.volley.Request.Method.POST,
+            url,
+            { response ->
+                runOnUiThread {
+                    if (response.contains("Data berhasil disimpan")) {
+                        Log.d("PaymentsMidtrans", "Data berhasil disimpan di server")
+                        // Handle success
+                    } else {
+                        Log.e("PaymentsMidtrans", "Error dari server: $response")
+                        // Handle error
+                    }
+                }
+            },
+            { error ->
+                runOnUiThread {
+                    Log.e("PaymentsMidtrans", "Error sending data to server: ${error.message}")
+                    // Handle error
+                }
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                // Sesuaikan parameter dengan nama yang diharapkan oleh server-side PHP
+                params["transaction_id"] = jsonObject.getString("transaction_id")
+                params["gross_amount"] = jsonObject.getDouble("gross_amount").toString()
+                params["order_id"] = jsonObject.getString("order_id")
+                params["settlement_time"] = jsonObject.getString("settlement_time")
+                return params
+            }
+        }
+
+        request.add(stringRequest)
+    }
 }
