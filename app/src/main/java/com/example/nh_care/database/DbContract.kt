@@ -12,5 +12,6 @@ object DbContract {
     const val urlAnak= "http://$ip/api-nhcare/api-anakasuh.php"
     const val urlProfile= "http://$ip/api-nhcare/api-profile.php"
     const val urlFaq= "http://$ip/api-nhcare/api-faq.php"
+    const val urlWebsite= "http://$ip/api-nhcare/api-website.php"
 
 }

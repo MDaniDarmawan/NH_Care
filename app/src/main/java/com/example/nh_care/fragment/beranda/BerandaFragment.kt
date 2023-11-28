@@ -12,6 +12,7 @@ import com.example.nh_care.activity.acara.AcaraActivity
 import com.example.nh_care.activity.alokasi.AlokasiActivity
 import com.example.nh_care.activity.program.ProgramActivity
 import com.example.nh_care.activity.video.VideoActivity
+import com.example.nh_care.activity.website.WebsiteActivity
 import com.example.nh_care.databinding.FragmentBerandaBinding
 
 class BerandaFragment : Fragment() {
@@ -45,7 +46,8 @@ class BerandaFragment : Fragment() {
             startActivity(intent)
         }
         binding.btnwebsite.setOnClickListener{
-            openUrl("https://nurulhusna.org/")
+            val intent = Intent(requireActivity(), WebsiteActivity::class.java)
+            startActivity(intent)
         }
         binding.btnyt.setOnClickListener{
             openUrl("https://www.youtube.com/@nurulhusnajember")
