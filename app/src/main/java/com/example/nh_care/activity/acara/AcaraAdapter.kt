@@ -1,19 +1,18 @@
 package com.example.nh_care.activity.acara
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nh_care.activity.acara.DataAcara
 import com.example.nh_care.databinding.ItemAcaraListBinding
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AcaraAdapter(private var acaraList: List<DataAcara>) :
     RecyclerView.Adapter<AcaraAdapter.AcaraViewHolder>() {
 
     private var listener: OnItemClickListener? = null
+    private var filteredAcaraList: List<DataAcara> = emptyList()
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
@@ -25,9 +24,21 @@ class AcaraAdapter(private var acaraList: List<DataAcara>) :
 
     fun setAcara(acara: List<DataAcara>) {
         acaraList = acara
-        notifyDataSetChanged()
+        filterByDate(Calendar.getInstance())
     }
 
+    fun filterByDate(selectedDate: Calendar) {
+        filteredAcaraList = if (selectedDate != null) {
+            acaraList.filter {
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val formattedDate = sdf.format(it.tanggal.time)
+                formattedDate == sdf.format(selectedDate.time)
+            }
+        } else {
+            acaraList // Show all data if selectedDate is null
+        }
+        notifyDataSetChanged()
+    }
     inner class AcaraViewHolder(private val binding: ItemAcaraListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -40,7 +51,6 @@ class AcaraAdapter(private var acaraList: List<DataAcara>) :
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(acara: DataAcara) {
             val judulView: TextView = binding.itemJudul
             val descView: TextView = binding.itemDesc
@@ -48,7 +58,10 @@ class AcaraAdapter(private var acaraList: List<DataAcara>) :
 
             judulView.text = acara.judulacara
             descView.text = acara.descacara
-            dateView.text = acara.tanggal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val formattedDate = sdf.format(acara.tanggal.time)
+            dateView.text = formattedDate
         }
     }
 
@@ -58,11 +71,10 @@ class AcaraAdapter(private var acaraList: List<DataAcara>) :
     }
 
     override fun onBindViewHolder(holder: AcaraViewHolder, position: Int) {
-        val currentItem = acaraList[position]
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            holder.bind(currentItem)
-        }
+        val currentItem = filteredAcaraList[position]
+        holder.bind(currentItem)
     }
 
-    override fun getItemCount() = acaraList.size
+    override fun getItemCount() = filteredAcaraList.size
 }
+
