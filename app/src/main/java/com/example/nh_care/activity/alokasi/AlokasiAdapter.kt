@@ -1,72 +1,76 @@
 package com.example.berandaberanda.activitity.alokasi
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nh_care.R
 import com.example.nh_care.databinding.ItemAlokasiGambarBinding
 import com.example.nh_care.databinding.ItemAlokasiListBinding
 
 
-const val ITEM_ALOKASI_GAMBAR = 0
-const val ITEM_ALOKASI_LIST = 1
+class AlokasiAdapter(private var alokasiList: List<Map<String, String>>) :
+    RecyclerView.Adapter<AlokasiAdapter.AlokasiViewHolder>() {
 
-class AlokasiAdapter(private val mList: List<DataItem>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var listener: OnItemClickListener? = null
 
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 
-    inner class ItemAlokasiGambarViewHolder(private val binding: ItemAlokasiGambarBinding) :
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
+    fun setAlokasi(Alokasi: List<Map<String, String>>) {
+        alokasiList = Alokasi
+        notifyDataSetChanged()
+    }
+
+    inner class AlokasiViewHolder(private val binding: ItemAlokasiListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bindPosterView(dataItem: DataItem) {
-            dataItem.poster?.let { binding.posterIv.setImageResource(it) }
-            binding.movieTitleTv.text = dataItem.title
-            binding.movieDescTv.text = dataItem.desc
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener?.onItemClick(position)
+                }
+            }
+        }
+
+        fun bind(alokasi: Map<String, String>) {
+            val textView: TextView = binding.titleAlokasi
+            val imageView: ImageView = binding.logoAlokasi
+
+            // Set the text from MapelModel to the TextView
+            textView.text = alokasi["judul"]
+
+            // Load the image using Picasso into the ImageView if the path is not empty
+            val imageBase64 = alokasi["image"]
+            if (!imageBase64.isNullOrBlank()) {
+                val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                imageView.setImageBitmap(decodedImage)
+            } else {
+                // Handle the case where the base64-encoded string is empty or null, for example, set a placeholder image
+                imageView.setImageResource(R.drawable.comingsoon)
+            }
         }
     }
 
-    inner class ItemAlokasiListViewHolder(private val binding: ItemAlokasiListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bindWithoutPosterView(dataItem: DataItem) {
-            binding.movieTitleTv.text = dataItem.title
-            dataItem.logo?.let { binding.logoIv.setImageResource(dataItem.logo) }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlokasiViewHolder {
+        val binding = ItemAlokasiListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AlokasiViewHolder(binding)
     }
 
-    override fun getItemViewType(position: Int): Int {
-
-        if (mList[position].poster != null) {
-            return ITEM_ALOKASI_GAMBAR
-        } else {
-            return ITEM_ALOKASI_LIST
-        }
+    override fun onBindViewHolder(holder: AlokasiViewHolder, position: Int) {
+        val currentItem = alokasiList[position]
+        holder.bind(currentItem)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        if (viewType == ITEM_ALOKASI_GAMBAR) {
-            val binding =
-                ItemAlokasiGambarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ItemAlokasiGambarViewHolder(binding)
-
-        } else {
-            val binding =
-                ItemAlokasiListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ItemAlokasiListViewHolder(binding)
-        }
-
-    }
-
-    override fun getItemCount(): Int {
-        return mList.size
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
-        if (getItemViewType(position) == ITEM_ALOKASI_GAMBAR) {
-            (holder as ItemAlokasiGambarViewHolder).bindPosterView(mList[position])
-        } else {
-            (holder as ItemAlokasiListViewHolder).bindWithoutPosterView(mList[position])
-        }
-    }
+    override fun getItemCount() = alokasiList.size
 }
