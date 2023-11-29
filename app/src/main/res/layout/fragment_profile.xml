@@ -26,7 +26,7 @@
         android:id="@+id/sampulprofil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_profile"
+        android:background="@drawable/bgdonasi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_tombol2"
                     android:padding="10dp"
-                    android:text="Nama Pengguna"
+                    android:hint="Nama Pengguna"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:fontFamily="@font/poppins_light"/>
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_tombol2"
                     android:padding="10dp"
-                    android:text="Email"
+                    android:hint="Email"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:fontFamily="@font/poppins_light"/>
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_tombol2"
                     android:padding="10dp"
-                    android:text="Nomor Telepon"
+                    android:hint="Nomor Telepon"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:fontFamily="@font/poppins_light"/>
@@ -131,7 +131,51 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_tombol2"
                     android:padding="10dp"
-                    android:text="Kata Sandi"
+                    android:hint="Kata Sandi"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <TextView
+                    android:id="@+id/jk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="JENIS KELAMIN"
+                    android:textSize="25sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/kotak_jk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="Laki - Laki"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <TextView
+                    android:id="@+id/alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="ALAMAT"
+                    android:textSize="25sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/kotak_alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="jalan Jalan"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:fontFamily="@font/poppins_light"/>

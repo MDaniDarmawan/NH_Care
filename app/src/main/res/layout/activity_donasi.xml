@@ -160,6 +160,7 @@
                     android:layout_gravity="start|center"/>
 
                 <TextView
+                    android:id="@+id/lay_nominal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1.000.000.000"
@@ -276,6 +277,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDonasi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="DONASI"

@@ -1,46 +1,34 @@
 package com.example.nh_care.activity.alokasi
 
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.nh_care.R
 import com.example.nh_care.databinding.ActivityDetailAlokasiBinding
 
 class DetailAlokasiActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityDetailAlokasiBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailAlokasiBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-        supportActionBar?.hide()
+        setContentView(binding.root)
 
-        val headingTujuan = binding.JudulAlokasi
-        val mainTujuan = binding.DeskAlokasi
-        val imageP = binding.imageAlokasi
+        // Get data passed from AlokasiActivity
+        val title = intent.getStringExtra("title")
+        val description = intent.getStringExtra("description")
+        val avatarResourceId = intent.getIntExtra("avatarResourceId", 0)
+        val totalDonasi = intent.getStringExtra("totalDonasi")
+        binding.nominalSantunan.text = totalDonasi
 
-        val bundle: Bundle? = intent.extras
-        val judul = bundle!!.getString("judul")
-        val deskripsi = bundle.getString("deskripsi")
-        val imageAlokasiBlob = bundle.getByteArray("img_alokasi") // Ambil BLOB dari intent
 
-        headingTujuan.text = judul
-        mainTujuan.text = deskripsi
+        // Set data to views
+        binding.imageAlokasi.setImageResource(avatarResourceId)
+        binding.txtAlokasi.text = title
+        binding.DeskAlokasi.text = description
 
-        if (imageAlokasiBlob != null) {
-            // Jika Anda memiliki BLOB dari gambar
-            val gambarBlob = BitmapFactory.decodeByteArray(imageAlokasiBlob, 0, imageAlokasiBlob.size)
-            imageP.setImageBitmap(gambarBlob)
-        } else {
-            // Jika tidak ada gambar, tampilkan placeholder
-            imageP.setImageResource(R.drawable.comingsoon)
-        }
-        binding.backalokasi.setOnClickListener() {
-            startActivity(Intent(this, AlokasiActivity::class.java))
+        // Set up back button click listener
+        binding.btnbackdetailalokasi.setOnClickListener {
+            onBackPressed() // Go back to the previous screen
         }
     }
-
 }
+

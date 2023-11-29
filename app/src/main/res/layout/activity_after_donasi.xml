@@ -44,6 +44,7 @@
             android:layout_marginTop="-10dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/kembaliBeranda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/green"
@@ -51,7 +52,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:padding="10dp"
-            android:text="KEMBALI"
+            android:text="Kembali Ke Beranda"
             android:fontFamily="@font/poppins_bold"
             android:textColor="@color/white"
             android:textSize="20sp"/>

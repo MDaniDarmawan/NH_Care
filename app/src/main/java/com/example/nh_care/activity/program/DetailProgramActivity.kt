@@ -18,7 +18,7 @@ class DetailProgramActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.hide()
 
-        val headingTujuan = binding.inputTujuan
+        val headingTujuan = binding.inputNamaAnak
         val mainTujuan = binding.inputDeskripsi
         val imageP = binding.imageProgram
 
@@ -38,7 +38,7 @@ class DetailProgramActivity : AppCompatActivity() {
             // Jika tidak ada gambar, tampilkan placeholder
             imageP.setImageResource(R.drawable.comingsoon)
         }
-        binding.btnbackprogram.setOnClickListener() {
+        binding.btnbackdetailprogram.setOnClickListener() {
             startActivity(Intent(this, ProgramActivity::class.java))
         }
     }

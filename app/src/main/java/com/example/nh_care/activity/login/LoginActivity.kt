@@ -30,7 +30,7 @@ class LoginActivity : ComponentActivity() {
             startActivity(intent)
         }
 
-        val url = "http://192.168.1.70/api-mysql-main/api-login.php"
+        val url = "http://192.168.1.15/api-mysql-main/api-login.php"
 
         binding.tombolMasuk.setOnClickListener {
             val request: RequestQueue = Volley.newRequestQueue(applicationContext)
@@ -43,8 +43,10 @@ class LoginActivity : ComponentActivity() {
                         val jsonResponse = JSONObject(response)
                         val status = jsonResponse.getString("status")
                         if (status == "success") {
+                            Toast.makeText(this, "Selamat Datang", Toast.LENGTH_SHORT).show()
                             val idDonatur = jsonResponse.getString("id_donatur")
                             saveID(idDonatur)
+                            saveLoginStatus()
 
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
@@ -67,6 +69,14 @@ class LoginActivity : ComponentActivity() {
         val preferences: SharedPreferences = getSharedPreferences("donatur_prefs", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putString("id_donatur", idDonatur)
+        editor.apply()
+
+        Log.d("sharedPreferences","idDonatur: $idDonatur")
+    }
+    private fun saveLoginStatus() {
+        val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putBoolean("is_logged_in", true)
         editor.apply()
     }
 }
