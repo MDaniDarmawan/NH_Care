@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nh_care.R
-import com.example.nh_care.databinding.ItemAlokasiGambarBinding
 import com.example.nh_care.databinding.ItemAlokasiListBinding
 
 

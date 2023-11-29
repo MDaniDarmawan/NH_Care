@@ -18,7 +18,7 @@ class DetailAlokasiActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.hide()
 
-        val headingTujuan = binding.txtAlokasi
+        val headingTujuan = binding.JudulAlokasi
         val mainTujuan = binding.DeskAlokasi
         val imageP = binding.imageAlokasi
 

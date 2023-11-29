@@ -32,7 +32,7 @@ class AlokasiActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         alokasiAdapter = AlokasiAdapter(alokasiList)
-        recyclerView = binding.recyclerViewAlokasi
+        recyclerView = binding.rvAlokasi
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = alokasiAdapter

@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageAlokasi">
 
         <TextView
-            android:id="@+id/txt_Alokasi"
+            android:id="@+id/JudulAlokasi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="164dp"
@@ -73,7 +73,7 @@
             android:text="Deskripsi"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_Alokasi" />
+            app:layout_constraintTop_toBottomOf="@id/JudulAlokasi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
