@@ -1,67 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.beranda.BerandaFragment">
 
     <ScrollView
+        android:id="@+id/svBeranda"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bg_panti"
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
                 android:background="@drawable/bgdonasi">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="350dp"
-                    android:layout_height="85dp"
-                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/button"
-                    app:layout_constraintBottom_toBottomOf="@+id/bg_panti"
-                    app:layout_constraintEnd_toEndOf="@+id/bg_panti"
-                    app:layout_constraintStart_toStartOf="@+id/bg_panti"
-                    app:layout_constraintTop_toTopOf="@+id/bg_panti">
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/poppins_bold"
                         android:text="TOTAL DANA DONASI :"
                         android:textColor="@color/black"
                         android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"/>
 
                     <TextView
                         android:id="@+id/totaldonasi"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_light"
+                        android:padding="5dp"
                         android:text="RP.1.000.000.00"
                         android:textColor="@color/black"
                         android:textSize="32sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        android:textAlignment="center"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -249,9 +246,11 @@
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -262,20 +261,18 @@
                     android:text="Rekomendasi Video Kajian"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_gravity="center"/>
 
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button2"
                     android:backgroundTint="@color/green"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    android:orientation="vertical"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="5dp"
+                    >
 
                     <TextView
                         android:id="@+id/btnyt"
@@ -285,33 +282,23 @@
                         android:text="Lihat Semua"
                         android:textColor="@color/white"
                         android:textSize="12sp"
-                        android:textAlignment="center"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textAlignment="center"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <VideoView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                </VideoView>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/ytkajian"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:padding="10dp"
                 app:videoId="3LcgoT8kez4"
                 app:autoPlay="false" />
 
@@ -321,10 +308,14 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 app:videoId="diM6jvYXELQ"
-                app:autoPlay="false">
+                app:autoPlay="false" >
 
             </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
