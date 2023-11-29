@@ -18,8 +18,8 @@ class DetailProgramActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.hide()
 
-        val headingTujuan = binding.txtProgram
-        val mainTujuan = binding.inputJudul
+        val headingTujuan = binding.inputTujuan
+        val mainTujuan = binding.inputDeskripsi
         val imageP = binding.imageProgram
 
         val bundle: Bundle? = intent.extras

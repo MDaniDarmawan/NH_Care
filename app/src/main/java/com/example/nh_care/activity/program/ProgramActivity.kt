@@ -16,16 +16,16 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
 
-
 class ProgramActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private var programAdapter: ProgramAdapter? = null
-    private val programList = ArrayList<Map<String, String>>() // Menggunakan Map<String, String> sesuai dengan adapter
+    private val programList = ArrayList<Map<String, String>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         programAdapter = ProgramAdapter(programList)
         recyclerView = findViewById(R.id.rv_program)
@@ -33,14 +33,12 @@ class ProgramActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = programAdapter
 
-        // Set listener untuk menangani klik pada item
         programAdapter?.setOnItemClickListener(object : ProgramAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@ProgramActivity, DetailProgramActivity::class.java)
-                // Mengambil data dari programList yang sesuai dengan posisi
                 val currentItem = programList[position]
                 intent.putExtra("judul", currentItem["judul"])
-                intent.putExtra("deskripsi", currentItem["deskripsi"]) // Pastikan nama kuncinya sesuai
+                intent.putExtra("deskripsi", currentItem["deskripsi"])
                 val imageBase64 = currentItem["image"]
                 if (!imageBase64.isNullOrBlank()) {
                     val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)
@@ -50,7 +48,6 @@ class ProgramActivity : AppCompatActivity() {
             }
         })
 
-        // Panggil method untuk mengambil data dari API lokal
         fetchProgramDataFromAPI()
     }
 
@@ -98,6 +95,4 @@ class ProgramActivity : AppCompatActivity() {
 
         return programs
     }
-
 }
-

@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.berandaberanda.activitity.alokasi.AlokasiAdapter
 import com.example.nh_care.R
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityAlokasiBinding
 import com.example.nh_care.fragment.beranda.BerandaFragment
 import org.json.JSONArray
@@ -52,7 +53,7 @@ class AlokasiActivity : AppCompatActivity() {
             }
         })
 
-        binding.backalokasi.setOnClickListener {
+        binding.btnbackalokasi.setOnClickListener {
             val fragmentManager: FragmentManager = supportFragmentManager
             val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
             val berandaFragment = BerandaFragment()
@@ -65,7 +66,7 @@ class AlokasiActivity : AppCompatActivity() {
     }
 
     private fun fetchAlokasiDataFromAPI() {
-        val urlDataAlokasi = "http://10.10.182.37/api-mysql-main/api-alokasiDana.php"
+        val urlDataAlokasi = DbContract.urlAlokasi
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataAlokasi, null,

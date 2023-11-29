@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imageAnak"
+                    android:id="@+id/imageProgram"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -79,7 +79,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/namaanak"
+                        android:id="@+id/inputTujuan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
@@ -96,7 +96,7 @@
                     android:layout_marginTop="-10dp">
 
                     <TextView
-                        android:id="@+id/inputNamaAnak"
+                        android:id="@+id/inputDeskripsi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Deskripsi tujuan"
