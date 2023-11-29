@@ -2,10 +2,13 @@ package com.example.nh_care.database
 
 object DbContract {
 
-    const val ip = "192.168.100.12"
+    const val ip = "10.10.185.110"
 
     const val urlRegister = "http://$ip/api-nhcare/api-register.php"
     const val urlLogin = "http://$ip/api-nhcare/api-login.php"
+    const val urlDonasi = "http://$ip/api-nhcare/api-donasi.php"
+    const val urlInsertDonasi= "http://$ip/api-nhcare/api-insertdonasi.php"
+    const val urlAlokasi= "http://$ip/api-nhcare/api-alokasi.php"
     const val urlProgram ="http://$ip/api-nhcare/api-program.php"
     const val urlVideo = "http://$ip/api-nhcare/api-video.php"
     const val urlAcara = "http://$ip/api-nhcare/api-acara.php"

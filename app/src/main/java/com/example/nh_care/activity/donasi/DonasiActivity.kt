@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityDonasiBinding
 import com.midtrans.sdk.corekit.core.PaymentMethod
 import com.midtrans.sdk.uikit.api.model.SnapTransactionDetail
@@ -192,7 +193,7 @@ class DonasiActivity : AppCompatActivity() {
     }
     private fun sendDataToServer(jsonObject: JSONObject) {
         // Example code (modify it based on your server-side implementation)
-        val url = "http://192.168.1.19/api-mysql-main/api-insertDonasi.php"
+        val url = DbContract.urlDonasi
 
         val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val idDonatur = sharedPreferences.getString("id_donatur", "")
