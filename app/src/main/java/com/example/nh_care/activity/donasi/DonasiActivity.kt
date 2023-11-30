@@ -232,7 +232,7 @@ class DonasiActivity : AppCompatActivity() {
     }
     private fun sendDataToServer(jsonObject: JSONObject) {
         // Example code (modify it based on your server-side implementation)
-        val url = "http://192.168.1.15/api-mysql-main/api-insertDonasi.php"
+        val url = DbContract.urlDonasi
 
         val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val idDonatur = sharedPreferences.getString("id_donatur", "")

@@ -8,8 +8,8 @@ import com.example.nh_care.databinding.ItemRiwayatDonasiBinding
 import java.text.NumberFormat
 import java.util.Locale
 
-class RiwayatAdapter (private var historiList: List<Map<String, String>>) :
-        RecyclerView.Adapter<RiwayatAdapter.HistoriViewHolder>() {
+class RiwayatAdapter (private var riwayatList: List<Map<String, String>>) :
+        RecyclerView.Adapter<RiwayatAdapter.RiwayatViewHolder>() {
 
         // Listener untuk menangkap klik pada item RecyclerView
         private var listener: OnItemClickListener? = null
@@ -25,13 +25,13 @@ class RiwayatAdapter (private var historiList: List<Map<String, String>>) :
         }
 
         // Metode untuk mengatur data histori dan memberi tahu adapter bahwa data telah berubah
-        fun setHistori(Histori: List<Map<String, String>>) {
-            historiList = Histori
+        fun setRiwayat(Riwayat: List<Map<String, String>>) {
+            riwayatList = Riwayat
             notifyDataSetChanged()
         }
 
         // Kelas inner ViewHolder untuk setiap item dalam RecyclerView
-        inner class HistoriViewHolder(private val binding: ItemRiwayatDonasiBinding) :
+        inner class RiwayatViewHolder(private val binding: ItemRiwayatDonasiBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
             init {
@@ -45,19 +45,19 @@ class RiwayatAdapter (private var historiList: List<Map<String, String>>) :
             }
 
             // Metode untuk mengikat data ke tampilan item RecyclerView
-            fun bind(histori: Map<String, String>) {
+            fun bind(riwayat: Map<String, String>) {
                 val textView: TextView = binding.itemJudul
                 val textView2: TextView = binding.itemNominal
                 val textView3: TextView = binding.itemDate
 
                 // Set teks dari MapelModel ke TextView
-                textView.text = histori["keterangan"]
+                textView.text = riwayat["keterangan"]
 
                 // Konversi gross_amount ke format mata uang Rupiah
-                val grossAmount = histori["gross_amount"]?.toDoubleOrNull() ?: 0.0
+                val grossAmount = riwayat["gross_amount"]?.toDoubleOrNull() ?: 0.0
                 textView2.text = formatToRupiah(grossAmount)
 
-                textView3.text = histori["settlement_time"]
+                textView3.text = riwayat["settlement_time"]
             }
 
             private fun formatToRupiah(amount: Double): String {
@@ -70,18 +70,18 @@ class RiwayatAdapter (private var historiList: List<Map<String, String>>) :
         }
 
         // Metode untuk membuat ViewHolder baru
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoriViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RiwayatViewHolder {
             // Inflate layout dari item RecyclerView menggunakan data binding
             val binding = ItemRiwayatDonasiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return HistoriViewHolder(binding)
+            return RiwayatViewHolder(binding)
         }
 
         // Metode untuk mengikat data pada posisi tertentu ke tampilan holder
-        override fun onBindViewHolder(holder: HistoriViewHolder, position: Int) {
-            val currentItem = historiList[position]
+        override fun onBindViewHolder(holder: RiwayatViewHolder, position: Int) {
+            val currentItem = riwayatList[position]
             holder.bind(currentItem)
         }
 
         // Metode untuk mengembalikan jumlah item dalam daftar histori
-        override fun getItemCount() = historiList.size
+        override fun getItemCount() = riwayatList.size
     }

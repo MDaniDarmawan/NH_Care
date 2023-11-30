@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.berandaberanda.R
 import org.json.JSONArray
 import org.json.JSONException
 import android.util.Log
-import com.example.berandaberanda.database.DbContract
+import com.example.nh_care.R
+import com.example.nh_care.database.DbContract
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

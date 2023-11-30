@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.activity.register.RegisterActivity
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityLoginBinding
 import org.json.JSONException
 import org.json.JSONObject
@@ -30,7 +31,7 @@ class LoginActivity : ComponentActivity() {
             startActivity(intent)
         }
 
-        val url = "http://192.168.1.15/api-mysql-main/api-login.php"
+        val url = DbContract.urlLogin
 
         binding.tombolMasuk.setOnClickListener {
             val request: RequestQueue = Volley.newRequestQueue(applicationContext)

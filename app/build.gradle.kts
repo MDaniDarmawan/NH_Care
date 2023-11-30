@@ -64,6 +64,7 @@ dependencies {
     //midtrans
     implementation("com.midtrans:uikit:2.0.0-SANDBOX")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("androidx.compose.ui:ui-android:1.5.4")
 
 
 }

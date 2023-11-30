@@ -11,6 +11,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityRiwayatDonasiBinding
 import org.json.JSONArray
 import org.json.JSONException
@@ -18,8 +19,8 @@ import org.json.JSONException
 class RiwayatDonasiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRiwayatDonasiBinding
     private lateinit var recyclerView: RecyclerView
-    private var historiAdapter: RiwayatAdapter? = null
-    private val historiList = ArrayList<Map<String, String>>() // Menggunakan Map<String, String> sesuai dengan adapter
+    private var riwayatAdapter: RiwayatAdapter? = null
+    private val riwayatList = ArrayList<Map<String, String>>() // Menggunakan Map<String, String> sesuai dengan adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,21 +28,21 @@ class RiwayatDonasiActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Inisialisasi adapter dan RecyclerView
-        historiAdapter = RiwayatAdapter(historiList)
+        riwayatAdapter = RiwayatAdapter(riwayatList)
         recyclerView = binding.rvRiwayatdonasi
 
         // Set layout manager dan adapter untuk RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = historiAdapter
+        recyclerView.adapter = riwayatAdapter
 
         // Set listener untuk menangani klik item pada RecyclerView
-        historiAdapter?.setOnItemClickListener(object : RiwayatAdapter.OnItemClickListener {
+        riwayatAdapter?.setOnItemClickListener(object : RiwayatAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 // Menggunakan Intent untuk berpindah ke DetailHistoriDonasi
                 val intent = Intent(this@RiwayatDonasiActivity, DetailRiwayatDonasi::class.java)
 
                 // Mengambil data dari item yang diklik
-                val currentItem = historiList[position]
+                val currentItem = riwayatList[position]
                 intent.putExtra("orderID", currentItem["order_id"])
                 intent.putExtra("namaDon", currentItem["nama_donatur"])
                 intent.putExtra("judul", currentItem["keterangan"])
@@ -61,11 +62,11 @@ class RiwayatDonasiActivity : AppCompatActivity() {
         }
 
         // Memanggil metode untuk mengambil data dari API lokal
-        fetchHistoriDataFromAPI()
+        fetchRiwayatDataFromAPI()
     }
 
     // Metode untuk mengambil data dari API lokal menggunakan Volley
-    private fun fetchHistoriDataFromAPI() {
+    private fun fetchRiwayatDataFromAPI() {
         // Mendapatkan ID Donatur dari Shared Preferences
         val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val idDonatur = sharedPreferences.getString("id_donatur", "")
@@ -77,17 +78,17 @@ class RiwayatDonasiActivity : AppCompatActivity() {
         }
 
         // URL API dengan penambahan parameter id_donatur
-        val urlDataHistori = "http://192.168.1.15/api-mysql-main/api-historiDonasi.php?id_donatur=$idDonatur"
+        val urlDataHistori = "http://10.10.4.34/api-mysql-main/api-Nhcare.php?function=getDonasiHistory/$idDonatur"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataHistori, null,
             { response ->
                 try {
                     // Parsing data dan mengupdate adapter
-                    val fetchedHistoriList = parseHistori(response)
-                    historiList.clear()
-                    historiList.addAll(fetchedHistoriList)
-                    historiAdapter?.setHistori(historiList)
+                    val fetchedRiwayatList = parseRiwayat(response)
+                    riwayatList.clear()
+                    riwayatList.addAll(fetchedRiwayatList)
+                    riwayatAdapter?.setRiwayat(riwayatList)
                 } catch (e: JSONException) {
                     Log.e("JSON_ERROR", "Error: " + e.message)
                     e.printStackTrace()
@@ -103,30 +104,30 @@ class RiwayatDonasiActivity : AppCompatActivity() {
     }
 
     // Metode untuk parsing data JSON ke dalam List<Map<String, String>>
-    private fun parseHistori(jsonArray: JSONArray): List<Map<String, String>> {
-        val historis = mutableListOf<Map<String, String>>()
+    private fun parseRiwayat(jsonArray: JSONArray): List<Map<String, String>> {
+        val riwayats = mutableListOf<Map<String, String>>()
 
         for (i in 0 until jsonArray.length()) {
-            val historiObject = jsonArray.getJSONObject(i)
+            val riwayatObject = jsonArray.getJSONObject(i)
 
             // Mendapatkan data dari JSON
-            val orderID = historiObject.getString("order_id")
-            val namaDon = historiObject.getString("nama_donatur")
-            val judul = historiObject.getString("keterangan")
-            val jumlah = historiObject.getString("gross_amount")
-            val tanggal = historiObject.getString("settlement_time")
+            val orderID = riwayatObject.getString("order_id")
+            val namaDon = riwayatObject.getString("nama_donatur")
+            val judul = riwayatObject.getString("keterangan")
+            val jumlah = riwayatObject.getString("gross_amount")
+            val tanggal = riwayatObject.getString("settlement_time")
 
             // Membuat objek Map dan menambahkannya ke dalam List
-            val histori = mapOf(
+            val riwayat = mapOf(
                 "order_id" to orderID,
                 "nama_donatur" to namaDon,
                 "keterangan" to judul,
                 "gross_amount" to jumlah,
                 "settlement_time" to tanggal
             )
-            historis.add(histori)
+            riwayats.add(riwayat)
         }
 
-        return historis
+        return riwayats
     }
 }

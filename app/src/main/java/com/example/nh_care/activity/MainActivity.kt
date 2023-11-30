@@ -1,13 +1,8 @@
 package com.example.nh_care.activity
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.nh_care.R
 import com.example.nh_care.databinding.ActivityMainBinding
 import com.example.nh_care.fragment.beranda.BerandaFragment

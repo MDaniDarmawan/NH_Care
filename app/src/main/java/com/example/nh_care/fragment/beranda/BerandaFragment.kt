@@ -15,9 +15,11 @@ import com.example.nh_care.activity.anakasuh.AnakActivity
 import com.example.nh_care.activity.acara.AcaraActivity
 import com.example.nh_care.activity.alokasi.AlokasiActivity
 import com.example.nh_care.activity.donasi.DonasiActivity
+import com.example.nh_care.activity.donasi.riwayat.RiwayatDonasiActivity
 import com.example.nh_care.activity.program.ProgramActivity
 import com.example.nh_care.activity.video.VideoActivity
 import com.example.nh_care.activity.website.WebsiteActivity
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.FragmentBerandaBinding
 import java.text.NumberFormat
 import java.util.Locale
@@ -62,6 +64,10 @@ class BerandaFragment : Fragment() {
             val intent = Intent(requireActivity(), WebsiteActivity::class.java)
             startActivity(intent)
         }
+        binding.btnriwayat.setOnClickListener{
+            val intent = Intent(requireActivity(),  RiwayatDonasiActivity::class.java)
+            startActivity(intent)
+        }
         binding.btnyt.setOnClickListener{
             openUrl("https://www.youtube.com/@nurulhusnajember")
         }
@@ -73,7 +79,7 @@ class BerandaFragment : Fragment() {
         startActivity(intent)
     }
     private fun fetchDataTotalDonasi() {
-        val url = "http://192.168.1.15/api-mysql-main/api-getTotalDonasi.php"
+        val url = DbContract.urlTtlDonasi
 
         // Membuat request JSON menggunakan Volley
         val stringRequest = StringRequest(

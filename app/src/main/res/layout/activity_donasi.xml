@@ -159,11 +159,11 @@
                     android:textColor="@color/white"
                     android:layout_gravity="start|center"/>
 
-                <TextView
+                <EditText
                     android:id="@+id/lay_nominal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1.000.000.000"
+                    android:hint="0"
                     android:textSize="30sp"
                     android:fontFamily="@font/poppins_bold"
                     android:textColor="@color/white"

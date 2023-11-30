@@ -2,26 +2,20 @@ package com.example.nh_care.activity.alokasi
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
+import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityAlokasiBinding
 import com.example.nh_care.databinding.ItemAlokasiListBinding
-import com.example.nh_care.fragment.beranda.BerandaFragment
-import org.json.JSONArray
-import org.json.JSONException
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -40,14 +34,18 @@ class AlokasiActivity : AppCompatActivity() {
         setupRecyclerView()
 
         // Fetch total donasi and update the UI
-        fetchDataTotalDonasi("http://192.168.1.15/api-mysql-main/api-getTotalSantunan.php") { totalDonasi ->
+        fetchDataTotalDonasi(DbContract.urlTtlsantunan) { totalDonasi ->
             totalDonasiSantunan = totalDonasi
             updateRecyclerView()
         }
 
-        fetchDataTotalDonasi("http://192.168.1.15/api-mysql-main/api-getTotalPembangunan.php") { totalDonasi ->
+        fetchDataTotalDonasi(DbContract.urlTtlPembangunan) { totalDonasi ->
             totalDonasiPembangunan = totalDonasi
             updateRecyclerView()
+        }
+        binding.btnbackalokasi.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 

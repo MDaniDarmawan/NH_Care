@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -18,9 +18,7 @@ import com.example.nh_care.databinding.FragmentProfileBinding
 import org.json.JSONException
 import org.json.JSONObject
 
-
 class ProfileFragment : Fragment() {
-
     private lateinit var binding: FragmentProfileBinding
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -32,15 +30,16 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        sharedPreferences =
+//        sharedPreferences = requireContext().getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
             requireContext().getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val idDonatur = sharedPreferences.getString("id_donatur", "")
         val namaDonatur: String? = sharedPreferences.getString("nama", "")
         val emailDonatur: String? = sharedPreferences.getString("email", "")
         val noHpDonatur: String? = sharedPreferences.getString("no_hp", "")
 
-//        val firstChar = namaDonatur?.take(1)
-//        binding.fotoprofil.text = firstChar
+        val firstChar = namaDonatur?.take(1)
+        binding.fotoprofil.text = firstChar
 
         binding.kotakNamaPengguna.setText(namaDonatur)
         binding.kotakEmail.setText(emailDonatur)
@@ -49,13 +48,13 @@ class ProfileFragment : Fragment() {
 
         binding.tombolEdit.setOnClickListener {
 
-            val url = "http://192.168.1.15/api-mysql-main/api-updateProfile.php?id_donatur=$idDonatur"
+            val url ="http://192.168.1.15/api-mysql-main/api-Nhcare.php?function=updateDonatur/$idDonatur"
 
 
             val requestQueue: RequestQueue = Volley.newRequestQueue(requireContext())
 
             val stringRequest = object : StringRequest(
-                Method.POST, url,
+                Request.Method.POST, url,
                 { response ->
                     try {
                         val jsonObject = JSONObject(response)
