@@ -11,6 +11,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
+import com.example.nh_care.activity.lupasandi.LupaSandiActivity
 import com.example.nh_care.activity.register.RegisterActivity
 import com.example.nh_care.databinding.ActivityLoginBinding
 import org.json.JSONException
@@ -29,8 +30,12 @@ class LoginActivity : ComponentActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+        binding.lupaKatasandi.setOnClickListener {
+            val intent = Intent(this, LupaSandiActivity::class.java)
+            startActivity(intent)
+        }
 
-        val url = "http://192.168.1.70/api-mysql-main/api-login.php"
+        val url = "http://10.10.4.14/api-nhcare/api-login.php"
 
         binding.tombolMasuk.setOnClickListener {
             val request: RequestQueue = Volley.newRequestQueue(applicationContext)

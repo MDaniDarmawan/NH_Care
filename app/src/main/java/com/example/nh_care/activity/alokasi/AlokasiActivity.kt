@@ -53,13 +53,6 @@ class AlokasiActivity : AppCompatActivity() {
             }
         })
 
-        binding.btnbackalokasi.setOnClickListener {
-            val fragmentManager: FragmentManager = supportFragmentManager
-            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-            val berandaFragment = BerandaFragment()
-            fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, berandaFragment)
-            fragmentTransaction.commit()
-        }
 
         // Call the method to fetch data from the local API
         fetchAlokasiDataFromAPI()

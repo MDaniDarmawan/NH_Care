@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="320dp"
     android:orientation="vertical"
     android:layout_margin="4dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/txtvideo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:fontFamily="@font/poppins_regular"
-        android:textAlignment="center"/>
-
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="310dp"
+    android:backgroundTint="@color/grey1"
+    app:cardCornerRadius="20dp">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/itemvideo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:layout_marginTop="60dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:autoPlay="false">
+
     </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+
+    <TextView
+        android:id="@+id/txtvideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_regular"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+</androidx.cardview.widget.CardView>
 </LinearLayout>
