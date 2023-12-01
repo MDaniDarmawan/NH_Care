@@ -11,8 +11,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
-import com.example.nh_care.activity.lupasandi.LupaSandiActivity
 import com.example.nh_care.activity.register.RegisterActivity
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityLoginBinding
 import org.json.JSONException
 import org.json.JSONObject
@@ -30,12 +30,8 @@ class LoginActivity : ComponentActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-        binding.lupaKatasandi.setOnClickListener {
-            val intent = Intent(this, LupaSandiActivity::class.java)
-            startActivity(intent)
-        }
 
-        val url = "http://10.10.4.14/api-nhcare/api-login.php"
+        val url = DbContract.urlLogin
 
         binding.tombolMasuk.setOnClickListener {
             val request: RequestQueue = Volley.newRequestQueue(applicationContext)
@@ -48,8 +44,10 @@ class LoginActivity : ComponentActivity() {
                         val jsonResponse = JSONObject(response)
                         val status = jsonResponse.getString("status")
                         if (status == "success") {
+                            Toast.makeText(this, "Selamat Datang", Toast.LENGTH_SHORT).show()
                             val idDonatur = jsonResponse.getString("id_donatur")
                             saveID(idDonatur)
+                            saveLoginStatus()
 
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
@@ -72,6 +70,14 @@ class LoginActivity : ComponentActivity() {
         val preferences: SharedPreferences = getSharedPreferences("donatur_prefs", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferences.edit()
         editor.putString("id_donatur", idDonatur)
+        editor.apply()
+
+        Log.d("sharedPreferences","idDonatur: $idDonatur")
+    }
+    private fun saveLoginStatus() {
+        val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putBoolean("is_logged_in", true)
         editor.apply()
     }
 }

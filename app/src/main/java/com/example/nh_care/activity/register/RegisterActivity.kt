@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
 import com.example.nh_care.activity.login.LoginActivity
+import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityRegisterBinding
 import com.google.android.material.textfield.TextInputLayout
 
@@ -29,7 +30,7 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val registerUrl = "http://10.10.4.14/api-nhcare/api-register.php"
+        val registerUrl = DbContract.urlRegister
 
         binding.btndaftar.setOnClickListener {
             if (binding.etNamaLengkap.text.toString().isEmpty() || binding.etEmail.text.toString().isEmpty() || binding.etKataSandi.text.toString().isEmpty() || binding.etHp.text.toString().isEmpty()) {
@@ -102,14 +103,10 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
         } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
             showError(binding.tilEmail, "Email tidak valid")
             return false
-        } else if (!value.endsWith("@gmail.com", true)) {
-            showError(binding.tilEmail, "Email harus menggunakan domain @gmail.com")
-            return false
         }
         clearError(binding.tilEmail)
         return true
     }
-
 
     private fun validateHp(): Boolean {
         val value = binding.etHp.text.toString()

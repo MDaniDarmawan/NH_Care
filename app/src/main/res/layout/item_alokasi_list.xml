@@ -49,8 +49,26 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageCard"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageCard"
-                app:layout_constraintTop_toTopOf="@+id/imageCard" />
+                app:layout_constraintTop_toTopOf="@+id/imageCard"
+                app:layout_constraintVertical_bias="0.307" />
+
+            <TextView
+                android:id="@+id/nominalSantunan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Rp. 10000"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.923"
+                app:layout_constraintStart_toEndOf="@+id/imageCard"
+                app:layout_constraintTop_toTopOf="@+id/imageCard"
+                app:layout_constraintVertical_bias="1.0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

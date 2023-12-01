@@ -38,14 +38,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/button"
+        android:background="@drawable/bg_tombol"
         android:backgroundTint="@color/grey1"/>
 
     <ScrollView
+        android:id="@+id/svAnakAsuh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="108dp">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_anak"

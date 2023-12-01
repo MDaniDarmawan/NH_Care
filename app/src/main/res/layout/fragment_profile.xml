@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".fragment.profile.ProfileFragment">
 
     <ScrollView
+        android:id="@+id/svProfil"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +26,7 @@
         android:id="@+id/sampulprofil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_profile"
+        android:background="@drawable/bgdonasi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,148 +36,198 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:background="@drawable/baseline_circle_24"
-                android:gravity="center"
-                android:textColor="@color/green"
-                android:textSize="50sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/sampulprofil"
                 app:layout_constraintEnd_toEndOf="@+id/sampulprofil"
                 app:layout_constraintStart_toStartOf="@+id/sampulprofil"
                 app:layout_constraintTop_toBottomOf="@+id/sampulprofil" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="20dp">
+
             <TextView
                 android:id="@+id/nama_pengguna"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="NAMA PENGGUNA"
                 android:textSize="25sp"
-                android:layout_marginTop="20dp"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fotoprofil" />
+                android:textAlignment="center"/>
 
-            <EditText
-                android:id="@+id/kotak_nama_pengguna"
-                android:layout_width="370dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button"
-                android:text="Nama Pengguna"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/nama_pengguna"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <EditText
+                    android:id="@+id/kotak_nama_pengguna"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="Nama Pengguna"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
 
             <TextView
                 android:id="@+id/email"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="EMAIL"
                 android:textSize="25sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kotak_nama_pengguna" />
-
-            <EditText
-                android:id="@+id/kotak_email"
-                android:layout_width="370dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button"
-                android:text="Email"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/email"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/nomor_telepon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:text="NOMOR TELEPON"
-                android:textSize="25sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kotak_email" />
-
-            <EditText
-                android:id="@+id/kotak_nomor_telepon"
-                android:layout_width="370dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button"
-                android:text="No Telephon"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/nomor_telepon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/kata_sandi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:text="KATA SANDI"
-                android:textSize="25sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kotak_nomor_telepon" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/kotak_kata_sandi"
-                android:layout_width="370dp"
-                android:layout_height="60dp"
-                android:background="@drawable/button"
-                app:layout_constraintTop_toBottomOf="@+id/kata_sandi"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/tombol_keluar"
-                style="@style/tombol"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="KELUAR"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.516"
-                app:layout_constraintTop_toBottomOf="@id/kotak_kata_sandi" />
+                android:textColor="@color/black"
+                android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/kotak_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="Email"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <TextView
+                    android:id="@+id/nomor_telepon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="NOMOR TELEPON"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:layout_marginTop="20dp"/>
+
+                <EditText
+                    android:id="@+id/kotak_nomor_telepon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="Nomor Telepon"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <TextView
+                    android:id="@+id/kata_sandi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="KATA SANDI"
+                    android:textSize="25sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/kotak_kata_sandi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="Kata Sandi"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <TextView
+                    android:id="@+id/jk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="JENIS KELAMIN"
+                    android:textSize="25sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/kotak_jk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="Laki - Laki"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <TextView
+                    android:id="@+id/alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="ALAMAT"
+                    android:textSize="25sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"/>
+
+                <EditText
+                    android:id="@+id/kotak_alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tombol2"
+                    android:padding="10dp"
+                    android:hint="jalan Jalan"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/poppins_light"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/tombol_edit"
                 style="@style/tombol"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                android:text="EDIT"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.516"
-                app:layout_constraintTop_toBottomOf="@id/kotak_kata_sandi" />
+                android:layout_gravity="start"
+                android:text="EDIT"/>
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:text="@string/layanan"
-                android:gravity="center"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/tombol_keluar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/tombol_keluar"
+                        style="@style/tombol"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:text="KELUAR"/>
+
+                </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

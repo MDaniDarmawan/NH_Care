@@ -1,9 +1,6 @@
 package com.example.nh_care.activity.acara
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.nh_care.R
-import com.example.nh_care.activity.MainActivity
-import com.example.nh_care.activity.video.VideoActivity
 import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityAcaraBinding
 import org.json.JSONArray

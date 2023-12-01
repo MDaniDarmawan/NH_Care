@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.example.berandaberanda.activity.acara.DataAcara
-import com.example.berandaberanda.databinding.ItemAcaraListBinding
+import com.example.nh_care.databinding.ItemAcaraListBinding
 import java.time.format.DateTimeFormatter
 
 class AcaraAdapter(private var acaraList: List<DataAcara>) :
@@ -40,7 +39,7 @@ class AcaraAdapter(private var acaraList: List<DataAcara>) :
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
+//        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(acara: DataAcara) {
             val judulView: TextView = binding.itemJudul
             val descView: TextView = binding.itemDesc
