@@ -28,11 +28,12 @@ import okhttp3.Request
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.util.HashMap
 import java.util.UUID
 
 class DonasiActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDonasiBinding
+    private lateinit var mbinding: ActivityDonasiBinding
     private var random = "NH-${UUID.randomUUID()}".substring(0, 8)
 
     private val launcher =
@@ -51,7 +52,7 @@ class DonasiActivity : AppCompatActivity() {
         }
 
     private fun initTransactionDetails(): SnapTransactionDetail {
-        val amountText = binding.layNominal.text.toString()
+        val amountText = mbinding.layNominal.text.toString()
         val grossAmount = amountText.toDoubleOrNull() ?: 0.0
 
         return SnapTransactionDetail(
@@ -62,18 +63,21 @@ class DonasiActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDonasiBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        mbinding = ActivityDonasiBinding.inflate(layoutInflater)
+        setContentView(mbinding.root)
         buildUiKit()
+
 
         val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val namaDonatur: String? = sharedPreferences.getString("nama", "")
         val emailDonatur: String? = sharedPreferences.getString("email", "")
         val noHpDonatur: String? = sharedPreferences.getString("no_hp", "")
 
-        binding.layNama.setText(namaDonatur)
+        mbinding.layNama.setText(namaDonatur)
 
-        binding.btnDonasi.setOnClickListener {
+        setNominal()
+
+        mbinding.btnDonasi.setOnClickListener {
             // Check if all required fields are filled
             if (isFormValid()) {
                 // Proceed with payment
@@ -91,7 +95,7 @@ class DonasiActivity : AppCompatActivity() {
                     launcher = launcher,
                     transactionDetails = initTransactionDetails(),
                     customerDetails = com.midtrans.sdk.uikit.api.model.CustomerDetails(
-                        firstName = binding.layNama.text.toString(),
+                        firstName = mbinding.layNama.text.toString(),
                         customerIdentifier = emailDonatur ?: "",
                         email = emailDonatur ?: "",
                         phone = noHpDonatur ?: ""
@@ -99,24 +103,19 @@ class DonasiActivity : AppCompatActivity() {
                     itemDetails = itemDetails,
                     paymentMethod = PaymentMethod.BANK_TRANSFER
                 )
-            }else {
-                    // Display notification for incomplete form
-                    Toast.makeText(this@DonasiActivity, "Harap isi semua kolom", Toast.LENGTH_SHORT).show()
-                }
-        }
-
-        binding.btnbackdonasi.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            } else {
+                // Display notification for incomplete form
+                Toast.makeText(this@DonasiActivity, "Harap isi semua kolom", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun isFormValid(): Boolean {
         // Check if all required fields are filled
-        val namaDon = binding.layNama.text.toString()
-        val keterangan = binding.layKeterangan.text.toString()
-        val doa = binding.layDoa.text.toString()
-        val nominal = binding.layNominal.text.toString()
+        val namaDon = mbinding.layNama.text.toString()
+        val keterangan = mbinding.layKeterangan.text.toString()
+        val doa = mbinding.layDoa.text.toString()
+        val nominal = mbinding.layNominal.text.toString()
 
         if (nominal.isEmpty() || nominal.toDoubleOrNull() ?: 0.0 < 5000) {
             Toast.makeText(this@DonasiActivity, "Masukkan nominal minimal 5000", Toast.LENGTH_SHORT).show()
@@ -125,10 +124,11 @@ class DonasiActivity : AppCompatActivity() {
         return namaDon.isNotEmpty() && keterangan.isNotEmpty() && doa.isNotEmpty()
     }
 
+
     private fun buildUiKit() {
         UiKitApi.Builder().apply {
             withContext(this@DonasiActivity.applicationContext)
-            withMerchantUrl("http://192.168.1.15/api-mysql-main/midtrans.php/")
+            withMerchantUrl("https://nhcare.tifc.myhost.id/nhcare/api/midtrans.php/")
             withMerchantClientKey("SB-Mid-client-Cus_lO_5JXzHSIcU")
             enableLog(true)
             withColorTheme(
@@ -148,12 +148,26 @@ class DonasiActivity : AppCompatActivity() {
         val locales = LocaleListCompat.forLanguageTags(languageCode)
         AppCompatDelegate.setApplicationLocales(locales)
     }
+
+    private fun setNominal() {
+        mbinding.btn25.setOnClickListener { updateEditText(25000) }
+        mbinding.btn50.setOnClickListener { updateEditText(50000) }
+        mbinding.btn75.setOnClickListener { updateEditText(75000) }
+        mbinding.btn100.setOnClickListener { updateEditText(100000) }
+    }
+
+    private fun updateEditText(amount: Int) {
+        mbinding.layNominal.setText(amount.toString())
+    }
+
     private fun uiKitCustomSetting() {
         val uIKitCustomSetting = UiKitApi.getDefaultInstance().uiKitSetting
         uIKitCustomSetting.saveCardChecked = true
     }
+
     private fun checkOrderStatus(orderId: String) {
         val client = OkHttpClient()
+
         val request = Request.Builder()
             .url("https://api.sandbox.midtrans.com/v2/$orderId/status")
             .get()
@@ -163,9 +177,11 @@ class DonasiActivity : AppCompatActivity() {
                 "Basic U0ItTWlkLXNlcnZlci1TMUdwX0o3b2Z0aWJ0dXNPWTdqUjhKalA6"
             )
             .build()
+
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val response = client.newCall(request).execute()
+
                 response.use {
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string()
@@ -175,17 +191,12 @@ class DonasiActivity : AppCompatActivity() {
 
                             try {
                                 val jsonObject = JSONObject(responseBody)
-
-                                Log.d("PaymentsMidtrans", "JSON Object: $jsonObject")
-
-                                // Extract specific values from the JSON object
+//                                Log.d("PaymentsMidtrans", "JSON Object: $jsonObject")
                                 val transactionId = jsonObject.getString("transaction_id")
                                 val grossAmount = jsonObject.getDouble("gross_amount")
                                 val orderId = jsonObject.getString("order_id")
                                 val settlementTime = jsonObject.getString("settlement_time")
 
-
-                                // Do something with the extracted values
                                 Log.d(
                                     "PaymentsMidtrans",
                                     "transaction_id: $transactionId, gross_amount: $grossAmount, order_id: $orderId, settlement_time: $settlementTime"
@@ -201,10 +212,9 @@ class DonasiActivity : AppCompatActivity() {
                                     Toast.makeText(this@DonasiActivity, "Donasi Gagal", Toast.LENGTH_LONG).show()
                                 }
 
-                                // Send data to the server
                                 sendDataToServer(jsonObject)
+
                             } catch (e: JSONException) {
-                                // Handle JSON parsing exception
                                 e.printStackTrace()
                                 Log.e("PaymentsMidtrans", "Error parsing JSON")
                             }
@@ -225,23 +235,22 @@ class DonasiActivity : AppCompatActivity() {
                 e.printStackTrace()
                 runOnUiThread {
                     val errorMessage = "Error: ${e.message}"
-                    Toast.makeText(this@DonasiActivity, "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DonasiActivity, "Donasi Gagal", Toast.LENGTH_SHORT).show()
+
                 }
             }
         }
     }
+
     private fun sendDataToServer(jsonObject: JSONObject) {
-        // Example code (modify it based on your server-side implementation)
-        val url = DbContract.urlDonasi
+        val url = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=insertDonasi"
 
         val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
+//        val idDonatur = sharedPreferences.getString("id_donatur", "")
         val idDonatur = sharedPreferences.getString("id_donatur", "")
-        val namaDon = binding.layNama.text.toString()
-        val keterangan = binding.layKeterangan.text.toString()
-        val doa = binding.layDoa.text.toString()
-
-        Log.d("sharedPreferences","idDonatur: $idDonatur")
-        val request: RequestQueue = Volley.newRequestQueue(applicationContext)
+        val namaDon = mbinding.layNama.text.toString()
+        val keterangan = mbinding.layKeterangan.text.toString()
+        val doa = mbinding.layDoa.text.toString()
 
         val stringRequest = object : StringRequest(
             com.android.volley.Request.Method.POST,
@@ -250,23 +259,22 @@ class DonasiActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (response.contains("Data berhasil disimpan")) {
                         Log.d("PaymentsMidtrans", "Data berhasil disimpan di server")
-                        // Handle success
+                        // Handle success case
                     } else {
-                        Log.e("PaymentsMidtrans", "Error dari server: $response")
-                        // Handle error
+                        Log.e("PaymentsMidtrans", "Server response: $response")
+                        // Handle unexpected response
                     }
                 }
             },
             { error ->
                 runOnUiThread {
                     Log.e("PaymentsMidtrans", "Error sending data to server: ${error.message}")
-                    // Handle error
+                    // Handle error, log, or show an error message
                 }
             }
         ) {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
-                // Sesuaikan parameter dengan nama yang diharapkan oleh server-side PHP
                 params["transaction_id"] = jsonObject.getString("transaction_id")
                 params["gross_amount"] = jsonObject.getDouble("gross_amount").toString()
                 params["order_id"] = jsonObject.getString("order_id")
@@ -279,6 +287,9 @@ class DonasiActivity : AppCompatActivity() {
             }
         }
 
-        request.add(stringRequest)
+        requestQueue.add(stringRequest)
+    }
+    private val requestQueue by lazy {
+        Volley.newRequestQueue(applicationContext)
     }
 }

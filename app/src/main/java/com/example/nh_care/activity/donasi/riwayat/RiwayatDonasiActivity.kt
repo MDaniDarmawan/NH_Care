@@ -78,7 +78,7 @@ class RiwayatDonasiActivity : AppCompatActivity() {
         }
 
         // URL API dengan penambahan parameter id_donatur
-        val urlDataHistori = "http://10.10.4.34/api-mysql-main/api-Nhcare.php?function=getDonasiHistory/$idDonatur"
+        val urlDataHistori = "https://nhcare.tifc.myhost.id/nhcare/api/api-historiDonasi.php?id_donatur=$idDonatur"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataHistori, null,

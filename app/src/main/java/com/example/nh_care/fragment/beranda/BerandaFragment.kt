@@ -79,7 +79,7 @@ class BerandaFragment : Fragment() {
         startActivity(intent)
     }
     private fun fetchDataTotalDonasi() {
-        val url = DbContract.urlTtlDonasi
+        val url = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getTotalDonasi"
 
         // Membuat request JSON menggunakan Volley
         val stringRequest = StringRequest(

@@ -36,7 +36,7 @@ class LupaSandiActivity : AppCompatActivity() {
     }
 
     private fun fetchDataForAPI() {
-        val urllupaSandi = DbContract.urlKataSandi
+        val urllupaSandi = "https://nhcare.tifc.myhost.id/nhcare/api/api-katasandi.php"
 
         btnCekKataSandi.setOnClickListener {
             val inputNama = nama.text.toString()
@@ -60,7 +60,7 @@ class LupaSandiActivity : AppCompatActivity() {
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        showToast("Terjadi kesalahan dalam pemrosesan data JSON.")
+                        showToast("Email Gagal dikirim! silahkan cek/koneksi anda.")
                     }
                 },
                 Response.ErrorListener { error: VolleyError ->

@@ -43,7 +43,7 @@ class LayananFragment : Fragment() {
     }
 
     private fun fetchProgramDataFromAPI() {
-        val urlDataProgram = DbContract.urlFaq
+        val urlDataProgram = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getFaqData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataProgram, null,

@@ -34,12 +34,12 @@ class AlokasiActivity : AppCompatActivity() {
         setupRecyclerView()
 
         // Fetch total donasi and update the UI
-        fetchDataTotalDonasi(DbContract.urlTtlsantunan) { totalDonasi ->
+        fetchDataTotalDonasi("https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getDataSantunan") { totalDonasi ->
             totalDonasiSantunan = totalDonasi
             updateRecyclerView()
         }
 
-        fetchDataTotalDonasi(DbContract.urlTtlPembangunan) { totalDonasi ->
+        fetchDataTotalDonasi("https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getDataPembangunan") { totalDonasi ->
             totalDonasiPembangunan = totalDonasi
             updateRecyclerView()
         }

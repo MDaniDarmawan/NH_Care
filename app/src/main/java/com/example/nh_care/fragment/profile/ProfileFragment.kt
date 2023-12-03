@@ -20,7 +20,6 @@ import org.json.JSONObject
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +29,6 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        sharedPreferences = requireContext().getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val sharedPreferences =
             requireContext().getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
         val idDonatur = sharedPreferences.getString("id_donatur", "")
@@ -48,7 +46,7 @@ class ProfileFragment : Fragment() {
 
         binding.tombolEdit.setOnClickListener {
 
-            val url ="http://192.168.1.15/api-mysql-main/api-Nhcare.php?function=updateDonatur/$idDonatur"
+            val url ="http://192.168.1.12/api-mysql-main/api-Nhcare.php?function=updateDonatur/$idDonatur"
 
 
             val requestQueue: RequestQueue = Volley.newRequestQueue(requireContext())

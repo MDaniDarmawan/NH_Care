@@ -11,6 +11,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
+import com.example.nh_care.activity.lupasandi.LupaSandiActivity
 import com.example.nh_care.activity.register.RegisterActivity
 import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityLoginBinding
@@ -31,7 +32,13 @@ class LoginActivity : ComponentActivity() {
             startActivity(intent)
         }
 
-        val url = DbContract.urlLogin
+        binding.lupaKatasandi.setOnClickListener{
+            val intent = Intent(this, LupaSandiActivity::class.java)
+            startActivity(intent)
+        }
+
+        val url = "https://nhcare.tifc.myhost.id/nhcare/api/api-login.php"
+//        val url = "http://192.168.1.12/api-mysql-main/api-login.php"
 
         binding.tombolMasuk.setOnClickListener {
             val request: RequestQueue = Volley.newRequestQueue(applicationContext)
@@ -41,13 +48,35 @@ class LoginActivity : ComponentActivity() {
                 "$url?email=${URLEncoder.encode(binding.etEmail.text.toString(), "UTF-8")}&password=${URLEncoder.encode(binding.etKataSandi.text.toString(), "UTF-8")}",
                 { response ->
                     try {
+                        Log.d("JSONResponse", response)
+
                         val jsonResponse = JSONObject(response)
                         val status = jsonResponse.getString("status")
                         if (status == "success") {
-                            Toast.makeText(this, "Selamat Datang", Toast.LENGTH_SHORT).show()
-                            val idDonatur = jsonResponse.getString("id_donatur")
-                            saveID(idDonatur)
-                            saveLoginStatus()
+                            val idDonaturObject = jsonResponse.getJSONObject("id_donatur")
+
+                            // Periksa apakah kunci "nama" ada dalam objek "id_donatur"
+                            val namaDonatur = if (idDonaturObject.has("nama")) {
+                                idDonaturObject.getString("nama")
+                            } else {
+                                // Handle jika kunci "nama" tidak ada
+                                Log.e("JSONError", "Kunci 'nama' tidak ditemukan dalam objek 'id_donatur'")
+                                "NamaDefault"
+                            }
+
+                            // Periksa apakah kunci "email" ada dalam objek "id_donatur"
+                            val emailDonatur = if (idDonaturObject.has("email")) {
+                                idDonaturObject.getString("email")
+                            } else {
+                                // Handle jika kunci "email" tidak ada
+                                Log.e("JSONError", "Kunci 'email' tidak ditemukan dalam objek 'id_donatur'")
+                                "EmailDefault"
+                            }
+
+                            val idDonatur = idDonaturObject.getString("id_donatur")
+                            val noHpDonatur = idDonaturObject.getString("no_hp")
+
+                            saveID(idDonatur, namaDonatur, emailDonatur, noHpDonatur)
 
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
@@ -64,17 +93,26 @@ class LoginActivity : ComponentActivity() {
             )
             request.add(stringRequest)
         }
+
     }
 
-    private fun saveID(idDonatur: String) {
+    private fun saveID(
+        idDonatur: String,
+        namaDonatur: String,
+        emailDonatur: String,
+        noHpDonatur: String
+    ) {
         val preferences: SharedPreferences = getSharedPreferences("donatur_prefs", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferences.edit()
-        editor.putString("id_donatur", idDonatur)
-        editor.apply()
 
-        Log.d("sharedPreferences","idDonatur: $idDonatur")
+        editor.putString("id_donatur", idDonatur)
+        editor.putString("nama", namaDonatur)
+        editor.putString("email", emailDonatur)
+        editor.putString("no_hp", noHpDonatur)
+
+        editor.apply()
     }
-    private fun saveLoginStatus() {
+private fun saveLoginStatus() {
         val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
         editor.putBoolean("is_logged_in", true)

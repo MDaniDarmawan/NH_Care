@@ -27,6 +27,7 @@ class ProgramActivity : AppCompatActivity() {
         setContentView(R.layout.activity_program)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         programAdapter = ProgramAdapter(programList)
         recyclerView = findViewById(R.id.rv_program)
 
@@ -52,7 +53,7 @@ class ProgramActivity : AppCompatActivity() {
     }
 
     private fun fetchProgramDataFromAPI() {
-        val urlDataProgram = DbContract.urlProgram
+        val urlDataProgram = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getProgramData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataProgram, null,

@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import android.widget.SearchView
 import com.example.nh_care.R
+import com.example.nh_care.activity.MainActivity
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -29,6 +30,11 @@ class AnakActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAnakasuhBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnbackanakasuh.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         recyclerView = binding.rvAnak
         anakAdapter = AnakAdapter(anakList)
@@ -65,7 +71,7 @@ class AnakActivity : AppCompatActivity() {
     }
 
     private fun fetchAnakDataFromAPI() {
-        val urlDataAnak = DbContract.urlAnak
+        val urlDataAnak = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getAnakAsuhData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataAnak, null,

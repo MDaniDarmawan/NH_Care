@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ class LayananAdapter(private var mList: List<DataLayanan>) :
     inner class LayananViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tanya: TextView = itemView.findViewById(R.id.pertanyaan)
         val jawab: TextView = itemView.findViewById(R.id.jawaban)
-        val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.constraintLayout)
+        val constraintLayout: LinearLayout = itemView.findViewById(R.id.constraintLayout)
 
         // Menghilangkan fungsi collapseExpandedView yang tidak diperlukan di sini
     }

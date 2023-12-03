@@ -60,7 +60,7 @@ class WebsiteActivity : AppCompatActivity() {
     }
 
     private fun fetchWebsiteDataFromAPI() {
-        val urlDataWebsite = DbContract.urlWebsite
+        val urlDataWebsite = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getWebsiteData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataWebsite, null,
