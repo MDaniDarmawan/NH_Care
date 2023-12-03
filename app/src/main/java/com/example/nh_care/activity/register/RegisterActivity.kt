@@ -17,7 +17,6 @@ import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
 import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.activity.login.LoginActivity
-import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityRegisterBinding
 import com.google.android.material.textfield.TextInputLayout
 import org.json.JSONException

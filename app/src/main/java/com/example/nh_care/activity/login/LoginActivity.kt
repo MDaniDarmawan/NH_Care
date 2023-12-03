@@ -13,7 +13,6 @@ import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.activity.lupasandi.LupaSandiActivity
 import com.example.nh_care.activity.register.RegisterActivity
-import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityLoginBinding
 import org.json.JSONException
 import org.json.JSONObject

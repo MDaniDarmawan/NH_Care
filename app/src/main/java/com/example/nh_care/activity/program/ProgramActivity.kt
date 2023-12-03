@@ -9,8 +9,6 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
-import com.example.nh_care.database.DbContract
-import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
 import org.json.JSONArray

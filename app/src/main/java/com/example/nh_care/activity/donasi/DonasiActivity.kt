@@ -10,11 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.lifecycleScope
-import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.activity.MainActivity
-import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityDonasiBinding
 import com.midtrans.sdk.corekit.core.PaymentMethod
 import com.midtrans.sdk.uikit.api.model.SnapTransactionDetail

@@ -8,13 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.ActivityAnakasuhBinding
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.widget.SearchView
-import com.example.nh_care.R
 import com.example.nh_care.activity.MainActivity
 import org.json.JSONArray
 import org.json.JSONException

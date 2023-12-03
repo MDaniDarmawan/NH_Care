@@ -19,7 +19,6 @@ import com.example.nh_care.activity.donasi.riwayat.RiwayatDonasiActivity
 import com.example.nh_care.activity.program.ProgramActivity
 import com.example.nh_care.activity.video.VideoActivity
 import com.example.nh_care.activity.website.WebsiteActivity
-import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.FragmentBerandaBinding
 import java.text.NumberFormat
 import java.util.Locale
