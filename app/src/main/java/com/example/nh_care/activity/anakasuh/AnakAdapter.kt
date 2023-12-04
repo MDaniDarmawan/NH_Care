@@ -1,6 +1,5 @@
 package com.example.nh_care.activity.anakasuh
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,9 @@ import com.example.nh_care.R
 import com.example.nh_care.activity.anakasuh.DataAnak
 import com.google.android.material.imageview.ShapeableImageView
 
+class AnakAdapter(private var anakListFull: List<DataAnak>) : RecyclerView.Adapter<AnakAdapter.AnakViewHolder>(), Filterable {
 
-class AnakAdapter(private var anakListFull: List<DataAnak>) : RecyclerView.Adapter<AnakAdapter.AnakViewHolder>(),
-    Filterable {
-
-    private var anakListFiltered: List<DataAnak> = anakListFull
+    var anakListFiltered: List<DataAnak> = anakListFull.toList() // Salin daftar lengkap sebagai daftar yang akan difilter
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
@@ -36,20 +33,6 @@ class AnakAdapter(private var anakListFull: List<DataAnak>) : RecyclerView.Adapt
         val itemAvatar2: ShapeableImageView = itemView.findViewById(R.id.itemAvatar2)
         val colom1: LinearLayout = itemView.findViewById(R.id.colom1)
         val colom2: LinearLayout = itemView.findViewById(R.id.colom2)
-
-        init {
-            itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val firstItemIndex = position * 2
-                    val secondItemIndex = position * 2 + 1
-
-                    if (firstItemIndex < anakListFull.size) {
-                        listener?.onItemClick(firstItemIndex)
-                    }
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnakViewHolder {
@@ -57,17 +40,16 @@ class AnakAdapter(private var anakListFull: List<DataAnak>) : RecyclerView.Adapt
         return AnakViewHolder(view)
     }
 
-
     override fun onBindViewHolder(holder: AnakViewHolder, position: Int) {
+        // onBindViewHolder implementation...
         val firstItemIndex = position * 2
         val secondItemIndex = position * 2 + 1
 
-        val hasFirstItem = firstItemIndex < anakListFull.size
-        val hasSecondItem = secondItemIndex < anakListFull.size
-
+        val hasFirstItem = firstItemIndex < anakListFiltered.size
+        val hasSecondItem = secondItemIndex < anakListFiltered.size
 
         if (hasFirstItem) {
-            val firstItem = anakListFull[firstItemIndex]
+            val firstItem = anakListFiltered[firstItemIndex]
 
             holder.colom1.visibility = View.VISIBLE
             holder.itemName.text = firstItem.Nama
@@ -77,71 +59,82 @@ class AnakAdapter(private var anakListFull: List<DataAnak>) : RecyclerView.Adapt
                 listener?.onItemClick(firstItemIndex)
             }
         } else {
-            holder.colom1.visibility = View.GONE
+            holder.colom1.visibility = View.INVISIBLE
+            holder.colom1.setOnClickListener(null)
+            if (hasSecondItem) {
+            }
         }
 
         if (hasSecondItem) {
-            val secondItem = anakListFull.getOrNull(secondItemIndex)
+            val secondItem = anakListFiltered[secondItemIndex]
 
-            if (secondItem != null) {
-                holder.colom2.visibility = View.VISIBLE
-                holder.itemName2.text = secondItem.Nama
-                holder.itemAvatar2.setImageBitmap(secondItem.img_anak)
+            holder.colom2.visibility = View.VISIBLE
+            holder.itemName2.text = secondItem.Nama
+            holder.itemAvatar2.setImageBitmap(secondItem.img_anak)
 
-                holder.colom2.setOnClickListener {
-                    listener?.onItemClick(secondItemIndex)
-                }
-            } else {
-                holder.colom2.visibility = View.GONE
-                holder.colom2.setOnClickListener(null) // Menghapus listener jika tidak ada data
+            holder.colom2.setOnClickListener {
+                listener?.onItemClick(secondItemIndex)
             }
         } else {
-            holder.colom2.visibility = View.GONE
-            holder.colom2.setOnClickListener(null) // Menghapus listener jika di luar indeks
+            holder.colom2.visibility = View.INVISIBLE
+            holder.colom2.setOnClickListener(null)
+            if (hasFirstItem && !hasSecondItem) {
+            }
+        }
+
+        // Memeriksa jika hanya ada data ganjil
+        if (hasFirstItem && !hasSecondItem) {
+            holder.colom2.visibility = View.GONE // Menyembunyikan kolom kanan jika hanya ada data ganjil
         }
     }
 
-
-
     override fun getItemCount(): Int {
-        // Kembalikan jumlah item dalam data list
-        return anakListFull.size
+        val itemCount = anakListFiltered.size
+        return if (itemCount % 2 == 0) {
+            itemCount / 2
+        } else {
+            itemCount / 2 + 1
+        }
     }
 
-
-    fun setAnakList(anakList: List<DataAnak>) {
-        anakListFull = anakList
-        anakListFiltered = anakList
-        notifyDataSetChanged()
-    }
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filteredList = mutableListOf<DataAnak>()
-                val searchQuery = constraint?.toString()?.toLowerCase()
 
-                if (searchQuery.isNullOrBlank()) {
-                    anakListFiltered = anakListFull
+                if (constraint.isNullOrEmpty()) {
+                    filteredList.addAll(anakListFull) // Jika pencarian kosong, tampilkan daftar lengkap
                 } else {
+                    val filterPattern = constraint.toString().toLowerCase().trim()
+
                     for (anak in anakListFull) {
-                        if (anak.Nama.toLowerCase().contains(searchQuery)) {
+                        if (anak.Nama.toLowerCase().contains(filterPattern) ||
+                            anak.Kelas.toLowerCase().contains(filterPattern) ||
+                            anak.Sekolah.toLowerCase().contains(filterPattern) ||
+                            anak.Deskripsi.toLowerCase().contains(filterPattern)
+                        ) {
                             filteredList.add(anak)
                         }
                     }
-                    anakListFiltered = filteredList
                 }
 
-                val filterResults = FilterResults()
-                filterResults.values = anakListFiltered
-                return filterResults
+                val results = FilterResults()
+                results.values = filteredList
+                return results
             }
 
-            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                anakListFiltered = results?.values as? List<DataAnak> ?: listOf()
-                notifyDataSetChanged()
+                results?.values?.let {
+                    anakListFiltered = it as List<DataAnak> // Update anakListFiltered sesuai dengan hasil filter
+                    notifyDataSetChanged() // Perbarui tampilan RecyclerView
+                }
             }
         }
     }
-}
 
+    fun setAnakList(anakList: List<DataAnak>) {
+        this.anakListFull = anakList.toList()
+        anakListFiltered = anakList.toList() // Saat daftar anak diperbarui, perbarui anakListFiltered juga
+        notifyDataSetChanged()
+    }
+}

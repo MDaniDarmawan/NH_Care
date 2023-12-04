@@ -1,20 +1,24 @@
 package com.example.nh_care.activity.anakasuh
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.databinding.ActivityAnakasuhBinding
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Base64
-import com.example.nh_care.activity.MainActivity
 import org.json.JSONArray
 import org.json.JSONException
+import android.util.Base64
+import com.example.nh_care.activity.MainActivity
+import com.example.nh_care.activity.anakasuh.AnakAdapter
+import com.example.nh_care.activity.anakasuh.DataAnak
+import com.example.nh_care.activity.anakasuh.DetailAnakActivity
 
 class AnakActivity : AppCompatActivity() {
 
@@ -28,7 +32,7 @@ class AnakActivity : AppCompatActivity() {
         binding = ActivityAnakasuhBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnbackanakasuh.setOnClickListener{
+        binding.btnbackanakasuh.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -40,35 +44,35 @@ class AnakActivity : AppCompatActivity() {
 
         anakAdapter.setOnItemClickListener(object : AnakAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                val currentItem = anakList[position]
-
+                val currentItem = anakAdapter.anakListFiltered[position]
                 val intent = Intent(this@AnakActivity, DetailAnakActivity::class.java)
                 intent.putExtra("nama", currentItem.Nama)
                 intent.putExtra("kelas", currentItem.Kelas)
                 intent.putExtra("nama_sekolah", currentItem.Sekolah)
                 intent.putExtra("deskripsi", currentItem.Deskripsi)
-                // Pastikan `img_anak` sesuai dengan Parcelable jika diperlukan
                 intent.putExtra("img_anak", currentItem.img_anak)
                 startActivity(intent)
             }
         })
-//        val searchView = binding.svAnak
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                anakAdapter.filter.filter(newText)
-//                return false
-//            }
-//        })
+
+
+        val searchView = binding.svAnak
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                anakAdapter.filter.filter(newText)
+                return false
+            }
+        })
 
         fetchAnakDataFromAPI()
     }
 
     private fun fetchAnakDataFromAPI() {
-        val urlDataAnak = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getAnakAsuhData"
+        val urlDataAnak = "https://nhcare.tifc.myhost.id/nhcare/api/api-anakasuh.php"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataAnak, null,
