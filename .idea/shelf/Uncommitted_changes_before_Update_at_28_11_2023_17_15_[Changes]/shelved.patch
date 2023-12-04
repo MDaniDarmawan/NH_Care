@@ -1,0 +1,710 @@
+Index: app/src/main/res/layout/activity_alokasi.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView3\"\r\n        style=\"@style/Widget.MaterialComponents.Button.OutlinedButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:text=\"Alokasi Dana\"\r\n        android:textSize=\"24sp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.497\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/backalokasi\"\r\n        android:layout_width=\"30dp\"\r\n        android:layout_height=\"30dp\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/textView3\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/textView3\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:srcCompat=\"@drawable/backberanda\" />\r\n\r\n    <ScrollView\r\n        android:id=\"@+id/scrollView2\"\r\n        android:layout_width=\"403dp\"\r\n        android:layout_height=\"843dp\"\r\n        android:layout_marginStart=\"8dp\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:layout_marginEnd=\"8dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/backalokasi\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/recyclerView\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\" />\r\n    </ScrollView>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_alokasi.xml b/app/src/main/res/layout/activity_alokasi.xml
+--- a/app/src/main/res/layout/activity_alokasi.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/layout/activity_alokasi.xml	(date 1701163351384)
+@@ -1,43 +1,42 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+-    android:layout_height="match_parent">
++    android:layout_height="match_parent"
++    android:padding="10dp"
++    android:orientation="vertical">
+ 
+-    <TextView
+-        android:id="@+id/textView3"
+-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+-        android:layout_width="wrap_content"
++    <LinearLayout
++        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:layout_marginTop="16dp"
+-        android:text="Alokasi Dana"
+-        android:textSize="24sp"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.497"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
++        android:orientation="horizontal"
++        android:padding="10dp">
+ 
+-    <ImageView
+-        android:id="@+id/backalokasi"
+-        android:layout_width="30dp"
+-        android:layout_height="30dp"
+-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+-        app:layout_constraintEnd_toStartOf="@+id/textView3"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:srcCompat="@drawable/backberanda" />
++        <ImageView
++            android:id="@+id/btnbackalokasi"
++            android:layout_width="20dp"
++            android:layout_height="20dp"
++            android:background="@drawable/backberanda"
++            android:layout_gravity="start|center"/>
++
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="ALOKASI"
++            android:fontFamily="@font/poppins_bold"
++            android:textSize="20sp"
++            android:textColor="@color/green"
++            android:textAlignment="center"
++            android:layout_gravity="center"/>
++
++    </LinearLayout>
+ 
+     <ScrollView
+         android:id="@+id/scrollView2"
+-        android:layout_width="403dp"
+-        android:layout_height="843dp"
+-        android:layout_marginStart="8dp"
+-        android:layout_marginTop="16dp"
+-        android:layout_marginEnd="8dp"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/backalokasi">
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content">
+ 
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/recyclerView"
+@@ -45,4 +44,4 @@
+             android:layout_height="wrap_content" />
+     </ScrollView>
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/item_anakasuh_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:orientation=\"horizontal\">\r\n\r\n\r\n    <com.google.android.material.card.MaterialCardView\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        app:cardCornerRadius=\"10dp\"\r\n        app:cardUseCompatPadding=\"true\"\r\n        app:cardBackgroundColor=\"@color/grey1\"\r\n        android:layout_margin=\"10dp\"\r\n        app:cardElevation=\"1dp\">\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/colom1\"\r\n            android:layout_width=\"175dp\"\r\n            android:layout_height=\"255dp\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <com.google.android.material.imageview.ShapeableImageView\r\n                android:id=\"@+id/itemAvatar1\"\r\n                android:layout_width=\"150dp\"\r\n                android:layout_height=\"150dp\"\r\n                android:layout_margin=\"15dp\"\r\n                tools:srcCompat=\"@tools:sample/avatars\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/itemName1\"\r\n                android:layout_width=\"146dp\"\r\n                android:layout_height=\"36dp\"\r\n                android:layout_marginStart=\"16dp\"\r\n                android:layout_marginTop=\"8dp\"\r\n                android:textColor=\"#000\"\r\n                android:textSize=\"14sp\"\r\n                android:textAlignment=\"center\"\r\n                tools:text=\"@string/anak\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"145dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginStart=\"16dp\"\r\n                android:layout_marginTop=\"8dp\"\r\n                android:text=\"Baca Selengkapnya\"\r\n                android:textAlignment=\"center\"\r\n                android:textSize=\"12sp\"\r\n                android:textStyle=\"italic\" />\r\n        </LinearLayout>\r\n    </com.google.android.material.card.MaterialCardView>\r\n\r\n    <!-- Bagian Kanan -->\r\n    <com.google.android.material.card.MaterialCardView\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        app:cardCornerRadius=\"10dp\"\r\n        app:cardUseCompatPadding=\"true\"\r\n        app:cardBackgroundColor=\"@color/grey1\"\r\n        android:layout_margin=\"10dp\"\r\n        app:cardElevation=\"1dp\">\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/colom2\"\r\n            android:layout_width=\"175dp\"\r\n            android:layout_height=\"255dp\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <com.google.android.material.imageview.ShapeableImageView\r\n                android:id=\"@+id/itemAvatar2\"\r\n                android:layout_width=\"150dp\"\r\n                android:layout_height=\"150dp\"\r\n                android:layout_margin=\"15dp\"\r\n                tools:srcCompat=\"@tools:sample/avatars\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/itemName2\"\r\n                android:layout_width=\"145dp\"\r\n                android:layout_height=\"33dp\"\r\n                android:layout_marginStart=\"16dp\"\r\n                android:layout_marginTop=\"8dp\"\r\n                android:textColor=\"#000\"\r\n                android:textSize=\"14sp\"\r\n                android:textAlignment=\"center\"\r\n                tools:text=\"@string/anak\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"142dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginStart=\"16dp\"\r\n                android:layout_marginTop=\"8dp\"\r\n                android:text=\"Baca Selengkapnya\"\r\n                android:textAlignment=\"center\"\r\n                android:textSize=\"12sp\"\r\n                android:textStyle=\"italic\" />\r\n        </LinearLayout>\r\n    </com.google.android.material.card.MaterialCardView>\r\n</LinearLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_anakasuh_list.xml b/app/src/main/res/layout/item_anakasuh_list.xml
+--- a/app/src/main/res/layout/item_anakasuh_list.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/layout/item_anakasuh_list.xml	(date 1701165463337)
+@@ -3,101 +3,123 @@
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="wrap_content"
+-    android:orientation="horizontal">
+-
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    android:padding="5dp">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical">
+ 
+-    <com.google.android.material.card.MaterialCardView
+-        android:layout_width="0dp"
+-        android:layout_height="wrap_content"
+-        android:layout_weight="1"
+-        app:cardCornerRadius="10dp"
+-        app:cardUseCompatPadding="true"
+-        app:cardBackgroundColor="@color/grey1"
+-        android:layout_margin="10dp"
+-        app:cardElevation="1dp">
++        <com.google.android.material.card.MaterialCardView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            app:cardCornerRadius="10dp"
++            app:cardUseCompatPadding="true"
++            app:cardBackgroundColor="@color/grey1"
++            app:cardElevation="1dp">
+ 
+-        <LinearLayout
+-            android:id="@+id/colom1"
+-            android:layout_width="175dp"
+-            android:layout_height="255dp"
+-            android:orientation="vertical">
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:orientation="vertical">
+ 
+-            <com.google.android.material.imageview.ShapeableImageView
+-                android:id="@+id/itemAvatar1"
+-                android:layout_width="150dp"
+-                android:layout_height="150dp"
+-                android:layout_margin="15dp"
+-                tools:srcCompat="@tools:sample/avatars" />
++                <com.google.android.material.imageview.ShapeableImageView
++                    android:id="@+id/itemAvatar1"
++                    android:layout_width="150dp"
++                    android:layout_height="150dp"
++                    android:layout_margin="15dp"
++                    tools:srcCompat="@tools:sample/avatars" />
+ 
+-            <TextView
+-                android:id="@+id/itemName1"
+-                android:layout_width="146dp"
+-                android:layout_height="36dp"
+-                android:layout_marginStart="16dp"
+-                android:layout_marginTop="8dp"
+-                android:textColor="#000"
+-                android:textSize="14sp"
+-                android:textAlignment="center"
+-                tools:text="@string/anak" />
++                <TextView
++                    android:id="@+id/itemName1"
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:layout_gravity="center"
++                    android:layout_marginTop="-10dp"
++                    android:layout_marginStart="15dp"
++                    android:layout_marginEnd="15dp"
++                    android:textColor="@color/black"
++                    android:textSize="14sp"
++                    android:textAlignment="center"
++                    android:fontFamily="@font/poppins_medium"
++                    tools:text="@string/anak" />
+ 
+-            <TextView
+-                android:layout_width="145dp"
+-                android:layout_height="wrap_content"
+-                android:layout_marginStart="16dp"
+-                android:layout_marginTop="8dp"
+-                android:text="Baca Selengkapnya"
+-                android:textAlignment="center"
+-                android:textSize="12sp"
+-                android:textStyle="italic" />
+-        </LinearLayout>
+-    </com.google.android.material.card.MaterialCardView>
++                <TextView
++                    android:layout_width="match_parent"
++                    android:layout_height="match_parent"
++                    android:layout_margin="15dp"
++                    android:textSize="10sp"
++                    android:textColor="@color/black"
++                    android:text="Baca Selengkapnya"
++                    android:textAlignment="center"
++                    android:fontFamily="@font/poppins_lightitalic" />
++
++            </LinearLayout>
++
++        </com.google.android.material.card.MaterialCardView>
+ 
+-    <!-- Bagian Kanan -->
+-    <com.google.android.material.card.MaterialCardView
+-        android:layout_width="0dp"
+-        android:layout_height="wrap_content"
+-        android:layout_weight="1"
+-        app:cardCornerRadius="10dp"
+-        app:cardUseCompatPadding="true"
+-        app:cardBackgroundColor="@color/grey1"
+-        android:layout_margin="10dp"
+-        app:cardElevation="1dp">
++    </LinearLayout>
++
++<!--    cardview ke 2-->
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical">
++
++        <com.google.android.material.card.MaterialCardView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            app:cardCornerRadius="10dp"
++            app:cardUseCompatPadding="true"
++            app:cardBackgroundColor="@color/grey1"
++            app:cardElevation="1dp">
+ 
+-        <LinearLayout
+-            android:id="@+id/colom2"
+-            android:layout_width="175dp"
+-            android:layout_height="255dp"
+-            android:orientation="vertical">
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:orientation="vertical">
+ 
+-            <com.google.android.material.imageview.ShapeableImageView
+-                android:id="@+id/itemAvatar2"
+-                android:layout_width="150dp"
+-                android:layout_height="150dp"
+-                android:layout_margin="15dp"
+-                tools:srcCompat="@tools:sample/avatars" />
++                <com.google.android.material.imageview.ShapeableImageView
++                    android:id="@+id/itemAvatar2"
++                    android:layout_width="150dp"
++                    android:layout_height="150dp"
++                    android:layout_margin="15dp"
++                    tools:srcCompat="@tools:sample/avatars" />
+ 
+-            <TextView
+-                android:id="@+id/itemName2"
+-                android:layout_width="145dp"
+-                android:layout_height="33dp"
+-                android:layout_marginStart="16dp"
+-                android:layout_marginTop="8dp"
+-                android:textColor="#000"
+-                android:textSize="14sp"
+-                android:textAlignment="center"
+-                tools:text="@string/anak" />
++                <TextView
++                    android:id="@+id/itemName2"
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:layout_gravity="center"
++                    android:layout_marginTop="-10dp"
++                    android:layout_marginStart="15dp"
++                    android:layout_marginEnd="15dp"
++                    android:textColor="@color/black"
++                    android:textSize="14sp"
++                    android:textAlignment="center"
++                    android:fontFamily="@font/poppins_medium"
++                    tools:text="@string/anak" />
+ 
+-            <TextView
+-                android:layout_width="142dp"
+-                android:layout_height="wrap_content"
+-                android:layout_marginStart="16dp"
+-                android:layout_marginTop="8dp"
+-                android:text="Baca Selengkapnya"
+-                android:textAlignment="center"
+-                android:textSize="12sp"
+-                android:textStyle="italic" />
+-        </LinearLayout>
+-    </com.google.android.material.card.MaterialCardView>
++                <TextView
++                    android:layout_width="match_parent"
++                    android:layout_height="match_parent"
++                    android:layout_margin="15dp"
++                    android:textSize="10sp"
++                    android:textColor="@color/black"
++                    android:text="Baca Selengkapnya"
++                    android:textAlignment="center"
++                    android:fontFamily="@font/poppins_lightitalic" />
++
++            </LinearLayout>
++
++        </com.google.android.material.card.MaterialCardView>
++
++    </LinearLayout>
++
+ </LinearLayout>
+Index: app/src/main/res/layout/activity_anakasuh.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n             android:layout_height=\"match_parent\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView\"\r\n        style=\"@style/Widget.MaterialComponents.Button.OutlinedButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Anak Asuh\"\r\n        android:textColor=\"@color/green\"\r\n        android:textSize=\"24sp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n    <SearchView\r\n        android:id=\"@+id/sv_anak\"\r\n        android:layout_width=\"408dp\"\r\n        android:layout_height=\"51dp\"\r\n        tools:layout_editor_absoluteX=\"1dp\"\r\n        tools:layout_editor_absoluteY=\"56dp\" />\r\n\r\n    <ScrollView\r\n        android:layout_width=\"410dp\"\r\n        android:layout_height=\"623dp\"\r\n        tools:layout_editor_absoluteX=\"0dp\"\r\n        tools:layout_editor_absoluteY=\"108dp\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/rv_anak\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            tools:listitem=\"@layout/item_anakasuh_list\" />\r\n    </ScrollView>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_anakasuh.xml b/app/src/main/res/layout/activity_anakasuh.xml
+--- a/app/src/main/res/layout/activity_anakasuh.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/layout/activity_anakasuh.xml	(date 1701166345849)
+@@ -1,32 +1,49 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+-             android:layout_height="match_parent">
++    android:layout_height="match_parent"
++    android:padding="10dp"
++    android:orientation="vertical">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        android:padding="10dp">
++
++        <ImageView
++            android:id="@+id/btnbackanakasuh"
++            android:layout_width="20dp"
++            android:layout_height="20dp"
++            android:background="@drawable/backberanda"
++            android:layout_gravity="start|center"/>
+ 
+-    <TextView
+-        android:id="@+id/textView"
+-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Anak Asuh"
+-        android:textColor="@color/green"
+-        android:textSize="24sp"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="ANAK ASUH"
++            android:fontFamily="@font/poppins_bold"
++            android:textSize="20sp"
++            android:textColor="@color/green"
++            android:textAlignment="center"
++            android:layout_gravity="center"/>
+ 
+-    <SearchView
++    </LinearLayout>
++
++    <androidx.appcompat.widget.SearchView
+         android:id="@+id/sv_anak"
+-        android:layout_width="408dp"
+-        android:layout_height="51dp"
+-        tools:layout_editor_absoluteX="1dp"
+-        tools:layout_editor_absoluteY="56dp" />
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_margin="10dp"
++        android:background="@drawable/button"
++        android:backgroundTint="@color/grey1"/>
+ 
+     <ScrollView
+-        android:layout_width="410dp"
+-        android:layout_height="623dp"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
+         tools:layout_editor_absoluteX="0dp"
+         tools:layout_editor_absoluteY="108dp">
+ 
+@@ -37,4 +54,4 @@
+             tools:listitem="@layout/item_anakasuh_list" />
+     </ScrollView>
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_detail_anakasuh.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:padding=\"10dp\"\r\n    tools:context=\".activity.program.DetailProgramActivity\">\r\n\r\n    <ScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <androidx.constraintlayout.widget.ConstraintLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:padding=\"10dp\">\r\n\r\n                <ImageView\r\n                    android:id=\"@+id/btnbackprogram\"\r\n                    android:layout_width=\"20dp\"\r\n                    android:layout_height=\"20dp\"\r\n                    android:background=\"@drawable/backberanda\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"/>\r\n\r\n                <TextView\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"DETAIL ANAK ASUH\"\r\n                    android:fontFamily=\"@font/poppins_bold\"\r\n                    android:textSize=\"20sp\"\r\n                    android:textColor=\"@color/green\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"/>\r\n\r\n            </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            <androidx.constraintlayout.widget.ConstraintLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageAnak\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:adjustViewBounds=\"true\"\r\n                android:padding=\"10dp\"\r\n                android:scaleType=\"centerCrop\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                tools:srcCompat=\"@tools:sample/avatars\" />\r\n\r\n            </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingStart=\"10dp\"\r\n                android:paddingEnd=\"10dp\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/namaanak\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:fontFamily=\"@font/poppins_semibold\"\r\n                        android:text=\"Nama\"\r\n                        android:textColor=\"@color/black\"\r\n                        android:textSize=\"20sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/inputNamaAnak\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"nama anak\"\r\n                        android:textSize=\"18sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/kelasanak\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:fontFamily=\"@font/poppins_semibold\"\r\n                        android:text=\"Kelas\"\r\n                        android:textColor=\"@color/black\"\r\n                        android:textSize=\"20sp\" />\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/inputKelasAnak\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"kelas anak\"\r\n                        android:textSize=\"18sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/sekolahanak\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:fontFamily=\"@font/poppins_semibold\"\r\n                        android:text=\"Sekolah\"\r\n                        android:textColor=\"@color/black\"\r\n                        android:textSize=\"20sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/inputSekolahAnak\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"judul program\"\r\n                        android:textSize=\"18sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/textView8\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:fontFamily=\"@font/poppins_semibold\"\r\n                        android:text=\"Tentang\"\r\n                        android:textColor=\"@color/black\"\r\n                        android:textSize=\"20sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:orientation=\"vertical\">\r\n\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/inputTentang\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:text=\"judul program\"\r\n                        android:textSize=\"18sp\"/>\r\n\r\n                </LinearLayout>\r\n\r\n            </LinearLayout>\r\n\r\n        </LinearLayout>\r\n\r\n    </ScrollView>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_detail_anakasuh.xml b/app/src/main/res/layout/activity_detail_anakasuh.xml
+--- a/app/src/main/res/layout/activity_detail_anakasuh.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/layout/activity_detail_anakasuh.xml	(date 1701133753793)
+@@ -92,7 +92,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="-10dp">
+ 
+                     <TextView
+                         android:id="@+id/inputNamaAnak"
+@@ -106,7 +107,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="10dp">
+ 
+                     <TextView
+                         android:id="@+id/kelasanak"
+@@ -122,7 +124,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="-10dp">
+ 
+                     <TextView
+                         android:id="@+id/inputKelasAnak"
+@@ -136,7 +139,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="10dp">
+ 
+                     <TextView
+                         android:id="@+id/sekolahanak"
+@@ -152,7 +156,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="-10dp">
+ 
+                     <TextView
+                         android:id="@+id/inputSekolahAnak"
+@@ -166,7 +171,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="10dp">
+ 
+                     <TextView
+                         android:id="@+id/textView8"
+@@ -182,7 +188,8 @@
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:orientation="vertical">
++                    android:orientation="vertical"
++                    android:layout_marginTop="-10dp">
+ 
+ 
+                     <TextView
+Index: app/src/main/res/layout/activity_program.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@color/grey1\"\r\n    tools:context=\".activity.program.ProgramActivity\">\r\n\r\n    <ScrollView\r\n        android:layout_width=\"387dp\"\r\n        android:layout_height=\"703dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        tools:layout_editor_absoluteY=\"55dp\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/rv_program\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:layoutManager=\"androidx.recyclerview.widget.LinearLayoutManager\"\r\n            tools:listitem=\"@layout/item_program_list\" />\r\n    </ScrollView>\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_program.xml b/app/src/main/res/layout/activity_program.xml
+--- a/app/src/main/res/layout/activity_program.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/layout/activity_program.xml	(date 1701140786558)
+@@ -1,5 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+@@ -8,11 +9,10 @@
+     tools:context=".activity.program.ProgramActivity">
+ 
+     <ScrollView
+-        android:layout_width="387dp"
+-        android:layout_height="703dp"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        tools:layout_editor_absoluteY="55dp">
++        app:layout_constraintStart_toStartOf="parent">
+ 
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/rv_program"
+@@ -23,4 +23,4 @@
+     </ScrollView>
+ 
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_detail_program.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".activity.program.DetailProgramActivity\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imageProgram\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"250dp\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:padding=\"10dp\"\r\n        android:scaleType=\"centerCrop\"\r\n        android:adjustViewBounds=\"true\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        tools:srcCompat=\"@tools:sample/avatars\" />\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"530dp\"\r\n        android:layout_marginTop=\"28dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/imageProgram\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/txt_program\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"156dp\"\r\n            android:layout_marginTop=\"16dp\"\r\n            android:text=\"TUJUAN\"\r\n            android:textColor=\"@color/black\"\r\n            android:textSize=\"25sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/inputJudul\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"16dp\"\r\n            android:layout_marginTop=\"12dp\"\r\n            android:text=\"judul program\"\r\n            android:textSize=\"20sp\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/txt_program\" />\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnbackprogram\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"20dp\"\r\n        android:layout_marginLeft=\"10dp\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:srcCompat=\"@drawable/backberanda\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_detail_program.xml b/app/src/main/res/layout/activity_detail_program.xml
+--- a/app/src/main/res/layout/activity_detail_program.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/layout/activity_detail_program.xml	(date 1701140786589)
+@@ -4,64 +4,110 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:padding="10dp"
+     tools:context=".activity.program.DetailProgramActivity">
+ 
+-    <ImageView
+-        android:id="@+id/imageProgram"
++    <ScrollView
+         android:layout_width="match_parent"
+-        android:layout_height="250dp"
+-        android:layout_marginTop="10dp"
+-        android:padding="10dp"
+-        android:scaleType="centerCrop"
+-        android:adjustViewBounds="true"
++        android:layout_height="match_parent"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        tools:srcCompat="@tools:sample/avatars" />
++        app:layout_constraintTop_toTopOf="parent">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="vertical">
+ 
+-    <androidx.constraintlayout.widget.ConstraintLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="530dp"
+-        android:layout_marginTop="28dp"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.0"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/imageProgram">
+-
+-        <TextView
+-            android:id="@+id/txt_program"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_marginStart="156dp"
+-            android:layout_marginTop="16dp"
+-            android:text="TUJUAN"
+-            android:textColor="@color/black"
+-            android:textSize="25sp"
+-            android:textStyle="bold"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toTopOf="parent" />
++            <androidx.constraintlayout.widget.ConstraintLayout
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:padding="10dp">
++
++                <ImageView
++                    android:id="@+id/btnbackprogram"
++                    android:layout_width="20dp"
++                    android:layout_height="20dp"
++                    android:background="@drawable/backberanda"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintStart_toStartOf="parent"/>
+ 
+-        <TextView
+-            android:id="@+id/inputJudul"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_marginStart="16dp"
+-            android:layout_marginTop="12dp"
+-            android:text="judul program"
+-            android:textSize="20sp"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@id/txt_program" />
++                <TextView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="DETAIL PROGRAM"
++                    android:fontFamily="@font/poppins_bold"
++                    android:textSize="20sp"
++                    android:textColor="@color/green"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintStart_toStartOf="parent"/>
+ 
+-    </androidx.constraintlayout.widget.ConstraintLayout>
++            </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+-    <ImageView
+-        android:id="@+id/btnbackprogram"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginTop="20dp"
+-        android:layout_marginLeft="10dp"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:srcCompat="@drawable/backberanda" />
++            <androidx.constraintlayout.widget.ConstraintLayout
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content">
++
++                <ImageView
++                    android:id="@+id/imageAnak"
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:adjustViewBounds="true"
++                    android:padding="10dp"
++                    android:scaleType="centerCrop"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    tools:srcCompat="@tools:sample/avatars" />
++
++            </androidx.constraintlayout.widget.ConstraintLayout>
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:orientation="vertical"
++                android:paddingStart="10dp"
++                android:paddingEnd="10dp">
++
++                <LinearLayout
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:orientation="vertical">
++
++                    <TextView
++                        android:id="@+id/namaanak"
++                        android:layout_width="match_parent"
++                        android:layout_height="wrap_content"
++                        android:fontFamily="@font/poppins_semibold"
++                        android:text="Tujuan"
++                        android:textColor="@color/black"
++                        android:textSize="20sp"/>
++
++                </LinearLayout>
++
++                <LinearLayout
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:orientation="vertical"
++                    android:layout_marginTop="-10dp">
++
++                    <TextView
++                        android:id="@+id/inputNamaAnak"
++                        android:layout_width="match_parent"
++                        android:layout_height="wrap_content"
++                        android:text="Deskripsi tujuan"
++                        android:textSize="18sp"/>
++
++                </LinearLayout>
++
++            </LinearLayout>
++
++        </LinearLayout>
++
++    </ScrollView>
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/themes.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources xmlns:tools=\"http://schemas.android.com/tools\">\r\n    <!-- Base application theme. -->\r\n    <style name=\"Theme.nh_care\" parent=\"Theme.MaterialComponents.DayNight.DarkActionBar\">\r\n        <!-- Primary brand color. -->\r\n        <item name=\"colorPrimary\">@color/green</item>\r\n        <item name=\"colorPrimaryVariant\">@color/purple_700</item>\r\n        <item name=\"colorOnPrimary\">@color/white</item>\r\n        <!-- Secondary brand color. -->\r\n        <item name=\"colorSecondary\">@color/teal_200</item>\r\n        <item name=\"colorSecondaryVariant\">@color/teal_700</item>\r\n        <item name=\"colorOnSecondary\">@color/black</item>\r\n        <!-- Status bar color. -->\r\n        <item name=\"android:statusBarColor\" tools:targetApi=\"21\">@color/green</item>\r\n        <!-- Customize your theme here. -->\r\n    </style>\r\n    <style name=\"tombol\">\r\n        <item name=\"android:background\">@drawable/bg_tombol</item>\r\n        <item name=\"fontFamily\">@font/poppins_bold</item>\r\n        <item name=\"android:textSize\">20sp</item>\r\n        <item name=\"android:textColor\">@color/green</item>\r\n    </style>\r\n\r\n    <style name=\"TextInputLayout\" parent=\"Widget.MaterialComponents.TextInputLayout.OutlinedBox\">\r\n    </style>\r\n\r\n    <style name=\"Theme.Splash\" parent=\"Theme.MaterialComponents.DayNight.DarkActionBar\">\r\n    <!-- Primary brand color. -->\r\n    <item name=\"colorPrimary\">@color/green</item>\r\n    <item name=\"colorPrimaryVariant\">@color/purple_700</item>\r\n    <item name=\"colorOnPrimary\">@color/white</item>\r\n    <!-- Secondary brand color. -->\r\n    <item name=\"colorSecondary\">@color/teal_200</item>\r\n    <item name=\"colorSecondaryVariant\">@color/teal_700</item>\r\n    <item name=\"colorOnSecondary\">@color/black</item>\r\n    <!-- Status bar color. -->\r\n    <item name=\"android:statusBarColor\">?attr/colorPrimary</item>\r\n    <!-- Customize your theme here. -->\r\n    </style>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+--- a/app/src/main/res/values/themes.xml	(revision 52819bb7cbb60e785fab6575639b0a0cded8465a)
++++ b/app/src/main/res/values/themes.xml	(date 1701123066965)
+@@ -36,4 +36,5 @@
+     <item name="android:statusBarColor">?attr/colorPrimary</item>
+     <!-- Customize your theme here. -->
+     </style>
++
+ </resources>
+\ No newline at end of file
