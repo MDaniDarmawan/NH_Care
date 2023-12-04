@@ -1,0 +1,86 @@
+Index: app/src/main/java/com/example/nh_care/ui/layanan/LayananViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.ui.layanan\r\n\r\nimport androidx.lifecycle.LiveData\r\nimport androidx.lifecycle.MutableLiveData\r\nimport androidx.lifecycle.ViewModel\r\n\r\nclass LayananViewModel : ViewModel() {\r\n\r\n    private val _text = MutableLiveData<String>().apply {\r\n        value = \"This is notifications Fragment\"\r\n    }\r\n    val text: LiveData<String> = _text\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/ui/layanan/LayananViewModel.kt b/app/src/main/java/com/example/nh_care/ui/layanan/LayananViewModel.kt
+--- a/app/src/main/java/com/example/nh_care/ui/layanan/LayananViewModel.kt	
++++ b/app/src/main/java/com/example/nh_care/ui/layanan/LayananViewModel.kt	
+@@ -7,7 +7,7 @@
+ class LayananViewModel : ViewModel() {
+ 
+     private val _text = MutableLiveData<String>().apply {
+-        value = "This is notifications Fragment"
++        value = ""
+     }
+     val text: LiveData<String> = _text
+ }
+Index: app/src/main/java/com/example/nh_care/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care\r\n\r\nimport android.os.Bundle\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.navigation.findNavController\r\nimport androidx.navigation.ui.AppBarConfiguration\r\nimport androidx.navigation.ui.setupActionBarWithNavController\r\nimport androidx.navigation.ui.setupWithNavController\r\nimport com.example.nh_care.databinding.ActivityMainBinding\r\n\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    private lateinit var binding: ActivityMainBinding\r\n\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n        binding = ActivityMainBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n\r\n        val navView: BottomNavigationView = binding.navView\r\n\r\n        val navController = findNavController(R.id.nav_host_fragment_activity_main)\r\n\r\n        // Passing each menu ID as a set of Ids because each\r\n        // menu should be considered as top level destinations.\r\n        val appBarConfiguration = AppBarConfiguration(\r\n            setOf(\r\n                R.id.navigation_profile, R.id.navigation_beranda, R.id.navigation_layanan\r\n            )\r\n        )\r\n        setupActionBarWithNavController(navController, appBarConfiguration)\r\n        navView.setupWithNavController(navController)\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/MainActivity.kt b/app/src/main/java/com/example/nh_care/MainActivity.kt
+--- a/app/src/main/java/com/example/nh_care/MainActivity.kt	
++++ b/app/src/main/java/com/example/nh_care/MainActivity.kt	
+@@ -21,6 +21,8 @@
+         binding = ActivityMainBinding.inflate(layoutInflater)
+         setContentView(binding.root)
+ 
++        supportActionBar?.hide()
++
+         val navView: BottomNavigationView = binding.navView
+ 
+         val navController = findNavController(R.id.nav_host_fragment_activity_main)
+Index: app/src/main/java/com/example/nh_care/ui/profile/ProfileFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.ui.profile\r\n\r\nimport android.os.Bundle\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.TextView\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.lifecycle.ViewModelProvider\r\nimport com.example.nh_care.databinding.FragmentProfileBinding\r\n\r\nclass ProfileFragment : Fragment() {\r\n\r\n    private var _binding: FragmentProfileBinding? = null\r\n\r\n    // This property is only valid between onCreateView and\r\n    // onDestroyView.\r\n    private val binding get() = _binding!!\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater,\r\n        container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        val profileViewModel =\r\n            ViewModelProvider(this).get(ProfileViewModel::class.java)\r\n\r\n        _binding = FragmentProfileBinding.inflate(inflater, container, false)\r\n        val root: View = binding.root\r\n\r\n        val textView: TextView = binding.namaPengguna\r\n        profileViewModel.text.observe(viewLifecycleOwner) {\r\n            textView.text = it\r\n        }\r\n        return root\r\n    }\r\n\r\n    override fun onDestroyView() {\r\n        super.onDestroyView()\r\n        _binding = null\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/ui/profile/ProfileFragment.kt b/app/src/main/java/com/example/nh_care/ui/profile/ProfileFragment.kt
+--- a/app/src/main/java/com/example/nh_care/ui/profile/ProfileFragment.kt	
++++ b/app/src/main/java/com/example/nh_care/ui/profile/ProfileFragment.kt	
+@@ -1,37 +1,28 @@
+ package com.example.nh_care.ui.profile
+ 
++import android.content.Intent
+ import android.os.Bundle
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+-import android.widget.TextView
++import android.widget.Button
+ import androidx.fragment.app.Fragment
+-import androidx.lifecycle.ViewModelProvider
++import com.example.nh_care.ui.login.LoginActivity
+ import com.example.nh_care.databinding.FragmentProfileBinding
+ 
++
+ class ProfileFragment : Fragment() {
+ 
+     private var _binding: FragmentProfileBinding? = null
+-
+-    // This property is only valid between onCreateView and
+-    // onDestroyView.
+     private val binding get() = _binding!!
+ 
+     override fun onCreateView(
+-        inflater: LayoutInflater,
+-        container: ViewGroup?,
++        inflater: LayoutInflater, container: ViewGroup?,
+         savedInstanceState: Bundle?
+-    ): View {
+-        val profileViewModel =
+-            ViewModelProvider(this).get(ProfileViewModel::class.java)
+-
++    ): View? {
+         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+         val root: View = binding.root
+ 
+-        val textView: TextView = binding.namaPengguna
+-        profileViewModel.text.observe(viewLifecycleOwner) {
+-            textView.text = it
+-        }
+         return root
+     }
+ 

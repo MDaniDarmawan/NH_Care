@@ -80,7 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Nama"
+                        android:text="Judul"
                         android:textColor="@color/black"
                         android:textSize="20sp"/>
 
@@ -96,104 +96,7 @@
                         android:id="@+id/inputNamaAnak"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="nama anak"
-                        android:textSize="18sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/kelasanak"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Kelas"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="-10dp">
-
-                    <TextView
-                        android:id="@+id/inputKelasAnak"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="kelas anak"
-                        android:textSize="18sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/sekolahanak"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Sekolah"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="-10dp">
-
-                    <TextView
-                        android:id="@+id/inputSekolahAnak"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="judul program"
-                        android:textSize="18sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
                         android:text="Deskripsi"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="-10dp">
-
-
-                    <TextView
-                        android:id="@+id/inputDeskripsi"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="judul program"
                         android:textSize="18sp"/>
 
                 </LinearLayout>
