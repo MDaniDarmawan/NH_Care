@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    tools:context=".activity.acara.AcaraActivity">
+    tools:context=".activity.donasi.riwayat.DetailRiwayatDonasi">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DETAIL DONASI"
+            android:text="DETAIL RIWAYAT DONASI"
             android:fontFamily="@font/poppins_bold"
             android:textSize="20sp"
             android:textColor="@color/green"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-    <TextView
+    <EditText
         android:id="@+id/order_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:textColor="@color/black"
         android:textAlignment="center"/>
 
-    <EditText
+    <TextView
         android:id="@+id/kotak_order_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         android:textColor="@color/black"
         android:textAlignment="center"/>
 
-    <EditText
+    <TextView
         android:id="@+id/kotak_nama_donatur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
         android:textColor="@color/black"
         android:textAlignment="center"/>
 
-    <EditText
+    <TextView
         android:id="@+id/kotak_keterangan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
         android:textColor="@color/black"
         android:textAlignment="center"/>
 
-    <EditText
+    <TextView
         android:id="@+id/kotak_grossamount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
         android:textColor="@color/black"
         android:textAlignment="center"/>
 
-    <EditText
+    <TextView
         android:id="@+id/kotak_tanggal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

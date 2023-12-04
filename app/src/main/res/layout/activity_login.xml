@@ -135,7 +135,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/lupa_password"
+                    android:id="@+id/lupa_katasandi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -156,7 +156,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.516"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/lupa_password" />
+                    app:layout_constraintTop_toBottomOf="@id/lupa_katasandi" />
 
                 <TextView
                     android:id="@+id/belum_punya_akun"

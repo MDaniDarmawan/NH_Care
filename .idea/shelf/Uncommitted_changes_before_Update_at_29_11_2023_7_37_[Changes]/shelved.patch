@@ -1,0 +1,101 @@
+Index: app/src/main/java/com/example/nh_care/activity/program/ProgramActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.program\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.android.volley.Request\r\nimport com.android.volley.toolbox.JsonArrayRequest\r\nimport com.android.volley.toolbox.Volley\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.database.DbContract\r\nimport android.graphics.BitmapFactory\r\nimport android.util.Base64\r\nimport android.util.Log\r\nimport org.json.JSONArray\r\nimport org.json.JSONException\r\n\r\n\r\nclass ProgramActivity : AppCompatActivity() {\r\n\r\n    private lateinit var recyclerView: RecyclerView\r\n    private var programAdapter: ProgramAdapter? = null\r\n    private val programList = ArrayList<Map<String, String>>() // Menggunakan Map<String, String> sesuai dengan adapter\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_program)\r\n\r\n        programAdapter = ProgramAdapter(programList)\r\n        recyclerView = findViewById(R.id.rv_program)\r\n\r\n        recyclerView.layoutManager = LinearLayoutManager(this)\r\n        recyclerView.adapter = programAdapter\r\n\r\n        // Set listener untuk menangani klik pada item\r\n        programAdapter?.setOnItemClickListener(object : ProgramAdapter.OnItemClickListener {\r\n            override fun onItemClick(position: Int) {\r\n                val intent = Intent(this@ProgramActivity, DetailProgramActivity::class.java)\r\n                // Mengambil data dari programList yang sesuai dengan posisi\r\n                val currentItem = programList[position]\r\n                intent.putExtra(\"judul\", currentItem[\"judul\"])\r\n                intent.putExtra(\"deskripsi\", currentItem[\"deskripsi\"]) // Pastikan nama kuncinya sesuai\r\n                val imageBase64 = currentItem[\"image\"]\r\n                if (!imageBase64.isNullOrBlank()) {\r\n                    val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)\r\n                    intent.putExtra(\"img_program\", imageBytes)\r\n                }\r\n                startActivity(intent)\r\n            }\r\n        })\r\n\r\n        // Panggil method untuk mengambil data dari API lokal\r\n        fetchProgramDataFromAPI()\r\n    }\r\n\r\n    private fun fetchProgramDataFromAPI() {\r\n        val urlDataProgram = DbContract.urlProgram\r\n\r\n        val jsonArrayRequest = JsonArrayRequest(\r\n            Request.Method.GET, urlDataProgram, null,\r\n            { response ->\r\n                try {\r\n                    val fetchedProgramList = parsePrograms(response)\r\n                    programList.clear()\r\n                    programList.addAll(fetchedProgramList)\r\n                    programAdapter?.setPrograms(programList)\r\n                } catch (e: JSONException) {\r\n                    Log.e(\"JSON_ERROR\", \"Error: \" + e.message)\r\n                    e.printStackTrace()\r\n                }\r\n            },\r\n            { error ->\r\n                Log.e(\"VOLLEY_ERROR\", \"Error: \" + error.message)\r\n                error.printStackTrace()\r\n            })\r\n\r\n        Volley.newRequestQueue(this).add(jsonArrayRequest)\r\n    }\r\n\r\n    private fun parsePrograms(jsonArray: JSONArray): List<Map<String, String>> {\r\n        val programs = mutableListOf<Map<String, String>>()\r\n\r\n        for (i in 0 until jsonArray.length()) {\r\n            val programObject = jsonArray.getJSONObject(i)\r\n\r\n            val judul = programObject.getString(\"judul\")\r\n            val deskripsi = programObject.getString(\"deskripsi\")\r\n            val imageProgramBase64 = programObject.getString(\"img_program\")\r\n\r\n            val program = mapOf(\r\n                \"judul\" to judul,\r\n                \"deskripsi\" to deskripsi,\r\n                \"image\" to imageProgramBase64\r\n            )\r\n            programs.add(program)\r\n        }\r\n\r\n        return programs\r\n    }\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/program/ProgramActivity.kt b/app/src/main/java/com/example/nh_care/activity/program/ProgramActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/program/ProgramActivity.kt	(revision f0f13673caf824cd879b589876c24463b2f73360)
++++ b/app/src/main/java/com/example/nh_care/activity/program/ProgramActivity.kt	(date 1701217982395)
+@@ -16,16 +16,16 @@
+ import org.json.JSONArray
+ import org.json.JSONException
+ 
+-
+ class ProgramActivity : AppCompatActivity() {
+ 
+     private lateinit var recyclerView: RecyclerView
+     private var programAdapter: ProgramAdapter? = null
+-    private val programList = ArrayList<Map<String, String>>() // Menggunakan Map<String, String> sesuai dengan adapter
++    private val programList = ArrayList<Map<String, String>>()
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_program)
++        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+ 
+         programAdapter = ProgramAdapter(programList)
+         recyclerView = findViewById(R.id.rv_program)
+@@ -33,14 +33,12 @@
+         recyclerView.layoutManager = LinearLayoutManager(this)
+         recyclerView.adapter = programAdapter
+ 
+-        // Set listener untuk menangani klik pada item
+         programAdapter?.setOnItemClickListener(object : ProgramAdapter.OnItemClickListener {
+             override fun onItemClick(position: Int) {
+                 val intent = Intent(this@ProgramActivity, DetailProgramActivity::class.java)
+-                // Mengambil data dari programList yang sesuai dengan posisi
+                 val currentItem = programList[position]
+                 intent.putExtra("judul", currentItem["judul"])
+-                intent.putExtra("deskripsi", currentItem["deskripsi"]) // Pastikan nama kuncinya sesuai
++                intent.putExtra("deskripsi", currentItem["deskripsi"])
+                 val imageBase64 = currentItem["image"]
+                 if (!imageBase64.isNullOrBlank()) {
+                     val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)
+@@ -50,7 +48,6 @@
+             }
+         })
+ 
+-        // Panggil method untuk mengambil data dari API lokal
+         fetchProgramDataFromAPI()
+     }
+ 
+@@ -98,6 +95,4 @@
+ 
+         return programs
+     }
+-
+ }
+-
+Index: app/src/main/res/layout/activity_program.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@color/grey1\"\r\n    tools:context=\".activity.program.ProgramActivity\">\r\n\r\n    <ScrollView\r\n        android:layout_width=\"387dp\"\r\n        android:layout_height=\"703dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        tools:layout_editor_absoluteY=\"55dp\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/rv_program\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:layoutManager=\"androidx.recyclerview.widget.LinearLayoutManager\"\r\n            tools:listitem=\"@layout/item_program_list\" />\r\n    </ScrollView>\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_program.xml b/app/src/main/res/layout/activity_program.xml
+--- a/app/src/main/res/layout/activity_program.xml	(revision f0f13673caf824cd879b589876c24463b2f73360)
++++ b/app/src/main/res/layout/activity_program.xml	(date 1701218076590)
+@@ -6,7 +6,30 @@
+     android:layout_height="match_parent"
+     android:background="@color/grey1"
+     tools:context=".activity.program.ProgramActivity">
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        android:padding="10dp">
++
++        <ImageView
++            android:id="@+id/btnbackprogram"
++            android:layout_width="20dp"
++            android:layout_height="20dp"
++            android:background="@drawable/backberanda"
++            android:layout_gravity="start|center"/>
+ 
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="PROGRAM"
++            android:fontFamily="@font/poppins_bold"
++            android:textSize="20sp"
++            android:textColor="@color/green"
++            android:textAlignment="center"
++            android:layout_gravity="center"/>
++
++    </LinearLayout>
+     <ScrollView
+         android:layout_width="387dp"
+         android:layout_height="703dp"

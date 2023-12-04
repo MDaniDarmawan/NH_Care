@@ -1,7 +1,7 @@
 package com.example.nh_care.activity.acara
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.nh_care.database.DbContract
+import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.databinding.ActivityAcaraBinding
 import org.json.JSONArray
 import org.json.JSONException
@@ -29,6 +29,11 @@ class AcaraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAcaraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnbackacara.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         recyclerView = binding.rvAcara
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -53,7 +58,7 @@ class AcaraActivity : AppCompatActivity() {
 
     private fun fetchDataForDate(selectedDate: Calendar) {
         val formattedDate = dateFormat.format(selectedDate.time)
-        val urlDataAcara = "${DbContract.urlAcara}?tanggal_acara=$formattedDate"
+        val urlDataAcara = "https://nhcare.tifc.myhost.id/nhcare/api/api-acara.php?tanggal_acara=$formattedDate"
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataAcara, null,
             { response ->

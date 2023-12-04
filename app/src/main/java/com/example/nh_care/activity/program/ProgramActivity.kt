@@ -9,8 +9,6 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
-import com.example.nh_care.database.DbContract
-import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
 import org.json.JSONArray
@@ -26,6 +24,7 @@ class ProgramActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_program)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         programAdapter = ProgramAdapter(programList)
         recyclerView = findViewById(R.id.rv_program)
@@ -52,7 +51,7 @@ class ProgramActivity : AppCompatActivity() {
     }
 
     private fun fetchProgramDataFromAPI() {
-        val urlDataProgram = DbContract.urlProgram
+        val urlDataProgram = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getProgramData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataProgram, null,

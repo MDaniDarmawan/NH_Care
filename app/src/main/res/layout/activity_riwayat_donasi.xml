@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    tools:context=".activity.acara.AcaraActivity">
+    tools:context=".activity.donasi.riwayat.RiwayatDonasiActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:layout_gravity="center">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_acara"
+            android:id="@+id/rv_riwayatdonasi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_riwayat_donasi"/>

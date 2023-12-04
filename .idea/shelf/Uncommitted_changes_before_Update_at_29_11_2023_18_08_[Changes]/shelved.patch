@@ -1,0 +1,761 @@
+Index: app/src/main/java/com/example/nh_care/activity/alokasi/AlokasiActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.alokasi\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport android.util.Base64\r\nimport android.util.Log\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.fragment.app.FragmentManager\r\nimport androidx.fragment.app.FragmentTransaction\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.android.volley.Request\r\nimport com.android.volley.toolbox.JsonArrayRequest\r\nimport com.android.volley.toolbox.Volley\r\nimport com.example.berandaberanda.activitity.alokasi.AlokasiAdapter\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.database.DbContract\r\nimport com.example.nh_care.databinding.ActivityAlokasiBinding\r\nimport com.example.nh_care.fragment.beranda.BerandaFragment\r\nimport org.json.JSONArray\r\nimport org.json.JSONException\r\n\r\nclass AlokasiActivity : AppCompatActivity() {\r\n    private lateinit var binding: ActivityAlokasiBinding\r\n    private lateinit var recyclerView: RecyclerView\r\n    private var alokasiAdapter: AlokasiAdapter? = null\r\n    private val alokasiList = ArrayList<Map<String, String>>() // Using Map<String, String> as per the adapter\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityAlokasiBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n\r\n        alokasiAdapter = AlokasiAdapter(alokasiList)\r\n        recyclerView = binding.rvAlokasi\r\n\r\n        recyclerView.layoutManager = LinearLayoutManager(this)\r\n        recyclerView.adapter = alokasiAdapter\r\n\r\n        // Set listener to handle item clicks\r\n        alokasiAdapter?.setOnItemClickListener(object : AlokasiAdapter.OnItemClickListener {\r\n            override fun onItemClick(position: Int) {\r\n                val intent = Intent(this@AlokasiActivity, DetailAlokasiActivity::class.java)\r\n                val currentItem = alokasiList[position]\r\n                intent.putExtra(\"judul\", currentItem[\"judul\"])\r\n                intent.putExtra(\"deskripsi\", currentItem[\"deskripsi\"])\r\n                val imageBase64 = currentItem[\"image\"]\r\n                if (!imageBase64.isNullOrBlank()) {\r\n                    val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)\r\n                    intent.putExtra(\"img_alokasi\", imageBytes)\r\n                }\r\n                startActivity(intent)\r\n            }\r\n        })\r\n\r\n        binding.btnbackalokasi.setOnClickListener {\r\n            val fragmentManager: FragmentManager = supportFragmentManager\r\n            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()\r\n            val berandaFragment = BerandaFragment()\r\n            fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, berandaFragment)\r\n            fragmentTransaction.commit()\r\n        }\r\n\r\n        // Call the method to fetch data from the local API\r\n        fetchAlokasiDataFromAPI()\r\n    }\r\n\r\n    private fun fetchAlokasiDataFromAPI() {\r\n        val urlDataAlokasi = DbContract.urlAlokasi\r\n\r\n        val jsonArrayRequest = JsonArrayRequest(\r\n            Request.Method.GET, urlDataAlokasi, null,\r\n            { response ->\r\n                try {\r\n                    val fetchedAlokasiList = parseAlokasi(response)\r\n                    alokasiList.clear()\r\n                    alokasiList.addAll(fetchedAlokasiList)\r\n                    alokasiAdapter?.setAlokasi(alokasiList)\r\n                } catch (e: JSONException) {\r\n                    Log.e(\"JSON_ERROR\", \"Error: \" + e.message)\r\n                    e.printStackTrace()\r\n                }\r\n            },\r\n            { error ->\r\n                Log.e(\"VOLLEY_ERROR\", \"Error: \" + error.message)\r\n                error.printStackTrace()\r\n            })\r\n\r\n        Volley.newRequestQueue(this).add(jsonArrayRequest)\r\n    }\r\n\r\n    private fun parseAlokasi(jsonArray: JSONArray): List<Map<String, String>> {\r\n        val alokasik = mutableListOf<Map<String, String>>()\r\n\r\n        for (i in 0 until jsonArray.length()) {\r\n            val alokasiObject = jsonArray.getJSONObject(i)\r\n\r\n            val judul = alokasiObject.getString(\"judul\")\r\n            val deskripsi = alokasiObject.getString(\"deskripsi\")\r\n            val imageAlokasiBase64 = alokasiObject.getString(\"img_alokasi\")\r\n\r\n            val alokasi = mapOf(\r\n                \"judul\" to judul,\r\n                \"deskripsi\" to deskripsi,\r\n                \"image\" to imageAlokasiBase64\r\n            )\r\n            alokasik.add(alokasi)\r\n        }\r\n\r\n        return alokasik\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/alokasi/AlokasiActivity.kt b/app/src/main/java/com/example/nh_care/activity/alokasi/AlokasiActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/alokasi/AlokasiActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/alokasi/AlokasiActivity.kt	(date 1701242173696)
+@@ -14,6 +14,7 @@
+ import com.android.volley.toolbox.Volley
+ import com.example.berandaberanda.activitity.alokasi.AlokasiAdapter
+ import com.example.nh_care.R
++import com.example.nh_care.activity.MainActivity
+ import com.example.nh_care.database.DbContract
+ import com.example.nh_care.databinding.ActivityAlokasiBinding
+ import com.example.nh_care.fragment.beranda.BerandaFragment
+@@ -54,11 +55,8 @@
+         })
+ 
+         binding.btnbackalokasi.setOnClickListener {
+-            val fragmentManager: FragmentManager = supportFragmentManager
+-            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+-            val berandaFragment = BerandaFragment()
+-            fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, berandaFragment)
+-            fragmentTransaction.commit()
++            val intent = Intent(this@AlokasiActivity, MainActivity::class.java)
++            startActivity(intent)
+         }
+ 
+         // Call the method to fetch data from the local API
+Index: app/src/main/java/com/example/nh_care/activity/alokasi/DetailAlokasiActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.alokasi\r\n\r\nimport android.content.Intent\r\nimport android.graphics.BitmapFactory\r\nimport android.os.Bundle\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.databinding.ActivityDetailAlokasiBinding\r\n\r\nclass DetailAlokasiActivity : AppCompatActivity() {\r\n\r\n    private lateinit var binding: ActivityDetailAlokasiBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityDetailAlokasiBinding.inflate(layoutInflater)\r\n        val view = binding.root\r\n        setContentView(view)\r\n        supportActionBar?.hide()\r\n\r\n        val headingTujuan = binding.JudulAlokasi\r\n        val mainTujuan = binding.DeskAlokasi\r\n        val imageP = binding.imageAlokasi\r\n\r\n        val bundle: Bundle? = intent.extras\r\n        val judul = bundle!!.getString(\"judul\")\r\n        val deskripsi = bundle.getString(\"deskripsi\")\r\n        val imageAlokasiBlob = bundle.getByteArray(\"img_alokasi\") // Ambil BLOB dari intent\r\n\r\n        headingTujuan.text = judul\r\n        mainTujuan.text = deskripsi\r\n\r\n        if (imageAlokasiBlob != null) {\r\n            // Jika Anda memiliki BLOB dari gambar\r\n            val gambarBlob = BitmapFactory.decodeByteArray(imageAlokasiBlob, 0, imageAlokasiBlob.size)\r\n            imageP.setImageBitmap(gambarBlob)\r\n        } else {\r\n            // Jika tidak ada gambar, tampilkan placeholder\r\n            imageP.setImageResource(R.drawable.comingsoon)\r\n        }\r\n        binding.backalokasi.setOnClickListener() {\r\n            startActivity(Intent(this, AlokasiActivity::class.java))\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/alokasi/DetailAlokasiActivity.kt b/app/src/main/java/com/example/nh_care/activity/alokasi/DetailAlokasiActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/alokasi/DetailAlokasiActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/alokasi/DetailAlokasiActivity.kt	(date 1701221615907)
+@@ -42,5 +42,4 @@
+             startActivity(Intent(this, AlokasiActivity::class.java))
+         }
+     }
+-
+ }
+Index: app/src/main/res/layout/fragment_beranda.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".fragment.beranda.BerandaFragment\">\r\n\r\n    <ScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"1.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.0\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <androidx.constraintlayout.widget.ConstraintLayout\r\n                android:id=\"@+id/bg_panti\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"175dp\"\r\n                android:background=\"@drawable/bgdonasi\">\r\n\r\n                <androidx.constraintlayout.widget.ConstraintLayout\r\n                    android:layout_width=\"350dp\"\r\n                    android:layout_height=\"85dp\"\r\n                    android:layout_gravity=\"center\"\r\n                    android:background=\"@drawable/button\"\r\n                    app:layout_constraintBottom_toBottomOf=\"@+id/bg_panti\"\r\n                    app:layout_constraintEnd_toEndOf=\"@+id/bg_panti\"\r\n                    app:layout_constraintStart_toStartOf=\"@+id/bg_panti\"\r\n                    app:layout_constraintTop_toTopOf=\"@+id/bg_panti\">\r\n\r\n                    <TextView\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_marginTop=\"10dp\"\r\n                        android:fontFamily=\"@font/poppins_bold\"\r\n                        android:text=\"TOTAL DANA DONASI :\"\r\n                        android:textColor=\"@color/black\"\r\n                        android:textSize=\"20sp\"\r\n                        app:layout_constraintEnd_toEndOf=\"parent\"\r\n                        app:layout_constraintStart_toStartOf=\"parent\"\r\n                        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/totaldonasi\"\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:fontFamily=\"@font/poppins_light\"\r\n                        android:text=\"RP.1.000.000.00\"\r\n                        android:textColor=\"@color/black\"\r\n                        android:textSize=\"32sp\"\r\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                        app:layout_constraintEnd_toEndOf=\"parent\"\r\n                        app:layout_constraintStart_toStartOf=\"parent\" />\r\n\r\n                </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_gravity=\"center\"\r\n                    android:layout_marginTop=\"5dp\"\r\n                    android:orientation=\"horizontal\">\r\n\r\n                <androidx.cardview.widget.CardView\r\n                    android:layout_width=\"90dp\"\r\n                    android:layout_height=\"113dp\"\r\n                    android:layout_margin=\"5dp\">\r\n\r\n                    <androidx.constraintlayout.widget.ConstraintLayout\r\n                        android:layout_width=\"86dp\"\r\n                        android:layout_height=\"109dp\"\r\n                        android:background=\"@drawable/button\">\r\n\r\n                        <ImageView\r\n                            android:layout_width=\"81dp\"\r\n                            android:layout_height=\"98dp\"\r\n                            android:background=\"@drawable/icon_donasi\"\r\n                            app:layout_constraintTop_toTopOf=\"parent\"\r\n                            app:layout_constraintStart_toStartOf=\"parent\"\r\n                            app:layout_constraintEnd_toEndOf=\"parent\"\r\n                            app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                    </androidx.constraintlayout.widget.ConstraintLayout>\r\n                </androidx.cardview.widget.CardView>\r\n\r\n                <androidx.cardview.widget.CardView\r\n                    android:layout_width=\"90dp\"\r\n                    android:layout_height=\"113dp\"\r\n                    android:layout_margin=\"5dp\">\r\n\r\n                    <androidx.constraintlayout.widget.ConstraintLayout\r\n                        android:layout_width=\"86dp\"\r\n                        android:layout_height=\"109dp\"\r\n                        android:background=\"@drawable/button\">\r\n\r\n                        <ImageView\r\n                            android:id=\"@+id/btnanak\"\r\n                            android:layout_width=\"81dp\"\r\n                            android:layout_height=\"98dp\"\r\n                            android:background=\"@drawable/icon_anak_asuh\"\r\n                            app:layout_constraintTop_toTopOf=\"parent\"\r\n                            app:layout_constraintStart_toStartOf=\"parent\"\r\n                            app:layout_constraintEnd_toEndOf=\"parent\"\r\n                            app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                    </androidx.constraintlayout.widget.ConstraintLayout>\r\n                </androidx.cardview.widget.CardView>\r\n\r\n                <androidx.cardview.widget.CardView\r\n                    android:layout_width=\"90dp\"\r\n                    android:layout_height=\"113dp\"\r\n                    android:layout_margin=\"5dp\">\r\n\r\n                    <androidx.constraintlayout.widget.ConstraintLayout\r\n                        android:layout_width=\"86dp\"\r\n                        android:layout_height=\"109dp\"\r\n                        android:background=\"@drawable/button\">\r\n\r\n                        <ImageView\r\n                            android:id=\"@+id/btnalokasi\"\r\n                            android:layout_width=\"81dp\"\r\n                            android:layout_height=\"98dp\"\r\n                            android:background=\"@drawable/icon_website\"\r\n                            app:layout_constraintTop_toTopOf=\"parent\"\r\n                            app:layout_constraintStart_toStartOf=\"parent\"\r\n                            app:layout_constraintEnd_toEndOf=\"parent\"\r\n                            app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                    </androidx.constraintlayout.widget.ConstraintLayout>\r\n                </androidx.cardview.widget.CardView>\r\n\r\n                <androidx.cardview.widget.CardView\r\n                    android:layout_width=\"90dp\"\r\n                    android:layout_height=\"113dp\"\r\n                    android:layout_margin=\"5dp\">\r\n\r\n                    <androidx.constraintlayout.widget.ConstraintLayout\r\n                        android:layout_width=\"86dp\"\r\n                        android:layout_height=\"109dp\"\r\n                        android:background=\"@drawable/button\">\r\n\r\n                        <ImageView\r\n                            android:id=\"@+id/btnprogram\"\r\n                            android:layout_width=\"81dp\"\r\n                            android:layout_height=\"98dp\"\r\n                            android:background=\"@drawable/icon_program\"\r\n                            app:layout_constraintTop_toTopOf=\"parent\"\r\n                            app:layout_constraintStart_toStartOf=\"parent\"\r\n                            app:layout_constraintEnd_toEndOf=\"parent\"\r\n                            app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                    </androidx.constraintlayout.widget.ConstraintLayout>\r\n                </androidx.cardview.widget.CardView>\r\n                </LinearLayout>\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_gravity=\"start\"\r\n                    android:layout_marginStart=\"5dp\"\r\n                    android:orientation=\"horizontal\">\r\n\r\n                    <androidx.cardview.widget.CardView\r\n                        android:layout_width=\"90dp\"\r\n                        android:layout_height=\"113dp\"\r\n                        android:layout_margin=\"5dp\">\r\n\r\n                        <androidx.constraintlayout.widget.ConstraintLayout\r\n                            android:layout_width=\"86dp\"\r\n                            android:layout_height=\"109dp\"\r\n                            android:background=\"@drawable/button\">\r\n\r\n                            <ImageView\r\n                                android:id=\"@+id/btnacara\"\r\n                                android:layout_width=\"81dp\"\r\n                                android:layout_height=\"98dp\"\r\n                                android:background=\"@drawable/icon_acara\"\r\n                                app:layout_constraintTop_toTopOf=\"parent\"\r\n                                app:layout_constraintStart_toStartOf=\"parent\"\r\n                                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                                app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                        </androidx.constraintlayout.widget.ConstraintLayout>\r\n                    </androidx.cardview.widget.CardView>\r\n\r\n                    <androidx.cardview.widget.CardView\r\n                        android:layout_width=\"90dp\"\r\n                        android:layout_height=\"113dp\"\r\n                        android:layout_margin=\"5dp\">\r\n\r\n                        <androidx.constraintlayout.widget.ConstraintLayout\r\n                            android:layout_width=\"86dp\"\r\n                            android:layout_height=\"109dp\"\r\n                            android:background=\"@drawable/button\">\r\n\r\n                            <ImageView\r\n                                android:id=\"@+id/btnwebsite\"\r\n                                android:layout_width=\"81dp\"\r\n                                android:layout_height=\"98dp\"\r\n                                android:background=\"@drawable/icon_alokasi_dana\"\r\n                                app:layout_constraintTop_toTopOf=\"parent\"\r\n                                app:layout_constraintStart_toStartOf=\"parent\"\r\n                                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                                app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                        </androidx.constraintlayout.widget.ConstraintLayout>\r\n                    </androidx.cardview.widget.CardView>\r\n\r\n                    <androidx.cardview.widget.CardView\r\n                        android:layout_width=\"90dp\"\r\n                        android:layout_height=\"113dp\"\r\n                        android:layout_margin=\"5dp\">\r\n\r\n                        <androidx.constraintlayout.widget.ConstraintLayout\r\n                            android:layout_width=\"86dp\"\r\n                            android:layout_height=\"109dp\"\r\n                            android:background=\"@drawable/button\">\r\n\r\n                            <ImageView\r\n                                android:id=\"@+id/btnvideo\"\r\n                                android:layout_width=\"81dp\"\r\n                                android:layout_height=\"98dp\"\r\n                                android:background=\"@drawable/icon_video\"\r\n                                app:layout_constraintTop_toTopOf=\"parent\"\r\n                                app:layout_constraintStart_toStartOf=\"parent\"\r\n                                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                                app:layout_constraintBottom_toBottomOf=\"parent\"/>\r\n\r\n                        </androidx.constraintlayout.widget.ConstraintLayout>\r\n                    </androidx.cardview.widget.CardView>\r\n\r\n                </LinearLayout>\r\n\r\n            </LinearLayout>\r\n\r\n            <androidx.constraintlayout.widget.ConstraintLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"40dp\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/textView2\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginStart=\"10dp\"\r\n                    android:fontFamily=\"@font/poppins_bold\"\r\n                    android:text=\"Rekomendasi Video Kajian\"\r\n                    android:textColor=\"@color/black\"\r\n                    android:textSize=\"20sp\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n\r\n                <androidx.constraintlayout.widget.ConstraintLayout\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:background=\"@drawable/button2\"\r\n                    android:backgroundTint=\"@color/green\"\r\n                    android:layout_marginEnd=\"8dp\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\">\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/btnyt\"\r\n                        android:layout_width=\"100dp\"\r\n                        android:layout_height=\"20dp\"\r\n                        android:fontFamily=\"@font/poppins_bold\"\r\n                        android:text=\"Lihat Semua\"\r\n                        android:textColor=\"@color/white\"\r\n                        android:textSize=\"12sp\"\r\n                        android:textAlignment=\"center\"\r\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                        app:layout_constraintEnd_toEndOf=\"parent\"\r\n                        app:layout_constraintStart_toStartOf=\"parent\"\r\n                        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n                </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\">\r\n\r\n                <VideoView\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\">\r\n\r\n                </VideoView>\r\n            </LinearLayout>\r\n\r\n            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView\r\n                android:id=\"@+id/ytkajian\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:paddingLeft=\"10dp\"\r\n                android:paddingRight=\"10dp\"\r\n                app:videoId=\"3LcgoT8kez4\"\r\n                app:autoPlay=\"false\" />\r\n\r\n            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView\r\n                android:id=\"@+id/ytnuha\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:padding=\"10dp\"\r\n                app:videoId=\"diM6jvYXELQ\"\r\n                app:autoPlay=\"false\">\r\n\r\n            </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>\r\n        </LinearLayout>\r\n\r\n    </ScrollView>\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_beranda.xml b/app/src/main/res/layout/fragment_beranda.xml
+--- a/app/src/main/res/layout/fragment_beranda.xml	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/res/layout/fragment_beranda.xml	(date 1701226975129)
+@@ -88,6 +88,7 @@
+                         android:background="@drawable/button">
+ 
+                         <ImageView
++                            android:id="@+id/btnDonasi"
+                             android:layout_width="81dp"
+                             android:layout_height="98dp"
+                             android:background="@drawable/icon_donasi"
+Index: app/src/main/java/com/example/nh_care/fragment/beranda/BerandaFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.fragment.beranda\r\n\r\nimport android.content.Intent\r\nimport android.net.Uri\r\nimport android.os.Bundle\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.fragment.app.Fragment\r\nimport com.example.nh_care.activity.anakasuh.AnakActivity\r\nimport com.example.nh_care.activity.acara.AcaraActivity\r\nimport com.example.nh_care.activity.alokasi.AlokasiActivity\r\nimport com.example.nh_care.activity.program.ProgramActivity\r\nimport com.example.nh_care.activity.video.VideoActivity\r\nimport com.example.nh_care.activity.website.WebsiteActivity\r\nimport com.example.nh_care.databinding.FragmentBerandaBinding\r\n\r\nclass BerandaFragment : Fragment() {\r\n    private lateinit var binding: FragmentBerandaBinding\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater,\r\n        container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n\r\n    ): View? {\r\n        binding = FragmentBerandaBinding.inflate(inflater, container, false)\r\n\r\n        binding.btnanak.setOnClickListener{\r\n            val intent = Intent(requireActivity(), AnakActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n        binding.btnacara.setOnClickListener{\r\n            val intent = Intent(requireActivity(), AcaraActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n        binding.btnprogram.setOnClickListener{\r\n            val intent = Intent(requireActivity(), ProgramActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n        binding.btnalokasi.setOnClickListener {\r\n            val intent = Intent(requireActivity(), AlokasiActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n        binding.btnvideo.setOnClickListener{\r\n            val intent = Intent(requireActivity(), VideoActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n        binding.btnwebsite.setOnClickListener{\r\n            val intent = Intent(requireActivity(), WebsiteActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n        binding.btnyt.setOnClickListener{\r\n            openUrl(\"https://www.youtube.com/@nurulhusnajember\")\r\n        }\r\n        return binding.root\r\n    }\r\n    private fun openUrl(link:String){\r\n        val uri = Uri.parse(link)\r\n        val intent = Intent(Intent.ACTION_VIEW, uri)\r\n        startActivity(intent)\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/fragment/beranda/BerandaFragment.kt b/app/src/main/java/com/example/nh_care/fragment/beranda/BerandaFragment.kt
+--- a/app/src/main/java/com/example/nh_care/fragment/beranda/BerandaFragment.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/fragment/beranda/BerandaFragment.kt	(date 1701221615989)
+@@ -10,6 +10,7 @@
+ import com.example.nh_care.activity.anakasuh.AnakActivity
+ import com.example.nh_care.activity.acara.AcaraActivity
+ import com.example.nh_care.activity.alokasi.AlokasiActivity
++import com.example.nh_care.activity.donasi.DonasiActivity
+ import com.example.nh_care.activity.program.ProgramActivity
+ import com.example.nh_care.activity.video.VideoActivity
+ import com.example.nh_care.activity.website.WebsiteActivity
+@@ -18,13 +19,16 @@
+ class BerandaFragment : Fragment() {
+     private lateinit var binding: FragmentBerandaBinding
+     override fun onCreateView(
+-        inflater: LayoutInflater,
+-        container: ViewGroup?,
++        inflater: LayoutInflater, container: ViewGroup?,
+         savedInstanceState: Bundle?
+ 
+     ): View? {
+         binding = FragmentBerandaBinding.inflate(inflater, container, false)
+ 
++        binding.btnDonasi.setOnClickListener{
++            val intent= Intent(requireActivity(), DonasiActivity::class.java)
++            startActivity(intent)
++        }
+         binding.btnanak.setOnClickListener{
+             val intent = Intent(requireActivity(), AnakActivity::class.java)
+             startActivity(intent)
+Index: app/src/main/res/layout/fragment_profile.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    tools:context=\".fragment.profile.ProfileFragment\">\r\n\r\n    <ScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"vertical\">\r\n\r\n        <androidx.constraintlayout.widget.ConstraintLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/sampulprofil\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"@drawable/background_profile\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/fotoprofil\"\r\n                android:layout_width=\"200dp\"\r\n                android:layout_height=\"200dp\"\r\n                android:background=\"@drawable/baseline_circle_24\"\r\n                android:gravity=\"center\"\r\n                android:textColor=\"@color/green\"\r\n                android:textSize=\"50sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"@+id/sampulprofil\"\r\n                app:layout_constraintEnd_toEndOf=\"@+id/sampulprofil\"\r\n                app:layout_constraintStart_toStartOf=\"@+id/sampulprofil\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/sampulprofil\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/nama_pengguna\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:fontFamily=\"@font/poppins_bold\"\r\n                android:text=\"NAMA PENGGUNA\"\r\n                android:textSize=\"25sp\"\r\n                android:layout_marginTop=\"20dp\"\r\n                android:textColor=\"@color/black\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/fotoprofil\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/kotak_nama_pengguna\"\r\n                android:layout_width=\"370dp\"\r\n                android:layout_height=\"60dp\"\r\n                android:background=\"@drawable/button\"\r\n                android:text=\"Nama Pengguna\"\r\n                android:textAlignment=\"center\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/nama_pengguna\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/email\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:fontFamily=\"@font/poppins_bold\"\r\n                android:text=\"EMAIL\"\r\n                android:textSize=\"25sp\"\r\n                android:layout_marginTop=\"10dp\"\r\n                android:textColor=\"@color/black\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/kotak_nama_pengguna\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/kotak_email\"\r\n                android:layout_width=\"370dp\"\r\n                android:layout_height=\"60dp\"\r\n                android:background=\"@drawable/button\"\r\n                android:text=\"Email\"\r\n                android:textAlignment=\"center\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/email\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/nomor_telepon\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:fontFamily=\"@font/poppins_bold\"\r\n                android:text=\"NOMOR TELEPON\"\r\n                android:textSize=\"25sp\"\r\n                android:layout_marginTop=\"10dp\"\r\n                android:textColor=\"@color/black\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/kotak_email\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/kotak_nomor_telepon\"\r\n                android:layout_width=\"370dp\"\r\n                android:layout_height=\"60dp\"\r\n                android:background=\"@drawable/button\"\r\n                android:text=\"No Telephon\"\r\n                android:textAlignment=\"center\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/nomor_telepon\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/kata_sandi\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:fontFamily=\"@font/poppins_bold\"\r\n                android:text=\"KATA SANDI\"\r\n                android:textSize=\"25sp\"\r\n                android:layout_marginTop=\"10dp\"\r\n                android:textColor=\"@color/black\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/kotak_nomor_telepon\" />\r\n\r\n            <androidx.appcompat.widget.AppCompatButton\r\n                android:id=\"@+id/kotak_kata_sandi\"\r\n                android:layout_width=\"370dp\"\r\n                android:layout_height=\"60dp\"\r\n                android:background=\"@drawable/button\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/kata_sandi\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\" />\r\n\r\n            <androidx.appcompat.widget.AppCompatButton\r\n                android:id=\"@+id/tombol_keluar\"\r\n                style=\"@style/tombol\"\r\n                android:layout_width=\"170dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginTop=\"20dp\"\r\n                android:layout_marginEnd=\"20dp\"\r\n                android:text=\"KELUAR\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.516\"\r\n                app:layout_constraintTop_toBottomOf=\"@id/kotak_kata_sandi\" />\r\n\r\n            <androidx.appcompat.widget.AppCompatButton\r\n                android:id=\"@+id/tombol_edit\"\r\n                style=\"@style/tombol\"\r\n                android:layout_width=\"170dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginTop=\"20dp\"\r\n                android:layout_marginStart=\"20dp\"\r\n                android:text=\"EDIT\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.516\"\r\n                app:layout_constraintTop_toBottomOf=\"@id/kotak_kata_sandi\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/text\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"20dp\"\r\n                android:text=\"@string/layanan\"\r\n                android:gravity=\"center\"\r\n                android:textColor=\"@color/white\"\r\n                app:layout_constraintTop_toBottomOf=\"@+id/tombol_keluar\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"/>\r\n\r\n        </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n        </LinearLayout>\r\n\r\n    </ScrollView>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_profile.xml b/app/src/main/res/layout/fragment_profile.xml
+--- a/app/src/main/res/layout/fragment_profile.xml	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/res/layout/fragment_profile.xml	(date 1701221615889)
+@@ -57,12 +57,13 @@
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintTop_toBottomOf="@+id/fotoprofil" />
+ 
+-            <EditText
++            <TextView
+                 android:id="@+id/kotak_nama_pengguna"
+-                android:layout_width="370dp"
+-                android:layout_height="60dp"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
+                 android:background="@drawable/button"
+                 android:text="Nama Pengguna"
++                android:textSize="25dp"
+                 android:textAlignment="center"
+                 app:layout_constraintTop_toBottomOf="@+id/nama_pengguna"
+                 app:layout_constraintStart_toStartOf="parent"
+Index: app/src/main/java/com/example/nh_care/database/DbContract.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.database\r\n\r\nobject DbContract {\r\n\r\n    const val ip = \"10.10.185.110\"\r\n\r\n    const val urlRegister = \"http://$ip/api-nhcare/api-register.php\"\r\n    const val urlLogin = \"http://$ip/api-nhcare/api-login.php\"\r\n    const val urlDonasi = \"http://$ip/api-nhcare/api-donasi.php\"\r\n    const val urlInsertDonasi= \"http://$ip/api-nhcare/api-insertdonasi.php\"\r\n    const val urlAlokasi= \"http://$ip/api-nhcare/api-alokasi.php\"\r\n    const val urlProgram =\"http://$ip/api-nhcare/api-program.php\"\r\n    const val urlVideo = \"http://$ip/api-nhcare/api-video.php\"\r\n    const val urlAcara = \"http://$ip/api-nhcare/api-acara.php\"\r\n    const val urlAnak= \"http://$ip/api-nhcare/api-anakasuh.php\"\r\n    const val urlProfile= \"http://$ip/api-nhcare/api-profile.php\"\r\n    const val urlFaq= \"http://$ip/api-nhcare/api-faq.php\"\r\n    const val urlWebsite= \"http://$ip/api-nhcare/api-website.php\"\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/database/DbContract.kt b/app/src/main/java/com/example/nh_care/database/DbContract.kt
+--- a/app/src/main/java/com/example/nh_care/database/DbContract.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/database/DbContract.kt	(date 1701223073459)
+@@ -2,13 +2,14 @@
+ 
+ object DbContract {
+ 
+-    const val ip = "10.10.185.110"
++    const val ip = "10.10.185.114"
+ 
+     const val urlRegister = "http://$ip/api-nhcare/api-register.php"
+-    const val urlLogin = "http://$ip/api-nhcare/api-login.php"
++//    const val urlLogin = "http://$ip/api-nhcare/api-login.php"
++    const val urlLogin = "http://$ip/api-mysql-main/api-login.php"
+     const val urlDonasi = "http://$ip/api-nhcare/api-donasi.php"
+     const val urlInsertDonasi= "http://$ip/api-nhcare/api-insertdonasi.php"
+-    const val urlAlokasi= "http://$ip/api-nhcare/api-alokasi.php"
++    const val urlAlokasi= "http://$ip/api-mysql-main/api-alokasiDana.php"
+     const val urlProgram ="http://$ip/api-nhcare/api-program.php"
+     const val urlVideo = "http://$ip/api-nhcare/api-video.php"
+     const val urlAcara = "http://$ip/api-nhcare/api-acara.php"
+Index: app/src/main/java/com/example/nh_care/activity/splashscreen/SplashActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.splashscreen\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport android.os.Handler\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.activity.MainActivity\r\nimport com.example.nh_care.activity.login.LoginActivity\r\nimport com.example.nh_care.fragment.beranda.BerandaFragment\r\n\r\nclass SplashActivity : AppCompatActivity() {\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        setContentView(R.layout.activity_splashscreen)\r\n        supportActionBar?.hide()\r\n\r\n        Handler().postDelayed({\r\n            val intent = Intent(this@SplashActivity, MainActivity::class.java)\r\n            startActivity(intent)\r\n            finish()\r\n        }, 3000)\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/splashscreen/SplashActivity.kt b/app/src/main/java/com/example/nh_care/activity/splashscreen/SplashActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/splashscreen/SplashActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/splashscreen/SplashActivity.kt	(date 1701221615923)
+@@ -5,9 +5,7 @@
+ import android.os.Handler
+ import androidx.appcompat.app.AppCompatActivity
+ import com.example.nh_care.R
+-import com.example.nh_care.activity.MainActivity
+ import com.example.nh_care.activity.login.LoginActivity
+-import com.example.nh_care.fragment.beranda.BerandaFragment
+ 
+ class SplashActivity : AppCompatActivity() {
+     override fun onCreate(savedInstanceState: Bundle?) {
+@@ -16,7 +14,7 @@
+         supportActionBar?.hide()
+ 
+         Handler().postDelayed({
+-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
++            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+             startActivity(intent)
+             finish()
+         }, 3000)
+Index: app/src/main/java/com/example/nh_care/activity/anakasuh/DetailAnakActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.anakasuh\r\n\r\nimport android.content.Intent\r\nimport android.graphics.Bitmap\r\nimport android.graphics.BitmapFactory\r\nimport android.os.Bundle\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport com.example.nh_care.activity.MainActivity\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.activity.anakasuh.DataAnak\r\nimport com.example.nh_care.databinding.ActivityDetailAnakasuhBinding\r\n\r\nclass DetailAnakActivity : AppCompatActivity() {\r\n\r\n    private lateinit var binding: ActivityDetailAnakasuhBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityDetailAnakasuhBinding.inflate(layoutInflater)\r\n        val view = binding.root\r\n        setContentView(view)\r\n        supportActionBar?.hide()\r\n\r\n        val headingNama = binding.inputNamaAnak\r\n        val detailKelas = binding.inputKelasAnak\r\n        val detailSekolah = binding.inputSekolahAnak\r\n        val detailDeskripsi = binding.inputDeskripsi\r\n        val imageAnak = binding.imageAnak\r\n\r\n        val bundle: Bundle? = intent.extras\r\n        val nama = bundle?.getString(\"nama\")\r\n        val kelas = bundle?.getString(\"kelas\")\r\n        val sekolah = bundle?.getString(\"nama_sekolah\")\r\n        val deskripsi = bundle?.getString(\"deskripsi\")\r\n        val imgAnak = bundle?.getParcelable<Bitmap>(\"img_anak\")\r\n\r\n        headingNama.text = nama\r\n        detailKelas.text = kelas\r\n        detailSekolah.text = sekolah\r\n        detailDeskripsi.text = deskripsi\r\n\r\n        if (imgAnak != null) {\r\n            imageAnak.setImageBitmap(imgAnak)\r\n        } else {\r\n            imageAnak.setImageResource(R.drawable.comingsoon)\r\n        }\r\n\r\n\r\n\r\n\r\n\r\n        binding.btnbackanak.setOnClickListener() {\r\n            startActivity(Intent(this, AnakActivity::class.java))\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/anakasuh/DetailAnakActivity.kt b/app/src/main/java/com/example/nh_care/activity/anakasuh/DetailAnakActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/anakasuh/DetailAnakActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/anakasuh/DetailAnakActivity.kt	(date 1701221615932)
+@@ -45,10 +45,6 @@
+             imageAnak.setImageResource(R.drawable.comingsoon)
+         }
+ 
+-
+-
+-
+-
+         binding.btnbackanak.setOnClickListener() {
+             startActivity(Intent(this, AnakActivity::class.java))
+         }
+Index: app/src/main/res/layout/activity_donasi.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".activity.donasi.DonasiActivity\">\r\n\r\n    <TextView\r\n        style=\"@style/Widget.MaterialComponents.Button.OutlinedButton\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Donasi\"\r\n        android:textSize=\"24sp\"\r\n        tools:layout_editor_absoluteX=\"139dp\"\r\n        tools:layout_editor_absoluteY=\"16dp\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnbackdonasi\"\r\n        android:layout_width=\"30dp\"\r\n        android:layout_height=\"30dp\"\r\n        app:srcCompat=\"@drawable/backberanda\"\r\n        tools:layout_editor_absoluteX=\"16dp\"\r\n        tools:layout_editor_absoluteY=\"16dp\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        android:fontFamily=\"@font/poppins_semibold\"\r\n        android:text=\"Nama\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        tools:layout_editor_absoluteX=\"20dp\"\r\n        tools:layout_editor_absoluteY=\"77dp\" />\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/txt_namadonasi\"\r\n        style=\"@style/TextInputLayout\"\r\n        android:layout_width=\"370dp\"\r\n        android:layout_height=\"50dp\"\r\n        app:boxCornerRadiusBottomEnd=\"10dp\"\r\n        app:boxCornerRadiusBottomStart=\"10dp\"\r\n        app:boxCornerRadiusTopEnd=\"10dp\"\r\n        app:boxCornerRadiusTopStart=\"10dp\"\r\n        tools:layout_editor_absoluteX=\"20dp\"\r\n        tools:layout_editor_absoluteY=\"112dp\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/lay_namadonasi\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:fontFamily=\"@font/poppins_mediumitalic\"\r\n            android:hint=\"Masukkan Nama Lengkap\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        android:fontFamily=\"@font/poppins_semibold\"\r\n        android:text=\"Nominal Donasi\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        tools:layout_editor_absoluteX=\"20dp\"\r\n        tools:layout_editor_absoluteY=\"352dp\" />\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"367dp\"\r\n        android:layout_height=\"120dp\"\r\n        android:orientation=\"horizontal\"\r\n        tools:layout_editor_absoluteX=\"23dp\"\r\n        tools:layout_editor_absoluteY=\"438dp\">\r\n\r\n        <Button\r\n            android:id=\"@+id/button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"Button\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/button2\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"Button\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/button3\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"Button\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/button4\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"1\"\r\n            android:text=\"Button\" />\r\n    </LinearLayout>\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/txt_nominal\"\r\n        style=\"@style/TextInputLayout\"\r\n        android:layout_width=\"370dp\"\r\n        android:layout_height=\"50dp\"\r\n        app:boxCornerRadiusBottomEnd=\"10dp\"\r\n        app:boxCornerRadiusBottomStart=\"10dp\"\r\n        app:boxCornerRadiusTopEnd=\"10dp\"\r\n        app:boxCornerRadiusTopStart=\"10dp\"\r\n        tools:layout_editor_absoluteX=\"20dp\"\r\n        tools:layout_editor_absoluteY=\"379dp\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/lay_nominal\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@color/green\"\r\n            android:fontFamily=\"@font/poppins_semibold\"\r\n            android:hint=\"Rp.\" />\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/btndonasi\"\r\n        style=\"@style/Widget.MaterialComponents.Button.OutlinedButton\"\r\n        android:layout_width=\"360dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:fontFamily=\"@font/poppins_extrabold\"\r\n        android:text=\"Donasi\"\r\n        tools:layout_editor_absoluteX=\"25dp\"\r\n        tools:layout_editor_absoluteY=\"650dp\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_weight=\"1\"\r\n        android:fontFamily=\"@font/poppins_semibold\"\r\n        android:text=\"Do'a\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        tools:layout_editor_absoluteX=\"23dp\"\r\n        tools:layout_editor_absoluteY=\"176dp\" />\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/txt_doa\"\r\n        style=\"@style/TextInputLayout\"\r\n        android:layout_width=\"370dp\"\r\n        android:layout_height=\"110dp\"\r\n        app:boxCornerRadiusBottomEnd=\"10dp\"\r\n        app:boxCornerRadiusBottomStart=\"10dp\"\r\n        app:boxCornerRadiusTopEnd=\"10dp\"\r\n        app:boxCornerRadiusTopStart=\"10dp\"\r\n        tools:layout_editor_absoluteX=\"20dp\"\r\n        tools:layout_editor_absoluteY=\"211dp\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:id=\"@+id/lay_doa\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"100dp\"\r\n            android:fontFamily=\"@font/poppins_mediumitalic\"\r\n            android:hint=\"Cantumkan Do'a Terbaik Untuk Diri dan Keluarga\" />\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_donasi.xml b/app/src/main/res/layout/activity_donasi.xml
+--- a/app/src/main/res/layout/activity_donasi.xml	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/res/layout/activity_donasi.xml	(date 1701221615942)
+@@ -28,11 +28,11 @@
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:fontFamily="@font/poppins_semibold"
+-        android:text="Nama"
++        android:text="Data Diri"
+         android:textColor="@color/black"
+         android:textSize="16sp"
+-        tools:layout_editor_absoluteX="20dp"
+-        tools:layout_editor_absoluteY="77dp" />
++        tools:layout_editor_absoluteX="16dp"
++        tools:layout_editor_absoluteY="71dp" />
+ 
+     <com.google.android.material.textfield.TextInputLayout
+         android:id="@+id/txt_namadonasi"
+@@ -60,50 +60,14 @@
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:fontFamily="@font/poppins_semibold"
+-        android:text="Nominal Donasi"
++        android:text="Keterangan"
+         android:textColor="@color/black"
+         android:textSize="16sp"
+         tools:layout_editor_absoluteX="20dp"
+-        tools:layout_editor_absoluteY="352dp" />
+-
+-    <LinearLayout
+-        android:layout_width="367dp"
+-        android:layout_height="120dp"
+-        android:orientation="horizontal"
+-        tools:layout_editor_absoluteX="23dp"
+-        tools:layout_editor_absoluteY="438dp">
+-
+-        <Button
+-            android:id="@+id/button"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="1"
+-            android:text="Button" />
+-
+-        <Button
+-            android:id="@+id/button2"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="1"
+-            android:text="Button" />
+-
+-        <Button
+-            android:id="@+id/button3"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="1"
+-            android:text="Button" />
+-
+-        <Button
+-            android:id="@+id/button4"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="1"
+-            android:text="Button" />
+-    </LinearLayout>
++        tools:layout_editor_absoluteY="182dp" />
+ 
+     <com.google.android.material.textfield.TextInputLayout
+-        android:id="@+id/txt_nominal"
++        android:id="@+id/txt_keterangan"
+         style="@style/TextInputLayout"
+         android:layout_width="370dp"
+         android:layout_height="50dp"
+@@ -112,26 +76,16 @@
+         app:boxCornerRadiusTopEnd="10dp"
+         app:boxCornerRadiusTopStart="10dp"
+         tools:layout_editor_absoluteX="20dp"
+-        tools:layout_editor_absoluteY="379dp">
++        tools:layout_editor_absoluteY="209dp">
+ 
+         <com.google.android.material.textfield.TextInputEditText
+-            android:id="@+id/lay_nominal"
++            android:id="@+id/lay_keterangan"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+-            android:background="@color/green"
+-            android:fontFamily="@font/poppins_semibold"
+-            android:hint="Rp." />
++            android:fontFamily="@font/poppins_mediumitalic"
++            android:hint="Santunan / Pembangunan" />
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+-    <Button
+-        android:id="@+id/btndonasi"
+-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+-        android:layout_width="360dp"
+-        android:layout_height="wrap_content"
+-        android:fontFamily="@font/poppins_extrabold"
+-        android:text="Donasi"
+-        tools:layout_editor_absoluteX="25dp"
+-        tools:layout_editor_absoluteY="650dp" />
+ 
+     <TextView
+         android:layout_width="wrap_content"
+@@ -142,7 +96,7 @@
+         android:textColor="@color/black"
+         android:textSize="16sp"
+         tools:layout_editor_absoluteX="23dp"
+-        tools:layout_editor_absoluteY="176dp" />
++        tools:layout_editor_absoluteY="271dp" />
+ 
+     <com.google.android.material.textfield.TextInputLayout
+         android:id="@+id/txt_doa"
+@@ -153,8 +107,8 @@
+         app:boxCornerRadiusBottomStart="10dp"
+         app:boxCornerRadiusTopEnd="10dp"
+         app:boxCornerRadiusTopStart="10dp"
+-        tools:layout_editor_absoluteX="20dp"
+-        tools:layout_editor_absoluteY="211dp">
++        tools:layout_editor_absoluteX="22dp"
++        tools:layout_editor_absoluteY="298dp">
+ 
+         <com.google.android.material.textfield.TextInputEditText
+             android:id="@+id/lay_doa"
+@@ -163,4 +117,83 @@
+             android:fontFamily="@font/poppins_mediumitalic"
+             android:hint="Cantumkan Do'a Terbaik Untuk Diri dan Keluarga" />
+     </com.google.android.material.textfield.TextInputLayout>
++
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_weight="1"
++        android:fontFamily="@font/poppins_semibold"
++        android:text="Nominal Donasi"
++        android:textColor="@color/black"
++        android:textSize="16sp"
++        tools:layout_editor_absoluteX="23dp"
++        tools:layout_editor_absoluteY="420dp" />
++
++    <com.google.android.material.textfield.TextInputLayout
++        android:id="@+id/txt_nominal"
++        style="@style/TextInputLayout"
++        android:layout_width="370dp"
++        android:layout_height="50dp"
++        app:boxCornerRadiusBottomEnd="10dp"
++        app:boxCornerRadiusBottomStart="10dp"
++        app:boxCornerRadiusTopEnd="10dp"
++        app:boxCornerRadiusTopStart="10dp"
++        tools:layout_editor_absoluteX="23dp"
++        tools:layout_editor_absoluteY="447dp">
++
++        <com.google.android.material.textfield.TextInputEditText
++            android:id="@+id/lay_nominal"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:background="@color/green"
++            android:fontFamily="@font/poppins_semibold"
++            android:hint="Rp." />
++    </com.google.android.material.textfield.TextInputLayout>
++
++    <LinearLayout
++        android:layout_width="367dp"
++        android:layout_height="120dp"
++        android:orientation="horizontal"
++        tools:layout_editor_absoluteX="26dp"
++        tools:layout_editor_absoluteY="506dp">
++
++        <Button
++            android:id="@+id/btn50"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:text="Button" />
++
++        <Button
++            android:id="@+id/btn100"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:text="Button" />
++
++        <Button
++            android:id="@+id/btn150"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:text="Button" />
++
++        <Button
++            android:id="@+id/btn200"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:text="Button" />
++    </LinearLayout>
++
++    <Button
++        android:id="@+id/btnDonasi"
++        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
++        android:layout_width="360dp"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/poppins_extrabold"
++        android:text="Donasi"
++        tools:layout_editor_absoluteX="25dp"
++        tools:layout_editor_absoluteY="650dp" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/logo_nh_care\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/logo_nh_care_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.nh_care\"\r\n        android:usesCleartextTraffic=\"true\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".activity.splashscreen.SplashActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\"\r\n            android:theme=\"@style/Theme.Splash\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity\r\n            android:name=\".activity.login.LoginActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.register.RegisterActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".activity.MainActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.anakasuh.AnakActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.anakasuh.DetailAnakActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.video.VideoActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.alokasi.AlokasiActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.alokasi.DetailAlokasiActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.program.ProgramActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.program.DetailProgramActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.donasi.DonasiActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.donasi.AfterDonasiActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.acara.AcaraActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n        <activity\r\n            android:name=\".activity.website.WebsiteActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/AndroidManifest.xml	(date 1701221615949)
+@@ -26,6 +26,7 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
++
+         <activity
+             android:name=".activity.login.LoginActivity"
+             android:exported="true"
+Index: app/src/main/java/com/example/nh_care/activity/login/LoginActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.login\r\n\r\nimport android.os.Bundle\r\nimport android.widget.Toast\r\nimport android.content.Intent\r\nimport android.content.SharedPreferences\r\nimport android.util.Log\r\nimport androidx.activity.ComponentActivity\r\nimport com.android.volley.Request\r\nimport com.android.volley.RequestQueue\r\nimport com.android.volley.toolbox.StringRequest\r\nimport com.android.volley.toolbox.Volley\r\nimport com.example.nh_care.activity.MainActivity\r\nimport com.example.nh_care.activity.register.RegisterActivity\r\nimport com.example.nh_care.databinding.ActivityLoginBinding\r\nimport org.json.JSONException\r\nimport org.json.JSONObject\r\nimport java.net.URLEncoder\r\n\r\nclass LoginActivity : ComponentActivity() {\r\n    private lateinit var binding: ActivityLoginBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityLoginBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n\r\n        binding.daftarakun.setOnClickListener {\r\n            val intent = Intent(this, RegisterActivity::class.java)\r\n            startActivity(intent)\r\n        }\r\n\r\n        val url = \"http://192.168.1.70/api-mysql-main/api-login.php\"\r\n\r\n        binding.tombolMasuk.setOnClickListener {\r\n            val request: RequestQueue = Volley.newRequestQueue(applicationContext)\r\n\r\n            val stringRequest = StringRequest(\r\n                Request.Method.GET,\r\n                \"$url?email=${URLEncoder.encode(binding.etEmail.text.toString(), \"UTF-8\")}&password=${URLEncoder.encode(binding.etKataSandi.text.toString(), \"UTF-8\")}\",\r\n                { response ->\r\n                    try {\r\n                        val jsonResponse = JSONObject(response)\r\n                        val status = jsonResponse.getString(\"status\")\r\n                        if (status == \"success\") {\r\n                            val idDonatur = jsonResponse.getString(\"id_donatur\")\r\n                            saveID(idDonatur)\r\n\r\n                            val intent = Intent(this, MainActivity::class.java)\r\n                            startActivity(intent)\r\n                        } else {\r\n                            Toast.makeText(applicationContext, \"Gagal login\", Toast.LENGTH_LONG).show()\r\n                        }\r\n                    } catch (e: JSONException) {\r\n                        Log.e(\"JSONError\", \"Error parsing JSON\", e)\r\n                    }\r\n                },\r\n                { error ->\r\n                    Log.d(\"errorApp\", error.toString())\r\n                }\r\n            )\r\n            request.add(stringRequest)\r\n        }\r\n    }\r\n\r\n    private fun saveID(idDonatur: String) {\r\n        val preferences: SharedPreferences = getSharedPreferences(\"donatur_prefs\", MODE_PRIVATE)\r\n        val editor: SharedPreferences.Editor = preferences.edit()\r\n        editor.putString(\"id_donatur\", idDonatur)\r\n        editor.apply()\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/login/LoginActivity.kt b/app/src/main/java/com/example/nh_care/activity/login/LoginActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/login/LoginActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/login/LoginActivity.kt	(date 1701222687950)
+@@ -12,6 +12,7 @@
+ import com.android.volley.toolbox.Volley
+ import com.example.nh_care.activity.MainActivity
+ import com.example.nh_care.activity.register.RegisterActivity
++import com.example.nh_care.database.DbContract
+ import com.example.nh_care.databinding.ActivityLoginBinding
+ import org.json.JSONException
+ import org.json.JSONObject
+@@ -30,7 +31,7 @@
+             startActivity(intent)
+         }
+ 
+-        val url = "http://192.168.1.70/api-mysql-main/api-login.php"
++        val url = DbContract.urlLogin
+ 
+         binding.tombolMasuk.setOnClickListener {
+             val request: RequestQueue = Volley.newRequestQueue(applicationContext)
+Index: app/src/main/java/com/example/nh_care/fragment/profile/ProfileFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.fragment.profile\r\n\r\nimport android.content.Context\r\nimport android.content.SharedPreferences\r\nimport android.os.Bundle\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.fragment.app.Fragment\r\nimport com.example.nh_care.databinding.FragmentProfileBinding\r\n\r\n\r\nclass ProfileFragment : Fragment() {\r\n\r\n    private lateinit var binding: FragmentProfileBinding\r\n    private lateinit var sharedPreferences: SharedPreferences\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater,\r\n        container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        binding = FragmentProfileBinding.inflate(inflater, container, false)\r\n        val root : View = binding.root\r\n\r\n        sharedPreferences = requireContext().getSharedPreferences(\"donatur_prefs\", Context      .MODE_PRIVATE)\r\n        val namaDonatur: String? = sharedPreferences.getString(\"nama\", \"\")\r\n        val emailDonatur: String? = sharedPreferences.getString(\"email\", \"\")\r\n        val noHpDonatur: String? = sharedPreferences.getString(\"no_hp\", \"\")\r\n\r\n        val firstChar = namaDonatur?.take(1)\r\n        binding.fotoprofil.text = firstChar\r\n\r\n        binding.kotakNamaPengguna.setText(namaDonatur)\r\n        binding.kotakEmail.setText(emailDonatur)\r\n        binding.kotakNomorTelepon.setText(noHpDonatur)\r\n\r\n        return root\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/fragment/profile/ProfileFragment.kt b/app/src/main/java/com/example/nh_care/fragment/profile/ProfileFragment.kt
+--- a/app/src/main/java/com/example/nh_care/fragment/profile/ProfileFragment.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/fragment/profile/ProfileFragment.kt	(date 1701224611654)
+@@ -1,12 +1,14 @@
+ package com.example.nh_care.fragment.profile
+ 
+ import android.content.Context
++import android.content.Intent
+ import android.content.SharedPreferences
+ import android.os.Bundle
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+ import androidx.fragment.app.Fragment
++import com.example.nh_care.activity.MainActivity
+ import com.example.nh_care.databinding.FragmentProfileBinding
+ 
+ 
+@@ -35,6 +37,10 @@
+         binding.kotakEmail.setText(emailDonatur)
+         binding.kotakNomorTelepon.setText(noHpDonatur)
+ 
++        binding.tombolEdit.setOnClickListener{
++            val intent = Intent(requireContext(), EditProfileActivity::class.java)
++            startActivity(intent)
++        }
+         return root
+     }
+ }
+Index: app/src/main/java/com/example/nh_care/activity/alokasi/DataAlokasi.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.berandaberanda.activitity.alokasi\r\n\r\nimport android.graphics.Bitmap\r\ndata class DataAlokasi(\r\n    val Judul: String,\r\n    val Deskripsi: String,\r\n    val img_alokasi: Bitmap\r\n)\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/alokasi/DataAlokasi.kt b/app/src/main/java/com/example/nh_care/activity/alokasi/DataAlokasi.kt
+--- a/app/src/main/java/com/example/nh_care/activity/alokasi/DataAlokasi.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/alokasi/DataAlokasi.kt	(date 1701241368610)
+@@ -1,9 +1,9 @@
+-package com.example.berandaberanda.activitity.alokasi
+-
+-import android.graphics.Bitmap
+-data class DataAlokasi(
+-    val Judul: String,
+-    val Deskripsi: String,
+-    val img_alokasi: Bitmap
+-)
+-
++//package com.example.berandaberanda.activitity.alokasi
++//
++//import android.graphics.Bitmap
++//data class DataAlokasi(
++//    val Judul: String,
++//    val Deskripsi: String,
++//    val img_alokasi: Bitmap
++//)
++//
+Index: app/src/main/java/com/example/nh_care/activity/donasi/AfterDonasiActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.donasi\r\n\r\nimport androidx.appcompat.app.AppCompatActivity\r\n\r\nclass AfterDonasiActivity : AppCompatActivity() {\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/donasi/AfterDonasiActivity.kt b/app/src/main/java/com/example/nh_care/activity/donasi/AfterDonasiActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/donasi/AfterDonasiActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/donasi/AfterDonasiActivity.kt	(date 1701221615968)
+@@ -1,6 +1,27 @@
+ package com.example.nh_care.activity.donasi
+ 
++import android.os.Bundle
+ import androidx.appcompat.app.AppCompatActivity
++import androidx.fragment.app.FragmentManager
++import androidx.fragment.app.FragmentTransaction
++import com.example.nh_care.R
++import com.example.nh_care.databinding.ActivityAfterDonasiBinding
++import com.example.nh_care.fragment.beranda.BerandaFragment
+ 
+ class AfterDonasiActivity : AppCompatActivity() {
++
++    private lateinit var binding: ActivityAfterDonasiBinding
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        binding = ActivityAfterDonasiBinding.inflate(layoutInflater)
++        setContentView(binding.root)
++
++        binding.btnBackDash.setOnClickListener {
++            val fragmentManager: FragmentManager = supportFragmentManager
++            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
++            val berandaFragment = BerandaFragment()
++            fragmentTransaction.replace(R.id.frame_layout, berandaFragment)
++            fragmentTransaction.commit()
++        }
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    tools:context=\".activity.MainActivity\">\r\n\r\n    <com.google.android.material.bottomnavigation.BottomNavigationView\r\n        android:id=\"@+id/nav_view\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"?android:attr/windowBackground\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        app:layout_constraintRight_toRightOf=\"parent\"\r\n        app:menu=\"@menu/bottom_nav_menu\" />\r\n\r\n    <fragment\r\n        android:id=\"@+id/nav_host_fragment_activity_main\"\r\n        android:name=\"androidx.navigation.fragment.NavHostFragment\"\r\n        android:layout_width=\"415dp\"\r\n        android:layout_height=\"685dp\"\r\n        app:defaultNavHost=\"true\"\r\n        app:layout_constraintBottom_toTopOf=\"@id/nav_view\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintLeft_toLeftOf=\"parent\"\r\n        app:layout_constraintRight_toRightOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"1.0\"\r\n        app:navGraph=\"@navigation/mobile_navigation\" />\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/res/layout/activity_main.xml	(date 1701221615976)
+@@ -1,11 +1,21 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     xmlns:tools="http://schemas.android.com/tools"
+     tools:context=".activity.MainActivity">
+ 
++    <FrameLayout
++        android:id="@+id/frame_layout"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        app:layout_constraintBottom_toTopOf="@+id/nav_view"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent">
++    </FrameLayout>
++
+     <com.google.android.material.bottomnavigation.BottomNavigationView
+         android:id="@+id/nav_view"
+         android:layout_width="match_parent"
+@@ -14,21 +24,8 @@
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintLeft_toLeftOf="parent"
+         app:layout_constraintRight_toRightOf="parent"
+-        app:menu="@menu/bottom_nav_menu" />
+-
+-    <fragment
+-        android:id="@+id/nav_host_fragment_activity_main"
+-        android:name="androidx.navigation.fragment.NavHostFragment"
+-        android:layout_width="415dp"
+-        android:layout_height="685dp"
+-        app:defaultNavHost="true"
+-        app:layout_constraintBottom_toTopOf="@id/nav_view"
+-        app:layout_constraintHorizontal_bias="0.0"
+-        app:layout_constraintLeft_toLeftOf="parent"
+-        app:layout_constraintRight_toRightOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="1.0"
+-        app:navGraph="@navigation/mobile_navigation" />
++        app:menu="@menu/bottom_nav_menu" >
++    </com.google.android.material.bottomnavigation.BottomNavigationView>
+ 
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/nh_care/activity/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity\r\n\r\nimport android.os.Bundle\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.navigation.findNavController\r\nimport androidx.navigation.ui.AppBarConfiguration\r\nimport androidx.navigation.ui.setupActionBarWithNavController\r\nimport androidx.navigation.ui.setupWithNavController\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.databinding.ActivityMainBinding\r\n\r\n\r\nclass MainActivity : AppCompatActivity() {\r\n\r\n    private lateinit var binding: ActivityMainBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        supportActionBar?.hide()\r\n\r\n        binding = ActivityMainBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n\r\n\r\n        val navView: BottomNavigationView = binding.navView\r\n\r\n        val navController = findNavController(R.id.nav_host_fragment_activity_main)\r\n        // Passing each menu ID as a set of Ids because each\r\n        // menu should be considered as top level destinations.\r\n        val appBarConfiguration = AppBarConfiguration(\r\n            setOf(\r\n                R.id.navigation_profile, R.id.navigation_beranda, R.id.navigation_layanan\r\n            )\r\n        )\r\n        setupActionBarWithNavController(navController, appBarConfiguration)\r\n        navView.setupWithNavController(navController)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/MainActivity.kt b/app/src/main/java/com/example/nh_care/activity/MainActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/MainActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/MainActivity.kt	(date 1701221615982)
+@@ -1,14 +1,13 @@
+ package com.example.nh_care.activity
+ 
+ import android.os.Bundle
+-import com.google.android.material.bottomnavigation.BottomNavigationView
+ import androidx.appcompat.app.AppCompatActivity
+-import androidx.navigation.findNavController
+-import androidx.navigation.ui.AppBarConfiguration
+-import androidx.navigation.ui.setupActionBarWithNavController
+-import androidx.navigation.ui.setupWithNavController
++import androidx.fragment.app.Fragment
+ import com.example.nh_care.R
+ import com.example.nh_care.databinding.ActivityMainBinding
++import com.example.nh_care.fragment.beranda.BerandaFragment
++import com.example.nh_care.fragment.layanan.LayananFragment
++import com.example.nh_care.fragment.profile.ProfileFragment
+ 
+ 
+ class MainActivity : AppCompatActivity() {
+@@ -17,23 +16,31 @@
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+-        supportActionBar?.hide()
+-
+         binding = ActivityMainBinding.inflate(layoutInflater)
+         setContentView(binding.root)
+ 
++        // Mengganti tampilan dengan fragmen Beranda saat aktivitas pertama kali dibuat
++        replaceFragment(BerandaFragment())
+ 
+-        val navView: BottomNavigationView = binding.navView
++        // Mengatur listener untuk perubahan item yang dipilih pada BottomNavigationView
++        binding.navView.setOnItemSelectedListener {
++            when (it.itemId) {
++                R.id.navigation_beranda -> replaceFragment(BerandaFragment()) // Pilihan "Beranda" dipilih, ganti tampilan dengan fragmen beranda
++                R.id.navigation_layanan -> replaceFragment(LayananFragment()) // Pilihan "layanan" dipilih, ganti tampilan dengan fragmen layanan
++                R.id.navigation_profile -> replaceFragment(ProfileFragment()) // Pilihan "profile" dipilih, ganti tampilan dengan fragmen profile
++                else -> {
++                    // Handle pilihan lainnya (jika ada)
++                }
++            }
++            true // Mengembalikan nilai true untuk menunjukkan bahwa perubahan item telah ditangani
++        }
++    }
+ 
+-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+-        // Passing each menu ID as a set of Ids because each
+-        // menu should be considered as top level destinations.
+-        val appBarConfiguration = AppBarConfiguration(
+-            setOf(
+-                R.id.navigation_profile, R.id.navigation_beranda, R.id.navigation_layanan
+-            )
+-        )
+-        setupActionBarWithNavController(navController, appBarConfiguration)
+-        navView.setupWithNavController(navController)
++    // Fungsi untuk mengganti fragmen dalam layout
++    private fun replaceFragment(fragment: Fragment) {
++        val fragmentManager = supportFragmentManager
++        val fragmentTransaction = fragmentManager.beginTransaction()
++        fragmentTransaction.replace(R.id.frame_layout, fragment) // Ganti fragmen dalam FrameLayout dengan yang baru
++        fragmentTransaction.commit() // Terapkan perubahan fragmen
+     }
+-}
+\ No newline at end of file
++}
+Index: app/src/main/java/com/example/nh_care/activity/donasi/DonasiActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.donasi\r\n\r\nimport android.content.Context\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.widget.Toast\r\nimport androidx.activity.result.contract.ActivityResultContracts\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport androidx.appcompat.app.AppCompatDelegate\r\nimport androidx.core.os.LocaleListCompat\r\nimport androidx.lifecycle.lifecycleScope\r\nimport com.android.volley.RequestQueue\r\nimport com.android.volley.toolbox.StringRequest\r\nimport com.android.volley.toolbox.Volley\r\nimport com.example.nh_care.database.DbContract\r\nimport com.example.nh_care.databinding.ActivityDonasiBinding\r\nimport com.midtrans.sdk.corekit.core.PaymentMethod\r\nimport com.midtrans.sdk.uikit.api.model.SnapTransactionDetail\r\nimport com.midtrans.sdk.uikit.api.model.TransactionResult\r\nimport com.midtrans.sdk.uikit.external.UiKitApi\r\nimport com.midtrans.sdk.uikit.internal.util.UiKitConstants\r\nimport kotlinx.coroutines.Dispatchers\r\nimport kotlinx.coroutines.launch\r\nimport okhttp3.OkHttpClient\r\nimport okhttp3.Request\r\nimport org.json.JSONException\r\nimport org.json.JSONObject\r\nimport java.io.IOException\r\nimport java.util.UUID\r\n\r\nclass DonasiActivity : AppCompatActivity() {\r\n\r\n    private lateinit var binding: ActivityDonasiBinding\r\n\r\n    private var random = \"NH-${UUID.randomUUID()}\".substring(0, 8)\r\n    private val id_order = initTransactionDetails().orderId\r\n\r\n    private val launcher =\r\n        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->\r\n            if (result?.resultCode == RESULT_OK) {\r\n                result.data?.let {\r\n                    val transactionResult =\r\n                        it.getParcelableExtra<TransactionResult>(UiKitConstants.KEY_TRANSACTION_RESULT)\r\n                    Toast.makeText(this, \"${transactionResult?.transactionId}\", Toast.LENGTH_LONG)\r\n                        .show()\r\n                    Toast.makeText(this, \"Order ID: ${initTransactionDetails().orderId}\", Toast.LENGTH_LONG)\r\n                        .show()\r\n                    checkOrderStatus(initTransactionDetails().orderId)\r\n                }\r\n            }\r\n        }\r\n\r\n    private fun initTransactionDetails(): SnapTransactionDetail {\r\n        val amountText = binding.layNominal.text.toString()\r\n        val grossAmount = amountText.toDoubleOrNull() ?: 0.0\r\n\r\n        return SnapTransactionDetail(\r\n            orderId = random,\r\n            grossAmount = grossAmount\r\n        )\r\n    }\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityDonasiBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n        buildUiKit()\r\n\r\n        val sharedPreferences = getSharedPreferences(\"donatur_prefs\", Context.MODE_PRIVATE)\r\n        val namaDonatur: String? = sharedPreferences.getString(\"nama\", \"\")\r\n        val emailDonatur: String? = sharedPreferences.getString(\"email\", \"\")\r\n        val noHpDonatur: String? = sharedPreferences.getString(\"no_hp\", \"\")\r\n\r\n        binding.layNamadonasi.setText(namaDonatur)\r\n\r\n        binding.btndonasi.setOnClickListener {\r\n            val itemDetails = listOf(\r\n                com.midtrans.sdk.uikit.api.model.ItemDetails(\r\n                    \"DNS-${UUID.randomUUID()}\",\r\n                    initTransactionDetails().grossAmount,\r\n                    1,\r\n                    \"DONASI\"\r\n                )\r\n            )\r\n\r\n            UiKitApi.getDefaultInstance().startPaymentUiFlow(\r\n                activity = this@DonasiActivity,\r\n                launcher = launcher,\r\n                transactionDetails = initTransactionDetails(),\r\n                customerDetails = com.midtrans.sdk.uikit.api.model.CustomerDetails(\r\n                    firstName = binding.layNamadonasi.text.toString(),\r\n                    customerIdentifier = emailDonatur ?: \"\",\r\n                    email = emailDonatur ?: \"\",\r\n                    phone = noHpDonatur ?: \"\"\r\n                ),\r\n                itemDetails = itemDetails,\r\n                paymentMethod = PaymentMethod.BANK_TRANSFER\r\n            )\r\n        }\r\n    }\r\n\r\n    private fun buildUiKit() {\r\n        UiKitApi.Builder().apply {\r\n            withContext(this@DonasiActivity.applicationContext)\r\n            withMerchantUrl(\"http://192.168.1.19/api-mysql-main/midtrans.php/\")\r\n            withMerchantClientKey(\"SB-Mid-client-Cus_lO_5JXzHSIcU\")\r\n            enableLog(true)\r\n            withColorTheme(\r\n                com.midtrans.sdk.uikit.api.model.CustomColorTheme(\r\n                    \"#FFE51255\",\r\n                    \"#B61548\",\r\n                    \"#FFE51255\"\r\n                )\r\n            )\r\n            build()\r\n        }\r\n        setLocaleNew(\"id\")\r\n        uiKitCustomSetting()\r\n    }\r\n\r\n    private fun setLocaleNew(languageCode: String?) {\r\n        val locales = LocaleListCompat.forLanguageTags(languageCode)\r\n        AppCompatDelegate.setApplicationLocales(locales)\r\n    }\r\n    private fun uiKitCustomSetting() {\r\n        val uIKitCustomSetting = UiKitApi.getDefaultInstance().uiKitSetting\r\n        uIKitCustomSetting.saveCardChecked = true\r\n    }\r\n    private fun checkOrderStatus(orderId: String) {\r\n        val client = OkHttpClient()\r\n        val request = Request.Builder()\r\n            .url(\"https://api.sandbox.midtrans.com/v2/$orderId/status\")\r\n            .get()\r\n            .addHeader(\"accept\", \"application/json\")\r\n            .addHeader(\r\n                \"authorization\",\r\n                \"Basic U0ItTWlkLXNlcnZlci1TMUdwX0o3b2Z0aWJ0dXNPWTdqUjhKalA6\"\r\n            )\r\n            .build()\r\n        lifecycleScope.launch(Dispatchers.IO) {\r\n            try {\r\n                val response = client.newCall(request).execute()\r\n                response.use {\r\n                    if (response.isSuccessful) {\r\n                        val responseBody = response.body?.string()\r\n\r\n                        runOnUiThread {\r\n                            Log.d(\"PaymentsMidtrans\", \"Response: $responseBody\")\r\n\r\n                            try {\r\n                                val jsonObject = JSONObject(responseBody)\r\n\r\n                                Log.d(\"PaymentsMidtrans\", \"JSON Object: $jsonObject\")\r\n\r\n                                // Extract specific values from the JSON object\r\n                                val transactionId = jsonObject.getString(\"transaction_id\")\r\n                                val grossAmount = jsonObject.getDouble(\"gross_amount\")\r\n                                val orderId = jsonObject.getString(\"order_id\")\r\n                                val settlementTime = jsonObject.getString(\"settlement_time\")\r\n\r\n\r\n                                // Do something with the extracted values\r\n                                Log.d(\r\n                                    \"PaymentsMidtrans\",\r\n                                    \"transaction_id: $transactionId, gross_amount: $grossAmount, order_id: $orderId, settlement_time: $settlementTime\"\r\n                                )\r\n\r\n                                // Send data to the server\r\n                                sendDataToServer(jsonObject)\r\n                            } catch (e: JSONException) {\r\n                                // Handle JSON parsing exception\r\n                                e.printStackTrace()\r\n                                Log.e(\"PaymentsMidtrans\", \"Error parsing JSON\")\r\n                            }\r\n                        }\r\n                    } else {\r\n                        runOnUiThread {\r\n                            val errorMessage = \"Error: ${response.code} ${response.message}\"\r\n                            Log.e(\"PaymentsMidtrans\", errorMessage)\r\n                            Toast.makeText(this@DonasiActivity, \"Error\", Toast.LENGTH_SHORT)\r\n                                .show()\r\n                        }\r\n                    }\r\n                }\r\n            } catch (e: IOException) {\r\n                e.printStackTrace()\r\n                runOnUiThread {\r\n                    val errorMessage = \"Error: ${e.message}\"\r\n                    Toast.makeText(this@DonasiActivity, \"Error\", Toast.LENGTH_SHORT).show()\r\n                }\r\n            }\r\n        }\r\n    }\r\n    private fun sendDataToServer(jsonObject: JSONObject) {\r\n        // Example code (modify it based on your server-side implementation)\r\n        val url = DbContract.urlDonasi\r\n\r\n        val sharedPreferences = getSharedPreferences(\"donatur_prefs\", Context.MODE_PRIVATE)\r\n        val idDonatur = sharedPreferences.getString(\"id_donatur\", \"\")\r\n        val namaDon = binding.layNamadonasi.text.toString()\r\n        val doa = binding.layDoa.text.toString()\r\n\r\n        val request: RequestQueue = Volley.newRequestQueue(applicationContext)\r\n\r\n        val stringRequest = object : StringRequest(\r\n            com.android.volley.Request.Method.POST,\r\n            url,\r\n            { response ->\r\n                runOnUiThread {\r\n                    if (response.contains(\"Data berhasil disimpan\")) {\r\n                        Log.d(\"PaymentsMidtrans\", \"Data berhasil disimpan di server\")\r\n                        // Handle success\r\n                    } else {\r\n                        Log.e(\"PaymentsMidtrans\", \"Error dari server: $response\")\r\n                        // Handle error\r\n                    }\r\n                }\r\n            },\r\n            { error ->\r\n                runOnUiThread {\r\n                    Log.e(\"PaymentsMidtrans\", \"Error sending data to server: ${error.message}\")\r\n                    // Handle error\r\n                }\r\n            }\r\n        ) {\r\n            override fun getParams(): Map<String, String> {\r\n                val params = HashMap<String, String>()\r\n                // Sesuaikan parameter dengan nama yang diharapkan oleh server-side PHP\r\n                params[\"transaction_id\"] = jsonObject.getString(\"transaction_id\")\r\n                params[\"gross_amount\"] = jsonObject.getDouble(\"gross_amount\").toString()\r\n                params[\"order_id\"] = jsonObject.getString(\"order_id\")\r\n                params[\"settlement_time\"] = jsonObject.getString(\"settlement_time\")\r\n                params[\"id_donatur\"] = idDonatur ?: \"\"\r\n                params[\"nama_donatur\"] = namaDon\r\n                params[\"doa\"] = doa\r\n                return params\r\n            }\r\n        }\r\n\r\n        request.add(stringRequest)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/donasi/DonasiActivity.kt b/app/src/main/java/com/example/nh_care/activity/donasi/DonasiActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/donasi/DonasiActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/donasi/DonasiActivity.kt	(date 1701223185823)
+@@ -12,7 +12,6 @@
+ import com.android.volley.RequestQueue
+ import com.android.volley.toolbox.StringRequest
+ import com.android.volley.toolbox.Volley
+-import com.example.nh_care.database.DbContract
+ import com.example.nh_care.databinding.ActivityDonasiBinding
+ import com.midtrans.sdk.corekit.core.PaymentMethod
+ import com.midtrans.sdk.uikit.api.model.SnapTransactionDetail
+@@ -73,7 +72,7 @@
+ 
+         binding.layNamadonasi.setText(namaDonatur)
+ 
+-        binding.btndonasi.setOnClickListener {
++        binding.btnDonasi.setOnClickListener {
+             val itemDetails = listOf(
+                 com.midtrans.sdk.uikit.api.model.ItemDetails(
+                     "DNS-${UUID.randomUUID()}",
+@@ -193,7 +192,7 @@
+     }
+     private fun sendDataToServer(jsonObject: JSONObject) {
+         // Example code (modify it based on your server-side implementation)
+-        val url = DbContract.urlDonasi
++        val url = "http://192.168.1.19/api-mysql-main/api-insertDonasi.php"
+ 
+         val sharedPreferences = getSharedPreferences("donatur_prefs", Context.MODE_PRIVATE)
+         val idDonatur = sharedPreferences.getString("id_donatur", "")
+Index: app/src/main/java/com/example/nh_care/activity/register/RegisterActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.nh_care.activity.register\r\n\r\nimport android.content.Intent\r\nimport android.content.res.ColorStateList\r\nimport android.graphics.Color\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.util.Patterns\r\nimport android.view.KeyEvent\r\nimport android.view.View\r\nimport android.widget.Toast\r\nimport com.android.volley.Request\r\nimport com.android.volley.RequestQueue\r\nimport com.android.volley.toolbox.StringRequest\r\nimport com.android.volley.toolbox.Volley\r\nimport com.example.nh_care.R\r\nimport com.example.nh_care.activity.login.LoginActivity\r\nimport com.example.nh_care.databinding.ActivityRegisterBinding\r\nimport com.google.android.material.textfield.TextInputLayout\r\n\r\nclass RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,\r\n    View.OnKeyListener {\r\n\r\n    private lateinit var binding: ActivityRegisterBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityRegisterBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n\r\n        val registerUrl = \"http://192.168.1.70/api-mysql-main/api-register.php\"\r\n\r\n        binding.btndaftar.setOnClickListener {\r\n            if (binding.etNamaLengkap.text.toString().isEmpty() || binding.etEmail.text.toString().isEmpty() || binding.etKataSandi.text.toString().isEmpty() || binding.etHp.text.toString().isEmpty()) {\r\n                Toast.makeText(applicationContext, \"Lengkapi data terlebih dahulu\", Toast.LENGTH_LONG).show()\r\n            } else {\r\n                val request: RequestQueue = Volley.newRequestQueue(applicationContext)\r\n                val strRequest = object : StringRequest(\r\n                    Request.Method.POST,\r\n                    registerUrl,\r\n                    { response ->\r\n                        if (response == \"Daftar Berhasil\") {\r\n                            val intent = Intent(this, LoginActivity::class.java)\r\n                            startActivity(intent)\r\n                        } else {\r\n                            Toast.makeText(applicationContext, response, Toast.LENGTH_LONG).show()\r\n                        }\r\n                    },\r\n                    { error ->\r\n                        Log.d(\"ErrorApps\", error.toString())\r\n                        Toast.makeText(applicationContext, \"An error occurred\", Toast.LENGTH_LONG).show()\r\n                    }\r\n                ) {\r\n                    override fun getParams(): MutableMap<String, String> {\r\n                        val params = HashMap<String, String>()\r\n                        params[\"nama\"] = binding.etNamaLengkap.text.toString()\r\n                        params[\"email\"] = binding.etEmail.text.toString()\r\n                        params[\"no_hp\"] = binding.etHp.text.toString()\r\n                        params[\"password\"] = binding.etKataSandi.text.toString()\r\n                        return params\r\n                    }\r\n                }\r\n                request.add(strRequest)\r\n            }\r\n        }\r\n\r\n        binding.etNamaLengkap.onFocusChangeListener = this\r\n        binding.etEmail.onFocusChangeListener = this\r\n        binding.etHp.onFocusChangeListener = this\r\n        binding.etKataSandi.onFocusChangeListener = this\r\n        binding.etKonfirmasiKataSandi.onFocusChangeListener = this\r\n\r\n    }\r\n\r\n    private fun showError(binding: TextInputLayout, errorMessage: String) {\r\n        binding.apply {\r\n            isErrorEnabled = true\r\n            error = errorMessage\r\n        }\r\n    }\r\n\r\n    private fun clearError(binding: TextInputLayout) {\r\n        binding.isErrorEnabled = false\r\n    }\r\n\r\n    private fun validateFullName(): Boolean {\r\n        val value = binding.etNamaLengkap.text.toString()\r\n        if (value.isEmpty()) {\r\n            showError(binding.tilNamaLengkap, \"Nama lengkap diperlukan\")\r\n            return false\r\n        }\r\n        clearError(binding.tilNamaLengkap)\r\n        return true\r\n    }\r\n\r\n    private fun validateEmail(): Boolean {\r\n        val value = binding.etEmail.text.toString()\r\n        if (value.isEmpty()) {\r\n            showError(binding.tilEmail, \"Email diperlukan\")\r\n            return false\r\n        } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {\r\n            showError(binding.tilEmail, \"Email tidak valid\")\r\n            return false\r\n        }\r\n        clearError(binding.tilEmail)\r\n        return true\r\n    }\r\n\r\n    private fun validateHp(): Boolean {\r\n        val value = binding.etHp.text.toString()\r\n        if (value.isEmpty()) {\r\n            showError(binding.tilHp, \"Isi Nomor Hp terlebih dahulu\")\r\n            return false\r\n        } else if (value.length < 11) {\r\n            showError(binding.tilHp, \"Nomor Hp tidak valid\")\r\n            return false\r\n        }\r\n        clearError(binding.tilHp)\r\n        return true\r\n    }\r\n\r\n    private fun validatePassword(): Boolean {\r\n        val value = binding.etKataSandi.text.toString()\r\n        if (value.isEmpty()) {\r\n            showError(binding.tilKataSandi, \"Isi Password terlebih dahulu\")\r\n            return false\r\n        } else if (value.length < 8) {\r\n            showError(binding.tilKataSandi, \"Password Minimal 8 Karakter\")\r\n            return false\r\n        }\r\n        clearError(binding.tilKataSandi)\r\n        return true\r\n    }\r\n\r\n    private fun validateConfirmPassword(): Boolean {\r\n        val value = binding.etKonfirmasiKataSandi.text.toString()\r\n        if (value.isEmpty()) {\r\n            showError(binding.tilKataSandi, \"isi konfirmasi Password\")\r\n            return false\r\n        } else if (value.length < 8) {\r\n            showError(binding.tilKonfirmasiKataSandi, \"Password konfirmasi Minimal 8 Karakter\")\r\n            return false\r\n        }\r\n        clearError(binding.tilKonfirmasiKataSandi)\r\n        return true\r\n    }\r\n\r\n    private fun validatePasswordAndConfirmPassword(): Boolean {\r\n        val password = binding.etKataSandi.text.toString()\r\n        val confirmPassword = binding.etKonfirmasiKataSandi.text.toString()\r\n        if (password != confirmPassword) {\r\n            showError(binding.tilKonfirmasiKataSandi, \"Password tidak sesuai\")\r\n            return false\r\n        }\r\n        clearError(binding.tilKonfirmasiKataSandi)\r\n        return true\r\n    }\r\n\r\n    override fun onFocusChange(view: View?, hasFocus: Boolean) {\r\n        if (view != null) {\r\n            when (view.id) {\r\n                R.id.et_nama_lengkap -> {\r\n                    if (hasFocus && binding.tilNamaLengkap.isErrorEnabled) {\r\n                        clearError(binding.tilNamaLengkap)\r\n                    } else {\r\n                        validateFullName()\r\n                    }\r\n                }\r\n\r\n                R.id.et_email -> {\r\n                    if (hasFocus && binding.tilEmail.isErrorEnabled) {\r\n                        clearError(binding.tilEmail)\r\n                    } else {\r\n                        validateEmail()\r\n                    }\r\n                }\r\n\r\n                R.id.et_hp -> {\r\n                    if (hasFocus && binding.tilHp.isErrorEnabled) {\r\n                        clearError(binding.tilHp)\r\n                    } else {\r\n                        validateHp()\r\n                    }\r\n                }\r\n\r\n                R.id.et_kata_sandi -> {\r\n                    if (hasFocus && binding.tilKataSandi.isErrorEnabled) {\r\n                        clearError(binding.tilKataSandi)\r\n                    } else {\r\n                        if (validatePassword() && binding.etKonfirmasiKataSandi.text!!.isNotEmpty() &&\r\n                            validateConfirmPassword() && validatePasswordAndConfirmPassword()\r\n                        ) {\r\n                            if (binding.tilKonfirmasiKataSandi.isErrorEnabled) {\r\n                                clearError(binding.tilKonfirmasiKataSandi)\r\n                            }\r\n                            binding.tilKonfirmasiKataSandi.apply {\r\n                                setStartIconDrawable(R.drawable.baseline_check_circle_24)\r\n                                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n\r\n                R.id.et_konfirmasi_kata_sandi -> {\r\n                    if (hasFocus && binding.tilKonfirmasiKataSandi.isErrorEnabled) {\r\n                        clearError(binding.tilKonfirmasiKataSandi)\r\n                    } else {\r\n                        if (validateConfirmPassword() && validatePassword() && validatePasswordAndConfirmPassword()) {\r\n                            if (binding.tilKonfirmasiKataSandi.isErrorEnabled) {\r\n                                clearError(binding.tilKonfirmasiKataSandi)\r\n                            }\r\n                            binding.tilKonfirmasiKataSandi.apply {\r\n                                setStartIconDrawable(R.drawable.baseline_check_circle_24)\r\n                                setStartIconTintList(ColorStateList.valueOf(Color.GREEN))\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    override fun onKey(view: View?, event: Int, keyEvent: KeyEvent?): Boolean {\r\n        // Handle key events, e.g., Enter key\r\n        return false\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/nh_care/activity/register/RegisterActivity.kt b/app/src/main/java/com/example/nh_care/activity/register/RegisterActivity.kt
+--- a/app/src/main/java/com/example/nh_care/activity/register/RegisterActivity.kt	(revision f07977167503d184ee61319b450dde0c23a6e5ac)
++++ b/app/src/main/java/com/example/nh_care/activity/register/RegisterActivity.kt	(date 1701221700596)
+@@ -29,7 +29,7 @@
+         binding = ActivityRegisterBinding.inflate(layoutInflater)
+         setContentView(binding.root)
+ 
+-        val registerUrl = "http://192.168.1.70/api-mysql-main/api-register.php"
++        val registerUrl = "http://192.168.1.15/api-mysql-main/api-register.php"
+ 
+         binding.btndaftar.setOnClickListener {
+             if (binding.etNamaLengkap.text.toString().isEmpty() || binding.etEmail.text.toString().isEmpty() || binding.etKataSandi.text.toString().isEmpty() || binding.etHp.text.toString().isEmpty()) {

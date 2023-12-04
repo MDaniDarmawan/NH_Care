@@ -15,9 +15,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
+import com.example.nh_care.activity.MainActivity
 import com.example.nh_care.activity.login.LoginActivity
 import com.example.nh_care.databinding.ActivityRegisterBinding
 import com.google.android.material.textfield.TextInputLayout
+import org.json.JSONException
+import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
     View.OnKeyListener {
@@ -29,7 +32,12 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val registerUrl = "http://192.168.1.70/api-mysql-main/api-register.php"
+        binding.btnbacklogin.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val registerUrl = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=registerDonatur"
 
         binding.btndaftar.setOnClickListener {
             if (binding.etNamaLengkap.text.toString().isEmpty() || binding.etEmail.text.toString().isEmpty() || binding.etKataSandi.text.toString().isEmpty() || binding.etHp.text.toString().isEmpty()) {
@@ -40,11 +48,21 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
                     Request.Method.POST,
                     registerUrl,
                     { response ->
-                        if (response == "Daftar Berhasil") {
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(applicationContext, response, Toast.LENGTH_LONG).show()
+                        try {
+                            Log.d("JSONResponse", response)
+
+                            val jsonResponse = JSONObject(response)
+                            val status = jsonResponse.getString("status")
+                            if (status == "success") {
+                                // Inside your activity or fragment
+                                Toast.makeText(applicationContext, "Registrasi berhasil", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(applicationContext, response, Toast.LENGTH_LONG).show()
+                            }
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
                     },
                     { error ->
@@ -56,8 +74,8 @@ class RegisterActivity : AppCompatActivity(), View.OnFocusChangeListener,
                         val params = HashMap<String, String>()
                         params["nama"] = binding.etNamaLengkap.text.toString()
                         params["email"] = binding.etEmail.text.toString()
-                        params["no_hp"] = binding.etHp.text.toString()
                         params["password"] = binding.etKataSandi.text.toString()
+                        params["no_hp"] = binding.etHp.text.toString()
                         return params
                     }
                 }

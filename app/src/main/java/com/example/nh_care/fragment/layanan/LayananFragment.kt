@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.example.nh_care.database.DbContract
 import com.example.nh_care.databinding.FragmentLayananBinding
 import org.json.JSONArray
 import org.json.JSONException
@@ -43,7 +40,7 @@ class LayananFragment : Fragment() {
     }
 
     private fun fetchProgramDataFromAPI() {
-        val urlDataProgram = DbContract.urlFaq
+        val urlDataProgram = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getFaqData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlDataProgram, null,

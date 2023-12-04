@@ -28,14 +28,10 @@ class AcaraAdapter(private var acaraList: List<DataAcara>) :
     }
 
     fun filterByDate(selectedDate: Calendar) {
-        filteredAcaraList = if (selectedDate != null) {
-            acaraList.filter {
-                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val formattedDate = sdf.format(it.tanggal.time)
-                formattedDate == sdf.format(selectedDate.time)
-            }
-        } else {
-            acaraList // Show all data if selectedDate is null
+        filteredAcaraList = acaraList.filter {
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = sdf.format(it.tanggal.time)
+            formattedDate == sdf.format(selectedDate.time)
         }
         notifyDataSetChanged()
     }

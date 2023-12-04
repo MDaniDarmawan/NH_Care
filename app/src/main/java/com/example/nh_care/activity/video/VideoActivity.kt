@@ -9,7 +9,6 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.example.nh_care.R
-import com.example.nh_care.database.DbContract
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -32,7 +31,7 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun fetchProgramDataFromAPI() {
-        val urlVideoList = DbContract.urlVideo
+        val urlVideoList = "https://nhcare.tifc.myhost.id/nhcare/api/api-Nhcare.php?function=getVideoData"
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, urlVideoList, null,
