@@ -17,7 +17,7 @@ import com.example.nh_care.activity.login.LoginActivity
 import org.json.JSONException
 import org.json.JSONObject
 
-class LupaSandiActivity : AppCompatActivity() {
+class   LupaSandiActivity : AppCompatActivity() {
     private lateinit var btnCekKataSandi: Button
     private lateinit var nama: EditText
     private lateinit var noHp: EditText

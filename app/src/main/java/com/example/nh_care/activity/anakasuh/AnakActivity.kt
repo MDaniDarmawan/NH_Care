@@ -15,10 +15,8 @@ import com.example.nh_care.databinding.ActivityAnakasuhBinding
 import org.json.JSONArray
 import org.json.JSONException
 import android.util.Base64
+import android.widget.SearchView.OnQueryTextListener
 import com.example.nh_care.activity.MainActivity
-import com.example.nh_care.activity.anakasuh.AnakAdapter
-import com.example.nh_care.activity.anakasuh.DataAnak
-import com.example.nh_care.activity.anakasuh.DetailAnakActivity
 
 class AnakActivity : AppCompatActivity() {
 
@@ -57,7 +55,7 @@ class AnakActivity : AppCompatActivity() {
 
 
         val searchView = binding.svAnak
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : (OnQueryTextListener) {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
